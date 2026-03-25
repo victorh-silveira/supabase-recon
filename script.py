@@ -165,19 +165,28 @@ def find_main_js(out_dir: Path) -> Path | None:
 # ── bundle analysis ─────────────────────────────────────────────────────────
 
 def discover_supabase_config(content: str) -> tuple[str, str]:
-    url_match = re.search(r'"(https://([a-z0-9]+)\.supabase\.co)"', content)
+    url_match = re.search(
+        r'["\'\`](http[s]?://(?:'
+        r'[a-z0-9\-]+\.supabase\.co'           # supabase.co
+        r'|[\d]{1,3}(?:\.[\d]{1,3}){3}'        # IP 
+        r'|[a-z0-9][a-z0-9\-\.]*\.[a-z]{2,}'  # hostname 
+        r')(?::\d+)?)["\'\`]',
+        content
+    )
     base_url = url_match.group(1).rstrip("/") if url_match else "{SUPABASE_URL}"
 
     anon_match = re.search(
-        r'https://[a-z0-9]+\.supabase\.co[^,]*,\s*["\']?(eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+)',
+        r'https?://[^"\'\`\s]+["\'\`],?\s*["\'\`](eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+)',
         content,
     )
     if not anon_match:
-        anon_match = re.search(r'(eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+)', content)
-    
-    anon_key = anon_match.group(1) if anon_match else None
-    
-    if not anon_key:
+        anon_match = re.search(
+            r'(eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+)',
+            content
+        )
+    anon_key = anon_match.group(1) if anon_match else "{ANON_KEY}"
+
+    if anon_key == "{ANON_KEY}":
         print("[CRITICAL] anonKey not found in the bundle! Exiting.", file=sys.stderr)
         sys.exit(1)
 
@@ -236,10 +245,10 @@ def extract_auth_endpoints(content: str) -> list[dict]:
     return endpoints
 
 def extract_tables(content: str) -> list[str]:
-    return sorted(set(re.findall(r'\.from\("([a-zA-Z_][a-zA-Z0-9_]*)"\)', content)))
+    return sorted(set(re.findall(r'\.from\(["`\']([ a-zA-Z_][a-zA-Z0-9_]*)["`\']\)', content)))
 
 def extract_rpc(content: str) -> list[str]:
-    return sorted(set(re.findall(r'\.rpc\("([a-zA-Z_][a-zA-Z0-9_]*)"\)', content)))
+    return sorted(set(re.findall(r'\.rpc\(["`\']([ a-zA-Z_][a-zA-Z0-9_]*)["`\']\)', content)))
 
 def extract_edge_functions(content: str) -> list[str]:
     return sorted(set(re.findall(r'supabase\.co/functions/v1/([^"\'`\s/]+)', content)))
@@ -483,7 +492,9 @@ def main():
     args = parser.parse_args()
 
     base = base_url_from_arg(args.url)
-    out_dir = Path("output") / "results"
+    host = re.sub(r'http[s]?://', '', base).split('/')[0]
+    domain = host.replace(':', '_')
+    out_dir = Path("output") / domain
 
     # 1. Download
     if args.skip_download and out_dir.exists():
