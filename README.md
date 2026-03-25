@@ -198,4 +198,3 @@ Contributions are welcome! Feel free to:
 
 ---
 
-**Developed with 💀 for security research purposes**
