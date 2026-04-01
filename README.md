@@ -1,4 +1,4 @@
-# Chupabase (supabase-recon)
+# supabase-recon
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![Lint](https://img.shields.io/badge/Lint-ruff%20%2B%20isort-261f3c?logo=ruff&logoColor=white)](.github/actions/lint/action.yml)
@@ -32,7 +32,7 @@ Opções úteis:
 | `--no-test` | Não executa sondagem HTTP após gerar o OpenAPI |
 | `--methods` | Métodos na sondagem (predefinição: `get,post`) |
 | `--output-root` | Pasta raiz em vez de `./output` |
-| `--human-summary` | Imprime banner e resumo em texto para além dos logs |
+| `--human-summary` | Imprime resumo em texto (tabela) para além dos logs |
 
 Logs estruturados vão para **stderr**. Para JSON por linha: `RECON_LOG_JSON=1`. Resumo humano também: `RECON_HUMAN_SUMMARY=1`.
 

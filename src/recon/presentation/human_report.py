@@ -9,9 +9,8 @@ if TYPE_CHECKING:
     from recon.domain.models import BundleAnalysis
 
 
-def emit_banner_and_summary(*, banner: str, analysis: BundleAnalysis, app_url: str) -> None:
-    """Imprime banner ASCII e tabela-resumo em stderr (modo humano explícito)."""
-    print(banner, file=sys.stderr)
+def emit_human_summary(*, analysis: BundleAnalysis, app_url: str) -> None:
+    """Imprime tabela-resumo em stderr (modo humano explícito; dados autoritativos nos logs)."""
     sep = "-" * 52
     base = app_url.rstrip("/")
     print(f"\n{sep}", file=sys.stderr)

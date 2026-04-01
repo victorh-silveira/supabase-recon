@@ -9,10 +9,9 @@ from pathlib import Path
 import structlog
 
 from recon.application.recon_orchestrator import ReconOptions
-from recon.domain.constants import BANNER
 from recon.domain.exceptions import BundleNotFoundError, MissingAnonKeyError
 from recon.infrastructure.logging_config import configure_logging
-from recon.presentation.human_report import emit_banner_and_summary
+from recon.presentation.human_report import emit_human_summary
 from recon.wiring import build_orchestrator
 
 
@@ -35,7 +34,7 @@ def build_parser() -> argparse.ArgumentParser:
             "\n"
             "Logs estruturados em stderr (nível INFO).\n"
             "- RECON_LOG_JSON=1  → uma linha JSON por evento.\n"
-            "- --human-summary ou RECON_HUMAN_SUMMARY=1  → também imprime banner e tabela legíveis.\n"
+            "- --human-summary ou RECON_HUMAN_SUMMARY=1  → também imprime tabela legível em stderr.\n"
         ),
     )
     parser.add_argument("--url", required=True, help="URL da app")
@@ -59,7 +58,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--human-summary",
         action="store_true",
-        help="Além dos logs estruturados, envia banner e resumo tabular para stderr",
+        help="Além dos logs estruturados, envia resumo tabular legível para stderr",
     )
     return parser
 
@@ -75,12 +74,6 @@ def main(argv: list[str] | None = None) -> None:
     human = bool(args.human_summary) or _env_truthy("RECON_HUMAN_SUMMARY")
 
     log.info("recon.cli.start", app_url=args.url, human_summary_sink=human)
-    log.info(
-        "recon.cli.banner",
-        kind="chupabase_ascii",
-        line_count=len(BANNER.strip().splitlines()),
-        note="use_recon_human_summary_for_full_art_in_stderr",
-    )
 
     probe_methods = frozenset(m.strip().lower() for m in args.methods.split(","))
     options = ReconOptions(
@@ -116,4 +109,4 @@ def main(argv: list[str] | None = None) -> None:
     )
 
     if human:
-        emit_banner_and_summary(banner=BANNER, analysis=analysis, app_url=args.url)
+        emit_human_summary(analysis=analysis, app_url=args.url)
