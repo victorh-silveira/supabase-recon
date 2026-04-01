@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.0...v1.0.1) (2026-04-01)
+
+### Refatoracao
+
+* remover banner ASCII e vestígios chupabase legados ([77bd7f6](https://github.com/victorh-silveira/supabase-recon/commit/77bd7f67c564d914bbf9ae4eb93b8460667d1aa1))
+
 ## 1.0.0 (2026-04-01)
 
 ### Documentacao
