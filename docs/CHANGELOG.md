@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.1...v1.0.2) (2026-04-01)
+
+### Chore
+
+* **docs:** CHANGELOG em docs/ e semantic-release alinhado ([9e232d3](https://github.com/victorh-silveira/supabase-recon/commit/9e232d3e8b87168a8a1eb61d95f3a04f46e3a22c))
+
 ## [1.0.1](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.0...v1.0.1) (2026-04-01)
 
 ### Refatoracao
