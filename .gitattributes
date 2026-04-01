@@ -1,0 +1,48 @@
+# === Controle de Quebra de Linha ===
+
+# Forçar Windows CRLF para scripts de execução
+*.bat text eol=crlf
+
+# Forçar LF para scripts Python (Padrão Linux)
+*.py text eol=lf
+
+# Forçar LF para configurações JSON
+*.json text eol=lf
+# Excluir dados sensíveis da normalização (caso existam no git)
+data/state.json -text
+
+# Forçar LF para documentação Markdown
+*.md text eol=lf
+
+# Forçar LF para configurações de projeto
+*.toml text eol=lf
+
+# Forçar LF para arquivos de texto genéricos
+*.txt text eol=lf
+
+# === Arquivos Binários (IA e Dados) ===
+
+# Pesos de modelos de Machine Learning
+*.pkl binary
+*.pth binary
+*.weights binary
+
+# Modelos serializados binários
+*.joblib binary
+
+# Datasets tratados como dados crus
+*.csv binary
+
+# Recursos de imagem (Logos/Monitor)
+*.png binary
+
+# Recursos de imagem genéricos
+*.jpg binary
+
+# Ícone do bot
+*.ico binary
+
+# === Configurações de Tooling ===
+
+# Cache binário do linter Ruff
+.ruff_cache/** binary

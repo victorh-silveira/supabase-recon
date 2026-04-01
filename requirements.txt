@@ -1,0 +1,7 @@
+# SUPABASE-RECON - DEPENDÊNCIAS DE EXECUÇÃO
+
+# === Serialização (OpenAPI → YAML) ===
+PyYAML>=6.0                  # Dump do swagger gerado (YAML Unicode)
+
+# === Observabilidade ===
+structlog>=24.4.0            # Logs estruturados (JSON ou consola) no CLI e I/O

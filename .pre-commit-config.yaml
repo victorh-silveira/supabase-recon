@@ -1,0 +1,30 @@
+minimum_pre_commit_version: "3.5.0"
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.2
+    hooks:
+      - id: gitleaks
+        name: Segurança — Gitleaks (tokens e segredos)
+
+  - repo: local
+    hooks:
+      - id: clean-workspace
+        name: Qualidade — lint, segurança e docs (clean_workspace)
+        entry: python scripts/operations/clean_workspace.py
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: pytest
+        name: Testes — pytest (suite minima em tests/)
+        entry: python -m pytest
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: commitlint
+        name: Mensagem de commit — Commitlint (Conventional Commits)
+        entry: npx --yes -p @commitlint/cli -p @commitlint/config-conventional commitlint --config tools/commitlint.config.mjs --edit
+        language: system
+        stages: [commit-msg]

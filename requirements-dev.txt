@@ -1,0 +1,12 @@
+# SUPABASE-RECON - DEPENDÊNCIAS DE DESENVOLVIMENTO
+
+# === Desenvolvimento e Lint ===
+isort>=6.0.0                 # Padronização e organização de imports
+ruff>=0.9.0                  # Auditoria de código (PEP 8, segurança, formato)
+interrogate>=1.7.0           # Cobertura mínima de docstrings no código
+pre-commit>=3.7.0            # Hooks locais (lint + testes + commitlint)
+bandit>=1.8.0                # Análise estática de segurança do código
+pip-audit>=2.8.0             # Vulnerabilidades conhecidas nas dependências
+
+# === Testes ===
+pytest>=8.3.0                # Suite unitária e smoke tests

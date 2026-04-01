@@ -1,3 +1,41 @@
-old.py
+# Python
+*$py.class
+*.py[cod]
+.coverage
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# Ambiente
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Artefatos do recon
 output/
+
+# Legado / local
+old.py
 chupacu.py
+
+# Logs e relatórios
+*.log
+logs/
+ruff_report.txt
+
+# IDE / OS
+*.swo
+*.swp
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/settings.json
+Thumbs.db
+desktop.ini

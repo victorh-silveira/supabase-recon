@@ -1,0 +1,22 @@
+name: Testes Pytest
+description: Python 3.12 — instalar requirements e executar pytest em tests/
+
+runs:
+  using: composite
+
+  steps:
+    - name: Configurar Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: pip
+
+    - name: Instalar dependências (runtime e dev)
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt -r requirements-dev.txt
+
+    - name: Executar pytest
+      shell: bash
+      run: python -m pytest

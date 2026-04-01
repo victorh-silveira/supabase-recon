@@ -1,0 +1,38 @@
+name: Segurança do código
+description: Bandit, pip-audit e Gitleaks (segredos)
+
+runs:
+  using: composite
+
+  steps:
+    - name: Configurar Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: pip
+
+    - name: Instalar ferramentas e dependências do projeto
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install bandit pip-audit
+        GITLEAKS_VERSION="8.24.2"
+        curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o /tmp/gitleaks.tar.gz
+        tar -xzf /tmp/gitleaks.tar.gz -C /tmp
+        sudo mv /tmp/gitleaks /usr/local/bin/gitleaks
+        gitleaks version
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Bandit — análise estática de segurança
+      shell: bash
+      run: bandit -r . -ll -ii -c pyproject.toml -x ./tests,./.venv,./venv,./output
+
+    - name: pip-audit — vulnerabilidades em dependências
+      shell: bash
+      run: |
+        if [ -f requirements.txt ]; then pip-audit -r requirements.txt --ignore-vuln PYSEC-2022-42969; fi
+        if [ -f requirements-dev.txt ]; then pip-audit -r requirements-dev.txt --ignore-vuln CVE-2026-4539 --ignore-vuln PYSEC-2022-42969; fi
+
+    - name: Gitleaks — vazamento de segredos no repositório
+      shell: bash
+      run: gitleaks detect --source . --verbose --redact
