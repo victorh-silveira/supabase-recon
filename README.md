@@ -56,6 +56,10 @@ python -m pytest
 
 Código da suite em `tests/`.
 
+## Histórico de versões
+
+[docs/CHANGELOG.md](docs/CHANGELOG.md) (gerado/atualizado pelo release semântico).
+
 ## Uso responsável
 
 Utilize apenas em ambientes e aplicações para os quais tenha autorização explícita. O uso não autorizado pode violar lei e termos de serviço.

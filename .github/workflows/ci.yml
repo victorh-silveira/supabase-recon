@@ -7,7 +7,7 @@ on:
     paths:
       - ".github/**"
       - "README.md"
-      - "CHANGELOG.md"
+      - "docs/**"
       - "pyproject.toml"
       - "requirements*.txt"
       - "src/**"
