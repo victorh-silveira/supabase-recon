@@ -1,0 +1,14 @@
+## 1.0.0 (2026-04-01)
+
+### Documentacao
+
+* **readme:** badges Python, CI e secção de testes ([30d098b](https://github.com/victorh-silveira/supabase-recon/commit/30d098b9e61e9ca240f671d61db3ac101a6ee2be))
+
+### Nova Funcionalidade
+
+* **recon:** https automático na URL e níveis de log em 4 letras ([e88b003](https://github.com/victorh-silveira/supabase-recon/commit/e88b003edfd448ac87fd3e588599d5f1c56c1084))
+* **release:** lançamento inicial do Chupabase (supabase-recon) ([38f4548](https://github.com/victorh-silveira/supabase-recon/commit/38f45482b193ae3c7d1f4f5f57976d78dd6cac40))
+
+### Testes
+
+* **cli:** output-root portável para CI Linux ([94316c7](https://github.com/victorh-silveira/supabase-recon/commit/94316c7d1e5b55ecdea3d54851191b7adb8e63dc))
