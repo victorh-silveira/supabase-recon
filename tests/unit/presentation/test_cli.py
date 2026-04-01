@@ -10,11 +10,11 @@ from recon.presentation.cli import build_parser, main
 
 
 def test_build_parser_human_summary_flag() -> None:
-    """Flag --human-summary e --output-root."""
+    """Flag --human-summary e --output-root (caminho relativo: portável Linux/Windows)."""
     p = build_parser()
-    args = p.parse_args(["--url", "https://a", "--human-summary", "--output-root", "C:\\tmp\\o", "--no-test"])
+    args = p.parse_args(["--url", "https://a", "--human-summary", "--output-root", "parent/o", "--no-test"])
     assert args.human_summary is True
-    assert args.output_root.parts[-1] == "o"
+    assert args.output_root.name == "o"
 
 
 def test_cli_main_success(monkeypatch: pytest.MonkeyPatch) -> None:
