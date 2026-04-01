@@ -25,8 +25,15 @@ _ANON_STANDALONE_RE = re.compile(r"(eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z
 
 
 def normalize_app_base_url(url: str) -> str:
-    """Remove barra final da URL base da app."""
-    return url.rstrip("/")
+    """Normaliza a URL base: força https se vier em http e remove barra final.
+
+    Muitos hosts (ex.: Netlify) só respondem bem em :443; em redes onde :80 está
+    bloqueado ou instável, usar https direto evita timeout antes do redirect 301.
+    """
+    u = url.strip()
+    if u.lower().startswith("http://"):
+        u = "https://" + u[7:]
+    return u.rstrip("/")
 
 
 def js_path_to_openapi(path: str) -> str:

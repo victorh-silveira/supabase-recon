@@ -13,6 +13,8 @@ Ferramenta de reconhecimento para aplicações Lovable/Supabase: obtém assets p
 python run.py --url https://exemplo.com
 ```
 
+Prefira **https://**. Se passar `http://`, o programa reescreve para **https://** automaticamente (muitos sites redirecionam e, nalgumas redes, a porta 80 falha por timeout).
+
 Opções úteis:
 
 | Opção | Descrição |

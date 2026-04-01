@@ -148,6 +148,13 @@ class ReconOrchestrator:
     def run(self, options: ReconOptions, output_root: Path | None = None) -> BundleAnalysis:
         """Executa o pipeline completo e devolve a análise do bundle."""
         base = normalize_app_base_url(options.app_url)
+        if options.app_url.strip().startswith("http://"):
+            self._log.info(
+                "recon.pipeline.https_upgrade",
+                note="entrada_em_http_reescrita_para_https",
+                original=options.app_url.strip(),
+                effective_base=base,
+            )
         paths = resolve_recon_paths(base, output_root)
         self._log.info(
             "recon.pipeline.start",

@@ -8,6 +8,8 @@ import sys
 
 import structlog
 
+from recon.infrastructure.log_level_format import level_to_four_letters
+
 
 def configure_logging(*, json_logs: bool | None = None) -> None:
     """Configura processadores structlog.
@@ -21,6 +23,7 @@ def configure_logging(*, json_logs: bool | None = None) -> None:
     shared_pre = [
         structlog.contextvars.merge_contextvars,
         structlog.processors.add_log_level,
+        level_to_four_letters,
         timestamper,
     ]
 
@@ -33,7 +36,10 @@ def configure_logging(*, json_logs: bool | None = None) -> None:
     else:
         processors = [
             *shared_pre,
-            structlog.dev.ConsoleRenderer(colors=sys.stderr.isatty()),
+            structlog.dev.ConsoleRenderer(
+                colors=sys.stderr.isatty(),
+                pad_level=False,
+            ),
         ]
 
     structlog.configure(

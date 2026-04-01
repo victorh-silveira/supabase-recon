@@ -24,6 +24,11 @@ def test_normalize_app_base_url_strips_trailing_slash() -> None:
     assert normalize_app_base_url("https://x.com/") == "https://x.com"
 
 
+def test_normalize_app_base_url_upgrades_http_to_https() -> None:
+    """http:// deve tornar-se https:// (evita bloqueio de porta 80 / redirect)."""
+    assert normalize_app_base_url("http://seuagentetrader.com/") == "https://seuagentetrader.com"
+
+
 def test_js_path_to_openapi_trims_placeholder_tail() -> None:
     """${ns.id} deve virar {id}."""
     assert js_path_to_openapi("/users/${user.id}/x") == "/users/{id}/x"
