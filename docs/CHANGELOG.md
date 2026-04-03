@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.0...v1.1.1) (2026-04-03)
+
+### Chore
+
+* **repo:** Python 3.14.3 no CI, gitignore e commitlint ([2302eb5](https://github.com/victorh-silveira/supabase-recon/commit/2302eb51a4bc460cb4d78dda05eb34026aee85a5))
+
 ## [1.1.0](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.3...v1.1.0) (2026-04-03)
 
 ### Nova Funcionalidade
