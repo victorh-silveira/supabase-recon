@@ -1,6 +1,6 @@
 # supabase-recon
 
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](pyproject.toml)
+[![Python](https://img.shields.io/badge/Python-3.14.3+-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![Lint](https://img.shields.io/badge/Lint-ruff%20%2B%20isort-261f3c?logo=ruff&logoColor=white)](.github/actions/lint/action.yml)
 [![Tests](https://img.shields.io/badge/Tests-pytest-0A9EDC?logo=pytest&logoColor=white)](#testes)
 [![Pre-commit](https://img.shields.io/badge/Hooks-pre--commit-FAB040?logo=pre-commit&logoColor=white)](.pre-commit-config.yaml)
@@ -12,7 +12,7 @@ Ferramenta de reconhecimento para aplicações Lovable/Supabase: obtém assets p
 
 ## Requisitos
 
-- Python 3.10+
+- Python **3.14.3** (referência para pre-commit e CI; versões próximas podem funcionar)
 - Dependências: `pip install -r requirements.txt` (ou também `-r requirements-dev.txt` para desenvolvimento)
 
 ## Uso

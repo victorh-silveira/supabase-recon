@@ -1,41 +1,79 @@
-# Python
+# === Python (bytecode, pacotes e build) ===
+
+# Bytecode e caches de importação
 *$py.class
 *.py[cod]
-.coverage
-.mypy_cache/
-.pytest_cache/
-.ruff_cache/
 __pycache__/
-htmlcov/
+
+# Pacotes instalados em modo editável / wheels
 *.egg-info/
 build/
 dist/
 
-# Ambiente
+# === Testes e cobertura ===
+
+# Cache do pytest
+.pytest_cache/
+
+# Relatórios de cobertura
+.coverage
+htmlcov/
+
+# === Linters e análise estática ===
+
+# Cache do Ruff (alinhado a .gitattributes: .ruff_cache/**)
+.ruff_cache/
+
+# Cache do mypy (se usado)
+.mypy_cache/
+
+# === Ambientes virtuais e segredos ===
+
+# Ambientes Python locais
 .venv/
 venv/
 env/
+
+# Variáveis de ambiente (nunca versionar segredos)
 .env
 .env.*
 
-# Artefatos do recon
+# === Artefatos da aplicação (recon) ===
+
+# Saída descarregada e swagger gerado por execução
 output/
 
-# Legado / local
+# === Ficheiros locais / legado ===
+
+# Rascunhos ou cópias locais não versionadas
 old.py
 chupacu.py
 
-# Logs e relatórios
+# === Logs e relatórios ===
+
+# Ficheiros de log
 *.log
 logs/
+
+# Relatórios exportados de ferramentas
 ruff_report.txt
 
-# IDE / OS
+# === IDE e sistema operacional ===
+
+# Vim / swap
 *.swo
 *.swp
+
+# macOS
 .DS_Store
+
+# JetBrains
 .idea/
+
+# VS Code (manter settings partilhados se existirem)
 .vscode/*
 !.vscode/settings.json
+
+# Windows
 Thumbs.db
 desktop.ini

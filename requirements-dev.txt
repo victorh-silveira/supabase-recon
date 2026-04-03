@@ -1,7 +1,4 @@
 # SUPABASE-RECON - DEPENDÊNCIAS DE DESENVOLVIMENTO
-#
-# PYSEC-2022-42969: interrogate puxa o pacote "py" (sem fix no PyPI). O pip-audit em
-# requirements-dev.txt usa --ignore-vuln só para esse ID; ver docs/seguranca-dependencias.md.
 
 # === Desenvolvimento e Lint ===
 isort>=6.0.0                 # Padronização e organização de imports
