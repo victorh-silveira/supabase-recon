@@ -1,3 +1,13 @@
+## [1.0.3](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.2...v1.0.3) (2026-04-03)
+
+### CI/CD
+
+* **security:** bloquear pacote py na árvore dev ([57917d0](https://github.com/victorh-silveira/supabase-recon/commit/57917d0031eb8f7996f50bf0e6d6c3bdc07cd4e7))
+
+### Refatoracao
+
+* **dev:** remover interrogate e evitar dependência transitiva py ([e636f6b](https://github.com/victorh-silveira/supabase-recon/commit/e636f6b7bfd9e1a4836d2bd3760225226b901cca))
+
 ## [1.0.2](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.1...v1.0.2) (2026-04-01)
 
 ### Chore
