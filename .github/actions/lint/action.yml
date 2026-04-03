@@ -1,5 +1,5 @@
 name: Lint Python
-description: Python 3.12 — verificação isort, ruff (check + format) e interrogate
+description: Python 3.12 — verificação isort e ruff (check + format; docstrings via regras D)
 
 runs:
   using: composite
@@ -11,11 +11,11 @@ runs:
         python-version: "3.12"
         cache: pip
 
-    - name: Instalar isort, ruff e interrogate
+    - name: Instalar isort e ruff
       shell: bash
       run: |
         python -m pip install --upgrade pip
-        pip install ruff isort interrogate
+        pip install ruff isort
 
     - name: Isort (apenas verificação)
       shell: bash
@@ -28,7 +28,3 @@ runs:
     - name: Ruff — formato
       shell: bash
       run: ruff format --check .
-
-    - name: Interrogate — cobertura de docstrings
-      shell: bash
-      run: interrogate -v --fail-under 100 .

@@ -10,7 +10,7 @@ repos:
   - repo: local
     hooks:
       - id: clean-workspace
-        name: Qualidade — lint, segurança e docs (clean_workspace)
+        name: Qualidade — lint e segurança (clean_workspace)
         entry: python scripts/operations/clean_workspace.py
         language: system
         pass_filenames: false
