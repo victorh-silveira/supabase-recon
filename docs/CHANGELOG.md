@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.3...v1.1.0) (2026-04-03)
+
+### Nova Funcionalidade
+
+* **dev:** restaurar interrogate no clean_workspace e CI ([1df36ec](https://github.com/victorh-silveira/supabase-recon/commit/1df36ec891cdc863d860dce426f723ffc32ecade))
+
 ## [1.0.3](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.2...v1.0.3) (2026-04-03)
 
 ### CI/CD
