@@ -60,6 +60,8 @@ Código da suite em `tests/`.
 
 [docs/CHANGELOG.md](docs/CHANGELOG.md) (gerado/atualizado pelo release semântico).
 
+[docs/seguranca-dependencias.md](docs/seguranca-dependencias.md) — política de dependências (inclui PYSEC-2022-42969 / pacote `py`).
+
 ## Uso responsável
 
 Utilize apenas em ambientes e aplicações para os quais tenha autorização explícita. O uso não autorizado pode violar lei e termos de serviço.
