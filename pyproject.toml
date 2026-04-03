@@ -88,6 +88,13 @@ markers = [
     "integration: testes com I/O externo",
 ]
 
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = true
+ignore-private = true
+fail-under = 100
+exclude = ["tests", ".venv", "venv", "build", "dist", ".git", "output"]
+
 [tool.bandit]
 exclude_dirs = ["tests", ".venv", "venv", ".git", "output"]
 skips = ["B310"]

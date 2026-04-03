@@ -1,12 +1,12 @@
 # SUPABASE-RECON - DEPENDÊNCIAS DE DESENVOLVIMENTO
 #
-# Política PYSEC-2022-42969 (pacote "py" no PyPI): não há versão corrigida; evitar
-# dependências que instalem "py" (ex.: interrogate foi removido por isso). Docstrings:
-# regras D do Ruff. Ver docs/seguranca-dependencias.md.
+# PYSEC-2022-42969: interrogate puxa o pacote "py" (sem fix no PyPI). O pip-audit em
+# requirements-dev.txt usa --ignore-vuln só para esse ID; ver docs/seguranca-dependencias.md.
 
 # === Desenvolvimento e Lint ===
 isort>=6.0.0                 # Padronização e organização de imports
 ruff>=0.9.0                  # PEP 8, segurança, formato e docstrings (regras D / Google)
+interrogate>=1.7.0           # Cobertura mínima de docstrings (complementa o Ruff)
 pre-commit>=3.7.0            # Hooks locais (lint + testes + commitlint)
 bandit>=1.8.0                # Análise estática de segurança do código
 pip-audit>=2.8.0             # Vulnerabilidades conhecidas nas dependências

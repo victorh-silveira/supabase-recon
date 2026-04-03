@@ -3,17 +3,17 @@
 ## PYSEC-2022-42969 (pacote `py` no PyPI)
 
 - **Identificadores:** [PYSEC-2022-42969](https://osv.dev/vulnerability/PYSEC-2022-42969), CVE-2022-42969.
-- **Pacote:** [`py`](https://pypi.org/project/py/) (utilitários históricos do ecossistema pytest).
-- **Situação no PyPI:** a última versão publicada continua a ser **1.11.0**, que entra no intervalo reportado como afetado. **Não existe release corrigida** a instalar.
-- **Contexto:** o problema descrito (ReDoS ligado a caminhos Subversion) é **marginal** para a maioria dos projetos; algumas bases de avisos **retiraram ou contestaram** a entrada. Mesmo assim, o `pip-audit` e ferramentas semelhantes continuam a sinalizar o pacote.
+- **Pacote:** [`py`](https://pypi.org/project/py/) (dependência transitiva de ferramentas como **`interrogate`**).
+- **Situação no PyPI:** a última versão publicada continua a ser **1.11.0**, no intervalo reportado. **Não existe release corrigida.**
+- **Contexto:** o problema descrito (ReDoS ligado a Subversion) é **marginal** para uso típico; algumas bases **retiraram ou contestaram** o aviso. O `pip-audit` continua a reportar.
 
-## Medidas adoptadas neste repositório
+## Medidas neste repositório
 
-1. **Não depender de `py`:** removemos ferramentas que o puxavam como dependência transitiva (por exemplo **`interrogate`**, que dependia de `py`). Cobertura de docstrings no código fica a cargo das **regras D do Ruff** (`pyproject.toml`).
-2. **`pip-audit` sem ignorar vulnerabilidades** nos ficheiros `requirements.txt` e `requirements-dev.txt` (pre-commit `clean_workspace` e job de segurança no CI).
-3. **Verificação extra no CI:** após a auditoria, instala-se num **ambiente virtual novo** o conjunto `requirements.txt` + `requirements-dev.txt`. Se o pacote **`py`** aparecer na árvore, o pipeline **falha** (garantia de que nenhuma dependência declarada voltou a introduzir `py` sem revisão).
+1. **`interrogate`** mantém-se para **cobertura mínima de docstrings** (complementa as regras **D** do Ruff no `pyproject.toml`).
+2. **`pip-audit` em `requirements.txt`:** sem ignorar vulnerabilidades.
+3. **`pip-audit` em `requirements-dev.txt`:** `--ignore-vuln PYSEC-2022-42969` **apenas** para permitir a árvore que inclui `py` via `interrogate`, **documentado aqui** e replicado no `clean_workspace` e no CI (job de segurança).
+4. **Não** acrescentar outros `--ignore-vuln` sem revisão e registo neste ficheiro.
 
-## Se precisares de uma ferramenta que ainda dependa de `py`
+## Evolução futura
 
-- Preferir **alternativas** que não usem `py`, ou abrir issue ao maintainer.
-- **Não** adicionar `pip-audit --ignore-vuln` sem decisão explícita da equipa e registo neste documento (último recurso, com justificação).
+- Se o `interrogate` (ou o `py`) publicar versão que deixe de ser reportada, remover o ignore correspondente do `pip-audit`.
