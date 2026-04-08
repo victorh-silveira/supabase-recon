@@ -1,3 +1,9 @@
+## [1.1.3](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.2...v1.1.3) (2026-04-08)
+
+### CI/CD
+
+* **ci:** paralelizar jobs de testes e segurança no workflow. ([7016b68](https://github.com/victorh-silveira/supabase-recon/commit/7016b6896e21f9f25b76395b5e2dd69b9bf867aa))
+
 ## [1.1.2](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.1...v1.1.2) (2026-04-08)
 
 ### Qualidade
