@@ -1,6 +1,6 @@
-# Aether Release: {VERSION}
+# supabase-recon Release: {VERSION}
 
-O sistema de CI/CD detectou uma nova evolução no ecossistema **Aether Singularity**.
+O sistema de CI/CD detectou uma nova evolução no projeto **supabase-recon**.
 
 ### Detalhes da Atualizacao
 - **Versão:** `{VERSION}`
@@ -11,4 +11,4 @@ O sistema de CI/CD detectou uma nova evolução no ecossistema **Aether Singular
 {CHANGELOG}
 
 ---
-*Este release foi gerado automaticamente pelo motor de Governanca Aether.*
+*Este release foi gerado automaticamente pelo pipeline de release do supabase-recon.*

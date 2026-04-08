@@ -1,4 +1,4 @@
-# AETHER ENGINE - DEPENDÊNCIAS DE DESENVOLVIMENTO (V33.0)
+# SUPABASE-RECON - DEPENDÊNCIAS DE DESENVOLVIMENTO
 
 # === Desenvolvimento e Lint ===
 isort>=6.0.0                 # Padronização e organização de imports

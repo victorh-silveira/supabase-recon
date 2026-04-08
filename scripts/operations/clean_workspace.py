@@ -205,8 +205,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--coverage-fail-under",
         type=float,
-        default=float(os.getenv("AETHER_COVERAGE_FAIL_UNDER", "100")),
-        help="Percentual mínimo de cobertura para aprovação (default: env AETHER_COVERAGE_FAIL_UNDER ou 100).",
+        default=float(os.getenv("RECON_COVERAGE_FAIL_UNDER", "100")),
+        help="Percentual mínimo de cobertura para aprovação (default: env RECON_COVERAGE_FAIL_UNDER ou 100).",
     )
     args = parser.parse_args()
     setup_utf8()
