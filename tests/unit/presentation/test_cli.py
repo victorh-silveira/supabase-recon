@@ -72,3 +72,33 @@ def test_cli_exits_on_bundle_not_found(monkeypatch: pytest.MonkeyPatch) -> None:
     with pytest.raises(SystemExit) as exc:
         main(["--url", "https://x", "--no-test"])
     assert exc.value.code == 1
+
+
+def test_cli_human_summary_env_triggers_emit(monkeypatch: pytest.MonkeyPatch) -> None:
+    """RECON_HUMAN_SUMMARY=1 aciona saída legível."""
+    analysis = BundleAnalysis(
+        supabase=SupabaseProjectConfig(
+            base_url="https://proj.supabase.co",
+            anon_key="eyJh.b.c",
+        ),
+        auth_endpoints=[],
+        tables=[],
+        rpcs=[],
+        edge_functions=[],
+    )
+
+    class FakeOrch:
+        def run(self, options, output_root=None):
+            _ = (options, output_root)
+            return analysis
+
+    called: list[bool] = []
+
+    def stub_emit(*_args, **_kwargs) -> None:
+        called.append(True)
+
+    monkeypatch.setenv("RECON_HUMAN_SUMMARY", "1")
+    monkeypatch.setattr("recon.presentation.cli.emit_human_summary", stub_emit)
+    monkeypatch.setattr("recon.presentation.cli.build_orchestrator", lambda **_kwargs: FakeOrch())
+    main(["--url", "https://x", "--no-test"])
+    assert called == [True]

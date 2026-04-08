@@ -36,3 +36,23 @@ def test_get_bytes_success() -> None:
     with patch("recon.infrastructure.http_urllib.urllib.request.urlopen") as m:
         m.return_value.__enter__.return_value.read.return_value = b"\x00\xff"
         assert client.get_bytes("https://example.test/bin") == b"\x00\xff"
+
+
+def test_get_text_url_error_returns_none() -> None:
+    """URLError em get_text resulta em None."""
+    log = structlog.get_logger()
+    client = UrllibHttpClient(log=log)
+    with patch("recon.infrastructure.http_urllib.urllib.request.urlopen") as m:
+        m.side_effect = urllib.error.URLError("offline")
+        assert client.get_text("https://example.test/offline") is None
+
+
+def test_get_bytes_http_and_url_error_return_none() -> None:
+    """HTTPError e URLError em get_bytes resultam em None."""
+    log = structlog.get_logger()
+    client = UrllibHttpClient(log=log)
+    with patch("recon.infrastructure.http_urllib.urllib.request.urlopen") as m:
+        m.side_effect = urllib.error.HTTPError("https://example.test/missing", 404, "nf", {}, None)
+        assert client.get_bytes("https://example.test/missing") is None
+        m.side_effect = urllib.error.URLError("offline")
+        assert client.get_bytes("https://example.test/offline") is None

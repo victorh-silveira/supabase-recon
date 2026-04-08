@@ -1,14 +1,14 @@
 name: Testes Pytest
-description: Python 3.14.3 — instalar requirements e executar pytest em tests/
+description: Python 3.14.3 (.python-version) — pytest completo + coverage 100%
 
 runs:
   using: composite
 
   steps:
-    - name: Configurar Python 3.14.3
+    - name: Configurar Python (.python-version)
       uses: actions/setup-python@v5
       with:
-        python-version: "3.14.3"
+        python-version-file: .python-version
         cache: pip
 
     - name: Instalar dependências (runtime e dev)
@@ -17,6 +17,10 @@ runs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt -r requirements-dev.txt
 
-    - name: Executar pytest
+    - name: Clean workspace — testes (pytest)
       shell: bash
-      run: python -m pytest
+      run: python scripts/operations/clean_workspace.py --stage pytest
+
+    - name: Clean workspace — coverage
+      shell: bash
+      run: python scripts/operations/clean_workspace.py --stage test --coverage-fail-under 100

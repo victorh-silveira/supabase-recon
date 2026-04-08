@@ -94,6 +94,17 @@ def test_extract_auth_endpoints_minimal_snippet() -> None:
     assert eps[0].query_params == [{"key": "x", "value": "1"}]
 
 
+def test_extract_auth_endpoints_dedup_and_body_key_filter() -> None:
+    """Remove duplicados e filtra chaves técnicas do body."""
+    js = """
+Mr(this.fetch, "POST", `${this.url}/verify`, { body: { email: "a", headers: "x", redirectTo: "y" } } )
+Mr(this.fetch, "POST", `${this.url}/verify`, { body: { email: "a", headers: "x", redirectTo: "y" } } )
+"""
+    eps = extract_auth_endpoints(js)
+    assert len(eps) == 1
+    assert eps[0].body_keys == ["email"]
+
+
 def test_analyze_bundle_content_integrates(minimal_bundle_js: str, fake_jwt: str) -> None:
     """Pipeline completo de análise sobre fragmento mínimo."""
     analysis = analyze_bundle_content(minimal_bundle_js)

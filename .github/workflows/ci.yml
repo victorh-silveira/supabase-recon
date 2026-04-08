@@ -6,7 +6,6 @@ on:
 
     paths:
       - ".github/**"
-      - ".pre-commit-config.yaml"
       - ".python-version"
       - "README.md"
       - "docs/**"
@@ -42,6 +41,7 @@ jobs:
 
   tests:
     name: Testes - Pytest
+    needs: [quality]
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -54,7 +54,7 @@ jobs:
 
   security:
     name: Segurança - Auditoria
-    needs: [quality, tests]
+    needs: [tests]
     runs-on: ubuntu-latest
     timeout-minutes: 10
 

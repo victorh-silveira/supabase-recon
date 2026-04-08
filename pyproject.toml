@@ -25,39 +25,39 @@ exclude = [
 
 [tool.ruff.lint]
 select = [
-    "E",
-    "W",
-    "F",
-    "I",
-    "B",
-    "C4",
-    "UP",
-    "N",
-    "D",
-    "S",
-    "BLE",
-    "FBT",
-    "A",
-    "COM",
-    "T20",
-    "Q",
-    "RET",
-    "SIM",
-    "ARG",
-    "PTH",
-    "ERA",
-    "PL",
+    "E",    # erros de estilo (pycodestyle)
+    "W",    # avisos de estilo (pycodestyle)
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+    "N",    # pep8-naming
+    "D",    # pydocstyle
+    "S",    # flake8-bandit (segurança)
+    "BLE",  # flake8-blind-except
+    "FBT",  # flake8-boolean-trap
+    "A",    # flake8-builtins
+    "COM",  # flake8-commas
+    "T20",  # flake8-print
+    "Q",    # flake8-quotes
+    "RET",  # flake8-return
+    "SIM",  # flake8-simplify
+    "ARG",  # flake8-unused-arguments
+    "PTH",  # flake8-use-pathlib
+    "ERA",  # eradicate (codigo comentado)
+    "PL",   # pylint
 ]
 ignore = [
-    "E501",
-    "D203",
-    "D213",
-    "ANN204",
-    "S101",
-    "PLR0913",
-    "PLR2004",
-    "COM812",
-    "ISC001",
+    "E501",     # linha longa (formatador controla)
+    "D203",     # linha em branco antes de docstring de classe
+    "D213",     # resumo da docstring multi-linha na segunda linha
+    "ANN204",   # sem anotacao de retorno em __init__
+    "S101",     # uso de assert (aceito em checagens internas)
+    "PLR0913",  # muitos argumentos na definicao da funcao
+    "PLR2004",  # valor magico usado em comparacao
+    "COM812",   # virgula final ausente (conflita com ruff format)
+    "ISC001",   # concatenacao implicita de string (conflita com ruff format)
 ]
 
 [tool.ruff.lint.pydocstyle]
@@ -83,9 +83,14 @@ line-ending = "auto"
 testpaths = ["tests"]
 pythonpath = ["."]
 addopts = "-q --strict-markers"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
 markers = [
-    "unit: testes unitarios (sem rede)",
-    "integration: testes com I/O externo",
+    "unit: testes unitarios isolados (sem I/O externo)",
+    "application: testes da camada application (tests/unit/application/)",
+    "domain: testes da camada domain (tests/unit/domain/)",
+    "infrastructure: testes da camada infrastructure (tests/unit/infrastructure/)",
+    "presentation: testes da camada presentation (tests/unit/presentation/)",
 ]
 
 [tool.interrogate]

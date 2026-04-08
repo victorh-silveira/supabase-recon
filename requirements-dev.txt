@@ -1,12 +1,14 @@
-# SUPABASE-RECON - DEPENDÊNCIAS DE DESENVOLVIMENTO
+# AETHER ENGINE - DEPENDÊNCIAS DE DESENVOLVIMENTO (V33.0)
 
 # === Desenvolvimento e Lint ===
 isort>=6.0.0                 # Padronização e organização de imports
-ruff>=0.9.0                  # PEP 8, segurança, formato e docstrings (regras D / Google)
-interrogate>=1.7.0           # Cobertura mínima de docstrings (complementa o Ruff)
-pre-commit>=3.7.0            # Hooks locais (lint + testes + commitlint)
+ruff>=0.9.0                  # Auditoria de código ultra-rápida (PEP 8 + segurança)
+interrogate>=1.7.0           # Auditoria de cobertura de docstrings
+pre-commit>=3.7.0            # Hooks locais (clean workspace + commitlint)
 bandit>=1.8.0                # Análise estática de segurança do código
-pip-audit>=2.8.0             # Vulnerabilidades conhecidas nas dependências
+pip-audit>=2.8.0             # Auditoria de vulnerabilidades em dependências
+coverage>=7.13.0             # Métrica de cobertura (pre-commit/CI)
 
 # === Testes ===
-pytest>=8.3.0                # Suite unitária e smoke tests
+pytest-asyncio>=0.24.0       # Extensão para testes assíncronos (async/await)
+pytest>=8.3.0                # Framework principal de testes unitários

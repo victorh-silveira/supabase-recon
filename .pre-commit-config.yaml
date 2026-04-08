@@ -12,16 +12,30 @@ repos:
 
   - repo: local
     hooks:
-      - id: clean-workspace
-        name: Qualidade — lint, docs e segurança (clean_workspace)
-        entry: python scripts/operations/clean_workspace.py
+      - id: clean-workspace-lint
+        name: Qualidade — lint/docs com auto-fix local (clean_workspace)
+        entry: python scripts/operations/clean_workspace.py --stage lint --fix-lint
         language: system
         pass_filenames: false
         stages: [pre-commit]
 
-      - id: pytest
-        name: Testes — pytest (suite minima em tests/)
-        entry: python -m pytest
+      - id: clean-workspace-pytest
+        name: Testes — pytest completo (clean_workspace)
+        entry: python scripts/operations/clean_workspace.py --stage pytest
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: clean-workspace-test
+        name: Testes — coverage 100% (clean_workspace)
+        entry: python scripts/operations/clean_workspace.py --stage test --coverage-fail-under 100
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: clean-workspace-security
+        name: Segurança — bandit e pip-audit (clean_workspace)
+        entry: python scripts/operations/clean_workspace.py --stage security
         language: system
         pass_filenames: false
         stages: [pre-commit]

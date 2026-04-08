@@ -61,6 +61,21 @@ def test_fetch_precache_urls_parses_sw_js() -> None:
     assert urls == ["assets/main.js", "assets/other.js"]
 
 
+def test_fetch_precache_urls_handles_empty_invalid_and_missing_pattern() -> None:
+    """Sem conteúdo, sem precache ou JSON inválido devolve lista vazia."""
+    base = "https://demo.local"
+    log = MagicMock()
+    http = MagicMock()
+    http.get_text.return_value = None
+    assert fetch_precache_urls(base, http, log) == []
+
+    http.get_text.return_value = "console.log('x')"
+    assert fetch_precache_urls(base, http, log) == []
+
+    http.get_text.return_value = "precacheAndRoute([{url:'x',},])"
+    assert fetch_precache_urls(base, http, log) == []
+
+
 def test_fetch_index_asset_urls_from_html() -> None:
     """Fallback index.html extrai href/src /assets/...."""
     html = '<!DOCTYPE html><script src="/assets/chunk.js"></script>'
@@ -71,6 +86,14 @@ def test_fetch_index_asset_urls_from_html() -> None:
     assert urls == ["assets/chunk.js"]
 
 
+def test_fetch_index_asset_urls_empty_or_no_html() -> None:
+    """Sem HTML disponível devolve vazio."""
+    http = MagicMock()
+    http.get_text.return_value = None
+    log = MagicMock()
+    assert fetch_index_asset_urls("https://x", http, log) == []
+
+
 def test_download_assets_writes_files(tmp_path: Path) -> None:
     """Cada URL descarregada escreve ficheiro relativo ao out_dir."""
     http = MagicMock()
@@ -78,6 +101,16 @@ def test_download_assets_writes_files(tmp_path: Path) -> None:
     log = MagicMock()
     download_assets("https://h", ["assets/a.js"], tmp_path, http, log)
     assert (tmp_path / "assets" / "a.js").read_bytes() == b"data"
+
+
+def test_download_assets_skips_none_payload(tmp_path: Path) -> None:
+    """Asset com payload None não é persistido."""
+    http = MagicMock()
+    http.get_bytes.return_value = None
+    log = MagicMock()
+    files = download_assets("https://h", ["assets/a.js"], tmp_path, http, log)
+    assert files == []
+    assert not (tmp_path / "assets" / "a.js").exists()
 
 
 def test_orchestrator_happy_path_skip_download(tmp_path: Path, minimal_bundle_js: str) -> None:
@@ -160,3 +193,56 @@ def test_orchestrator_calls_probe_when_enabled(tmp_path: Path, minimal_bundle_js
     )
     orch.run(opts, output_root=tmp_path / "z")
     probe.run_probes.assert_called_once()
+
+
+def test_orchestrator_download_flow_and_fallback_index(tmp_path: Path, minimal_bundle_js: str) -> None:
+    """Quando precache está vazio, usa fallback do index e descarrega bundle."""
+    out_root = tmp_path / "root"
+    bundle_route = "assets/main.js"
+    html = f'<script src="/{bundle_route}"></script>'
+    http_text = MagicMock()
+    http_text.get_text.side_effect = [None, html]
+    http_bytes = MagicMock()
+    http_bytes.get_bytes.return_value = minimal_bundle_js.encode("utf-8")
+    writer = MagicMock()
+    probe = MagicMock()
+    orch = ReconOrchestrator(
+        http_text=http_text,
+        http_bytes=http_bytes,
+        spec_writer=writer,
+        endpoint_probe=probe,
+        log=MagicMock(),
+    )
+    opts = ReconOptions(
+        app_url="http://h",
+        skip_download_if_existing=False,
+        run_endpoint_probe=False,
+        probe_methods=frozenset({"get"}),
+    )
+    analysis = orch.run(opts, output_root=out_root)
+    assert analysis.supabase.base_url == "https://projunit.supabase.co"
+    assert (out_root / "h" / bundle_route).exists()
+    writer.write_yaml.assert_called_once()
+
+
+def test_orchestrator_raises_bundle_not_found_after_download(tmp_path: Path) -> None:
+    """Sem nenhum .js após fase de download, levanta BundleNotFoundError."""
+    http_text = MagicMock()
+    http_text.get_text.side_effect = [None, "<html></html>"]
+    http_bytes = MagicMock()
+    http_bytes.get_bytes.return_value = None
+    orch = ReconOrchestrator(
+        http_text=http_text,
+        http_bytes=http_bytes,
+        spec_writer=MagicMock(),
+        endpoint_probe=MagicMock(),
+        log=MagicMock(),
+    )
+    opts = ReconOptions(
+        app_url="https://host-sem-js",
+        skip_download_if_existing=False,
+        run_endpoint_probe=False,
+        probe_methods=frozenset(),
+    )
+    with pytest.raises(BundleNotFoundError):
+        orch.run(opts, output_root=tmp_path / "o")

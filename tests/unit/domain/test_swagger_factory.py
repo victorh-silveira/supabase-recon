@@ -44,3 +44,25 @@ def test_build_openapi_spec_auth_endpoint_creates_auth_v1_path() -> None:
     )
     assert "/auth/v1/otp" in spec["paths"]
     assert "post" in spec["paths"]["/auth/v1/otp"]
+
+
+def test_build_openapi_spec_auth_query_params_become_openapi_parameters() -> None:
+    """Query params de AuthEndpoint entram como parâmetros OpenAPI."""
+    ep = AuthEndpoint(
+        method="GET",
+        path="/admin/users",
+        path_params=[],
+        query_params=[{"key": "page", "value": "1"}],
+        body_keys=[],
+    )
+    spec = build_openapi_spec(
+        [ep],
+        [],
+        [],
+        [],
+        "https://p.supabase.co",
+        "anonkey",
+        "https://app",
+    )
+    params = spec["paths"]["/auth/v1/admin/users"]["get"]["parameters"]
+    assert any(p["in"] == "query" and p["name"] == "page" for p in params)
