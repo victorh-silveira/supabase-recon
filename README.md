@@ -1,4 +1,4 @@
-# supabase-recon
+# Supabase Recon
 
 [![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)](.python-version)
 [![Lint](https://img.shields.io/badge/Lint-ruff%20%7C%20isort%20%7C%20interrogate-3776AB?logo=ruff&logoColor=white)](.github/actions/lint/action.yml)
