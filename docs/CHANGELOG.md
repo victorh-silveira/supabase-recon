@@ -1,3 +1,9 @@
+## [1.1.4](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.3...v1.1.4) (2026-04-08)
+
+### Documentacao
+
+* **readme:** reestruturar documentação no padrão do projeto ([f76b46f](https://github.com/victorh-silveira/supabase-recon/commit/f76b46fd84b9e70e8f26b5e6176d95f6897aa743))
+
 ## [1.1.3](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.2...v1.1.3) (2026-04-08)
 
 ### CI/CD
