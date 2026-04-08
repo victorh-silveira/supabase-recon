@@ -1,3 +1,9 @@
+## [1.1.5](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.4...v1.1.5) (2026-04-08)
+
+### Chore
+
+* **repo:** remover referência aether e padronizar supabase-recon ([57e9442](https://github.com/victorh-silveira/supabase-recon/commit/57e9442284c111e53f20e8f80a88fa0a53afa415))
+
 ## [1.1.4](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.3...v1.1.4) (2026-04-08)
 
 ### Documentacao
