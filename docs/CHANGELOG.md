@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.1...v1.1.2) (2026-04-08)
+
+### Qualidade
+
+* **all:** corrigir clean_workspace e cobertura para 100% ([867d38f](https://github.com/victorh-silveira/supabase-recon/commit/867d38f28b98cb63a994fbe94db7e6ec538540f9))
+
 ## [1.1.1](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.0...v1.1.1) (2026-04-03)
 
 ### Chore
