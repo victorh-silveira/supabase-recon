@@ -41,7 +41,6 @@ jobs:
 
   tests:
     name: Testes - Pytest
-    needs: [quality]
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -54,7 +53,6 @@ jobs:
 
   security:
     name: Segurança - Auditoria
-    needs: [tests]
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -69,7 +67,7 @@ jobs:
 
   release:
     name: Release - Versão
-    needs: security
+    needs: [quality, tests, security]
 
     if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
 
