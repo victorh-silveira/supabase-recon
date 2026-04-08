@@ -1,3 +1,9 @@
+## [1.1.6](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.5...v1.1.6) (2026-04-08)
+
+### Documentacao
+
+* **readme:** atualizar título para Supabase Recon ([4c5b26c](https://github.com/victorh-silveira/supabase-recon/commit/4c5b26cbf7e646f7245ecc681856a34f47a3f067))
+
 ## [1.1.5](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.4...v1.1.5) (2026-04-08)
 
 ### Chore
