@@ -1,6 +1,7 @@
 """Unit tests for SwaggerBuilderService."""
 
 import pytest
+
 from app.domain.models.endpoint import Endpoint, EndpointType
 from app.domain.models.supabase_config import SupabaseConfig
 from app.domain.services.swagger_builder import SwaggerBuilderService
@@ -22,14 +23,20 @@ def test_build_specification(builder):
         Endpoint(method="POST", path="/rest/v1/users", type=EndpointType.REST, tag="rest", body_keys=["id", "name"]),
         Endpoint(method="POST", path="/rest/v1/posts", type=EndpointType.REST, tag="rest", body_keys=["*"]),
         Endpoint(method="GET", path="/users/{id}", type=EndpointType.REST, tag="rest", path_params=["id"]),
-        Endpoint(method="GET", path="/search", type=EndpointType.REST, tag="rest", query_params=[type('Q', (), {'key': 'q', 'value': 'test'})()]),
+        Endpoint(
+            method="GET",
+            path="/search",
+            type=EndpointType.REST,
+            tag="rest",
+            query_params=[type("Q", (), {"key": "q", "value": "test"})()],
+        ),
     ]
-    
+
     spec = builder.build_specification(config, endpoints, "https://app.com")
-    
+
     assert spec["openapi"] == "3.0.3"
     assert "/auth/v1/signup" in spec["paths"]
-    
+
     # Coverage for non-wildcard body keys (lines 97, 101)
     user_op = spec["paths"]["/rest/v1/users"]["post"]
     user_schema = user_op["requestBody"]["content"]["application/json"]["schema"]

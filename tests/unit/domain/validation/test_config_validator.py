@@ -1,6 +1,7 @@
 """Unit tests for ConfigValidator."""
 
 import pytest
+
 from app.domain.exceptions import ValidationError
 from app.domain.models.supabase_config import SupabaseConfig
 from app.domain.validation.config_validator import ConfigValidator

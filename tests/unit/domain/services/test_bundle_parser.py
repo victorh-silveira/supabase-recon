@@ -1,6 +1,7 @@
 """Unit tests for BundleParserService."""
 
 import pytest
+
 from app.domain.exceptions import SupabaseConfigNotFoundError
 from app.domain.services.bundle_parser import BundleParserService
 
@@ -25,7 +26,7 @@ def test_discover_config_success(parser):
 @pytest.mark.domain
 def test_discover_config_not_found(parser):
     """Test failure when anonKey is missing."""
-    content = 'nothing here'
+    content = "nothing here"
     with pytest.raises(SupabaseConfigNotFoundError):
         parser.discover_config(content)
 
@@ -83,7 +84,7 @@ def test_extract_rpc_calls(parser):
 @pytest.mark.domain
 def test_extract_edge_functions(parser):
     """Test extraction of Edge Functions."""
-    content = 'https://abc.supabase.co/functions/v1/heavy-task'
+    content = "https://abc.supabase.co/functions/v1/heavy-task"
     endpoints = parser.extract_edge_functions(content)
     assert len(endpoints) == 1
     assert "functions/v1/heavy-task" in endpoints[0].path
@@ -95,7 +96,7 @@ def test_path_helpers(parser):
     """Test private path parsing helpers."""
     assert parser._js_path_to_openapi("${this.id}") == "{id}"
     assert parser._extract_path_params("/{id}/info/{name}") == ["id", "name"]
-    
+
     qparams = parser._extract_static_query("/path?a=1&b=2")
     assert len(qparams) == 2
     assert qparams[0].key == "a"

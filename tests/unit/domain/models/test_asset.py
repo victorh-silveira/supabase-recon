@@ -1,6 +1,7 @@
 """Unit tests for Asset model."""
 
 import pytest
+
 from app.domain.models.asset import Asset
 
 
