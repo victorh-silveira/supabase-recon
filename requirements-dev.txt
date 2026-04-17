@@ -1,0 +1,12 @@
+# === Desenvolvimento e Lint ===
+ruff>=0.9.0                  # Substitui isort, flake8 e black com performance Rust
+interrogate>=1.7.0           # Auditoria de cobertura de docstrings
+pre-commit>=3.7.0            # Automação de hooks de commit
+bandit>=1.8.0                # Foco em segurança (importante para manipulação de chaves de API)
+pip-audit>=2.8.0             # Verificação de CVEs nas libs (crítico para trading)
+
+# === Testes e Simulação ===
+pytest>=9.0.3
+pytest-asyncio>=0.24.0
+pytest-mock>=3.14.0          # Para mockar responses da Deriv API e funções de tempo
+coverage>=7.6.0              # Medição de cobertura de testes

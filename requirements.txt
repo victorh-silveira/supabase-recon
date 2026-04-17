@@ -1,0 +1,10 @@
+# === Núcleo (API e Rede) ===
+python-dotenv>=1.0.1
+requests>=2.33.1             # Substituindo urllib para melhor gestão de sessões e timeouts
+
+# === Dados e Processamento ===
+pyyaml>=6.0.1                # Essencial para a geração do swagger.yaml
+rich>=13.0.0                 # Interface visual avançada, tabelas e logs no terminal
+
+# === Utilidades ===
+pathlib>=1.0.1               # Garantia de compatibilidade para manipulação de caminhos
