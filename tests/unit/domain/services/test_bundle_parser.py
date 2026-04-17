@@ -16,10 +16,10 @@ def parser():
 @pytest.mark.domain
 def test_discover_config_success(parser):
     """Test successful discovery of Supabase config."""
-    content = 'url: "https://project.supabase.co", key: "eyJabc.123.xyz"'
+    content = 'url: "https://project.supabase.co", key: "eyJabc.123.xyz"'  # gitleaks:allow
     config = parser.discover_config(content)
     assert config.url == "https://project.supabase.co"
-    assert config.anon_key == "eyJabc.123.xyz"
+    assert config.anon_key == "eyJabc.123.xyz"  # gitleaks:allow
 
 
 @pytest.mark.unit
