@@ -75,6 +75,6 @@ class HTTPClient:
                 timeout=self.timeout,
             )
             return response.status_code, response.reason, response.text
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Unexpected request error: {e}")
             return 0, str(e), ""

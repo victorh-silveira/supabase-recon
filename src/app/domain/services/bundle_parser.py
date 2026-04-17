@@ -19,9 +19,9 @@ class BundleParserService:
         # Find Supabase URL
         url_match = re.search(
             r'["\'\`](http[s]?://(?:'
-            r'[a-z0-9\-]+\.supabase\.co'  # supabase.co
-            r'|[\d]{1,3}(?:\.[\d]{1,3}){3}'  # IP
-            r'|[a-z0-9][a-z0-9\-\.]*\.[a-z]{2,}'  # hostname
+            r"[a-z0-9\-]+\.supabase\.co"  # supabase.co
+            r"|[\d]{1,3}(?:\.[\d]{1,3}){3}"  # IP
+            r"|[a-z0-9][a-z0-9\-\.]*\.[a-z]{2,}"  # hostname
             r')(?::\d+)?)["\'\`]',
             content,
         )
@@ -49,7 +49,7 @@ class BundleParserService:
         """Extract Auth endpoints from Lovable's internal 'Mr' function calls."""
         pattern = re.compile(
             r'Mr\s*\(\s*this\.fetch\s*,\s*"(GET|POST|PUT|PATCH|DELETE)"\s*,\s*`\$\{this\.url\}([^`]*)`\s*,'
-            r'\s*(\{(?:[^{}]|\{[^{}]*\})*?\})',
+            r"\s*(\{(?:[^{}]|\{[^{}]*\})*?\})",
             re.DOTALL,
         )
         seen: set[tuple[str, str, str]] = set()

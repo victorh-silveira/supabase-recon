@@ -71,7 +71,8 @@ convention = "google"
 [tool.ruff.lint.per-file-ignores]
 "main.py" = ["T201"]
 "app/interfaces/cli.py" = ["T201"]
-"tests/**/*.py" = ["PLR2004", "ARG001", "ARG005", "S101"]
+"scripts/operations/clean_workspace.py" = ["T201"]
+"tests/**/*.py" = ["PLR2004", "ARG001", "ARG002", "ARG005", "S101"]
 "app/infrastructure/http_client.py" = ["S113"] # Requests sem timeout (ajustar depois)
 
 [tool.ruff.format]
