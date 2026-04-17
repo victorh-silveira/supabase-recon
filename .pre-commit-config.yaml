@@ -1,0 +1,69 @@
+minimum_pre_commit_version: "3.5.0"
+
+default_language_version:
+  python: python3.14
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.11
+    hooks:
+      - id: ruff
+        name: Qualidade — Ruff Check (Lint & Fix)
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+        name: Qualidade — Ruff Format (Estilo)
+
+  - repo: local
+    hooks:
+      - id: interrogate
+        name: Documentação — Interrogate (Docstrings 100%)
+        entry: interrogate
+        language: system
+        pass_filenames: false
+        types: [python]
+
+      - id: pytest-coverage
+        name: Testes — Pytest & Coverage 100%
+        entry: python -m coverage run -m pytest
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+
+      - id: coverage-report
+        name: Testes — Verificação de Cobertura (Min 100%)
+        entry: python -m coverage report --fail-under=100
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+
+      - id: bandit
+        name: Segurança — Bandit (Análise Estática)
+        entry: bandit
+        args: ["-r", "src/", "-c", "pyproject.toml"]
+        language: system
+        pass_filenames: false
+        types: [python]
+
+      - id: pip-audit
+        name: Segurança — Pip-audit (Vulnerabilidades)
+        entry: pip-audit
+        args: ["--ignore-vuln", "PYSEC-2022-42969"]
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: commitlint
+        name: Mensagem — Commitlint (Conventional Commits)
+        entry: npx --yes -p @commitlint/cli -p @commitlint/config-conventional commitlint --config tools/commitlint.config.mjs --edit
+        language: system
+        stages: [commit-msg]
+
+      - id: cleanup
+        name: Limpeza — Remover lixo e caches (pycache, pytest, ruff)
+        entry: python scripts/operations/clean_workspace.py --stage clean
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
