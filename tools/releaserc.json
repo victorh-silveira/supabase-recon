@@ -1,50 +1,144 @@
 {
-  "window.commandCenter": true,
-  "workbench.iconTheme": "material-icon-theme",
-  "editor.renderWhitespace": "selection",
-  "editor.minimap.enabled": false,
-  "editor.guides.bracketPairs": true,
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "always",
-    "source.organizeImports": "always"
-  },
-  "python.languageServer": "Pylance",
-  "python.analysis.typeCheckingMode": "basic",
-  "python.analysis.autoImportCompletions": true,
-  "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.ruff": "always",
-      "source.organizeImports.ruff": "always"
-    }
-  },
-  "git.autoRepositoryDetection": "subFolders",
-  "git.openRepositoryInParentFolders": "never",
-  "git.enableSmartCommit": false,
-  "git.confirmSync": false,
-  "git.autofetch": true,
-  "git.inputValidationLength": 100,
-  "git.inputValidationSubjectLength": 72,
-  "files.autoSave": "onFocusChange",
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/__pycache__": true,
-    "**/.pytest_cache": true,
-    "**/.ruff_cache": true,
-    "**/.coverage": true
-  },
-  "search.exclude": {
-    "**/node_modules": true,
-    "**/dist": true,
-    "**/build": true,
-    "**/.venv": true
-  },
-  "terminal.integrated.fontSize": 13,
-  "terminal.integrated.cursorStyle": "line",
-  "terminal.integrated.scrollback": 5000
+  "branches": [
+    "main"
+  ],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits",
+        "releaseRules": [
+          {
+            "breaking": true,
+            "release": "major"
+          },
+          {
+            "type": "feat",
+            "release": "minor"
+          },
+          {
+            "type": "fix",
+            "release": "patch"
+          },
+          {
+            "type": "perf",
+            "release": "patch"
+          },
+          {
+            "type": "refactor",
+            "release": "patch"
+          },
+          {
+            "type": "qa",
+            "release": "patch"
+          },
+          {
+            "type": "style",
+            "release": "patch"
+          },
+          {
+            "type": "build",
+            "release": "patch"
+          },
+          {
+            "type": "revert",
+            "release": "patch"
+          },
+          {
+            "type": "chore",
+            "scope": "deps",
+            "release": "patch"
+          },
+          {
+            "type": "docs",
+            "scope": "README",
+            "release": "patch"
+          }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits",
+        "presetConfig": {
+          "types": [
+            {
+              "type": "feat",
+              "section": "Funcionalidades",
+              "hidden": false
+            },
+            {
+              "type": "fix",
+              "section": "Correções",
+              "hidden": false
+            },
+            {
+              "type": "perf",
+              "section": "Performance",
+              "hidden": false
+            },
+            {
+              "type": "refactor",
+              "section": "Refatoração",
+              "hidden": false
+            },
+            {
+              "type": "qa",
+              "section": "Qualidade e Segurança",
+              "hidden": false
+            },
+            {
+              "type": "style",
+              "section": "Estilo e Limpeza",
+              "hidden": false
+            },
+            {
+              "type": "build",
+              "section": "Build e Dependências",
+              "hidden": false
+            },
+            {
+              "type": "test",
+              "section": "Testes",
+              "hidden": false
+            },
+            {
+              "type": "docs",
+              "section": "Documentação",
+              "hidden": false
+            },
+            {
+              "type": "ci",
+              "section": "CI/CD",
+              "hidden": true
+            },
+            {
+              "type": "chore",
+              "section": "Manutenção",
+              "hidden": true
+            }
+          ]
+        }
+      }
+    ],
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "docs/CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "docs/CHANGELOG.md",
+          "pyproject.toml",
+          "requirements.txt"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    "@semantic-release/github"
+  ]
 }
