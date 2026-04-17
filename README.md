@@ -1,17 +1,20 @@
 # Supabase Recon Analyzer
 
-[![Python](https://img.shields.io/badge/Python-3.13+-3776AB?logo=python&logoColor=white)](.python-version)
-[![Architecture](https://img.shields.io/badge/Architecture-Clean%20%7C%20DDD-blue)](docs/arquitetura.md)
-[![Tests](https://img.shields.io/badge/Tests-Pytest%20100%25-0F9D58?logo=pytest&logoColor=white)](tests/unit)
-[![Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen)](.pre-commit-config.yaml)
-[![Quality](https://img.shields.io/badge/Quality-Ruff-active)](pyproject.toml)
-[![Documentation](https://img.shields.io/badge/Docs-Interrogate%20100%25-orange)](pyproject.toml)
+[![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)](.python-version)
+[![Lint](https://img.shields.io/badge/Lint-ruff%20%7C%20isort%20%7C%20interrogate-3776AB?logo=ruff&logoColor=white)](.github/actions/lint/action.yml)
+[![Tests](https://img.shields.io/badge/Tests-pytest-0F9D58?logo=pytest&logoColor=white)](tests/unit)
+[![Pre-commit](https://img.shields.io/badge/Pre--commit-local%20hooks%20ativos-FAB040?logo=pre-commit&logoColor=white)](.pre-commit-config.yaml)
+[![CI](https://github.com/victorh-silveira/supabase-recon/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/victorh-silveira/supabase-recon/actions/workflows/ci.yml)
+[![CI/CD](https://img.shields.io/badge/GitHub%20Actions-Quality%20%7C%20Tests%20%7C%20Security-2088FF?logo=githubactions&logoColor=white)](.github/workflows/ci.yml)
+[![Release](https://img.shields.io/badge/Release-semantic--release-494949?logo=semantic-release&logoColor=white)](tools/releaserc.json)
+[![API](https://img.shields.io/badge/API-PostgREST%20%7C%20Supabase-1D1E30)](https://supabase.com/docs)
+[![Changelog](https://img.shields.io/badge/docs-CHANGELOG-6BA539)](docs/CHANGELOG.md)
 
 Ferramenta profissional de reconhecimento e mapeamento automatizado de segurança para aplicações modernas construídas com **Lovable** e **Supabase**. O analisador realiza engenharia reversa em bundles JavaScript para descobrir infraestruturas de backend, endpoints de autenticação e tabelas expostas.
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 - **Descoberta Automática**: Identifica assets e o bundle principal via `sw.js` ou fallback no `index.html`.
 - **Extração de Assets**: Download e organização local de todos os recursos da aplicação.
@@ -25,7 +28,7 @@ Ferramenta profissional de reconhecimento e mapeamento automatizado de seguranç
 
 ---
 
-## 🏛️ Arquitetura
+## Arquitetura
 
 O projeto segue rigorosamente os princípios de **Clean Architecture** e **Domain-Driven Design (DDD)**:
 
@@ -36,7 +39,7 @@ O projeto segue rigorosamente os princípios de **Clean Architecture** e **Domai
 
 ---
 
-## 🛠️ Configuração e Uso
+## Configuração e Uso
 
 ### Requisitos
 - Python 3.13+
@@ -62,7 +65,7 @@ python run.py --url https://exemplo-lovable.app.co
 
 ---
 
-## 💎 Qualidade e Conformidade
+## Qualidade e Conformidade
 
 O projeto mantém um padrão de **Zero-Debt Policy** através de um pipeline robusto de pre-commit:
 
@@ -77,7 +80,7 @@ O projeto mantém um padrão de **Zero-Debt Policy** através de um pipeline rob
 
 ---
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```text
 src/
@@ -93,6 +96,6 @@ output/                    # Resultados da análise (Assets e Swagger YAML)
 
 ---
 
-## ⚠️ Isenção de Responsabilidade
+## Isenção de Responsabilidade
 
 Esta ferramenta deve ser utilizada exclusivamente para fins educacionais, de pesquisa ou em auditorias de segurança autorizadas. O uso indevido contra infraestruturas sem permissão explícita é ilegal e antiético. Os desenvolvedores não se responsabilizam por danos resultantes do uso desta ferramenta.
