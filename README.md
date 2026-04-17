@@ -1,200 +1,98 @@
-# Chupabase
+# Supabase Recon Analyzer
 
-```
-  ____ _                       _
- / ___| |__  _   _ _ __   __ _| |__   __ _ ___  ___
-| |   | '_ \| | | | '_ \ / _` | '_ \ / _` / __|/ _ \
-| |___| | | | |_| | |_) | (_| | |_) | (_| \__ \  __/
- \____|_| |_|\__,_| .__/ \__,_|_.__/ \__,_|___/\___|
-                  |_|
-```
+[![Python](https://img.shields.io/badge/Python-3.13+-3776AB?logo=python&logoColor=white)](.python-version)
+[![Architecture](https://img.shields.io/badge/Architecture-Clean%20%7C%20DDD-blue)](docs/arquitetura.md)
+[![Tests](https://img.shields.io/badge/Tests-Pytest%20100%25-0F9D58?logo=pytest&logoColor=white)](tests/unit)
+[![Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen)](.pre-commit-config.yaml)
+[![Quality](https://img.shields.io/badge/Quality-Ruff-active)](pyproject.toml)
+[![Documentation](https://img.shields.io/badge/Docs-Interrogate%20100%25-orange)](pyproject.toml)
 
-API analysis and reconnaissance tool for Lovable/Supabase applications. Automatically extracts authentication endpoints, REST tables, RPCs, and Edge Functions from the application's JavaScript bundle.
-
-## Features
-
-- **Automatic asset download**: Extracts all application files via `sw.js` or `index.html`
-- **Automatic main bundle detection**: Identifies the largest `.js` file (main bundle)
-- **Supabase configuration extraction**: Discovers project URL and anon key
-- **Authentication endpoint analysis**: Identifies `/auth/v1/*` routes
-- **REST table discovery**: Finds all `.from("table_name")` calls
-- **RPC discovery**: Extracts all `.rpc("function_name")` calls
-- **Edge Functions**: Identifies Supabase edge functions
-- **Swagger/OpenAPI 3.0 generation**: Creates complete API documentation
-- **Endpoint testing (optional)**: Verifies which endpoints are accessible with the anon key
-
-## 🔧 Installation
-
-### Requirements
-
-- Python 3.10+
-- pip
-
-### Dependencies
-
-```bash
-pip install pyyaml
-```
-
-## Usage
-
-### Basic Usage
-
-```bash
-python script.py --url https://application.lovable.app
-```
-
-### Available Options
-
-```bash
-# Skip download if assets already exist
-python script.py --url https://application.lovable.app --skip-download
-
-# Skip endpoint testing
-python script.py --url https://application.lovable.app --no-test
-
-# Test only specific methods (default: get,post)
-python script.py --url https://application.lovable.app --methods get
-
-# Combine options
-python script.py --url https://application.lovable.app --skip-download --no-test
-```
-
-### Parameters
-
-- `--url` (required): URL of the Lovable application to analyze
-- `--skip-download`: Skips download if assets already exist in `output/results/`
-- `--no-test`: Disables automatic endpoint testing
-- `--methods`: Defines which HTTP methods to test (default: `get,post`)
-
-## Output Structure
-
-```
-output/
-└── results/
-    ├── assets/
-    │   └── [JS, CSS files, etc.]
-    └── swagger.yaml
-```
-
-### swagger.yaml file
-
-The generated file contains:
-
-- **Project information**: Application URL, Supabase project and anon key
-- **Authentication endpoints** (`/auth/v1/*`)
-- **REST tables** (`/rest/v1/{table}`)
-- **RPCs** (`/rest/v1/rpc/{function}`)
-- **Edge Functions** (`/functions/v1/{function}`)
-
-All endpoints include:
-- Pre-filled headers with `apikey` and `Authorization`
-- Path, query and body parameters
-- Ready-to-use examples for Swagger UI or Postman
-
-## How It Works
-
-### Execution Flow
-
-1. **Fetch sw.js**: Fetches the service worker and extracts asset list via `precacheAndRoute`
-   - Fallback: If not found, fetches assets from `index.html`
-2. **Asset download**: Downloads all files to `output/results/`
-3. **Bundle detection**: Automatically identifies the largest `.js` file
-4. **Data extraction**:
-   - Authentication endpoints
-   - REST tables
-   - RPC calls
-   - Edge Functions
-5. **Credential discovery**: Extracts Supabase URL and anon key
-   - **Critical**: The script halts if the anon key is not found
-6. **Swagger generation**: Creates complete OpenAPI 3.0.3 file
-7. **Endpoint testing** (optional): Validates accessibility with the discovered anon key
-
-### Endpoint Testing
-
-When enabled (`--no-test` not specified), the script tests each endpoint and classifies responses:
-
-- `[OK]` (200, 201, 204): Accessible endpoint
-- `[RESP]` (400, 405, 422): Endpoint responds but with validation error
-- `[AUTH]` (401, 403): Requires elevated authentication
-- `[404]`: Endpoint not found
-- `[ERR]`: Connection error or timeout
-
-## Output Example
-
-```
-  App URL        : https://application.lovable.app
-  Supabase URL   : https://abcdefgh.supabase.co
-  anon key       : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3M...
-  Auth endpoints : 15
-  REST Tables    : 8
-  RPC calls      : 3
-  Edge Functions : 2
-
-Swagger saved to: output/results/swagger.yaml
-
-====================================================================
-TESTING ENDPOINTS  |  base: https://abcdefgh.supabase.co
-====================================================================
-
-[OK]   200  GET    /rest/v1/users  [rest]
-    {
-      "id": "123",
-      "name": "John Doe",
-      ...
-    }
-
-[AUTH] 401  POST   /auth/v1/admin/users  [auth-admin]
-
-====================================================================
-SUMMARY
-  Accessible   : 5
-  Requires auth: 3
-  Not found    : 1
-  Error/Offline: 0
-====================================================================
-```
-
-## Responsible Use
-
-This tool was developed for:
-- Authorized security audits
-- Penetration testing with consent
-- Security research on owned environments
-- Application analysis for educational purposes
-
-**⚠️ IMPORTANT**: Use only on applications you have permission to test. Unauthorized use may violate laws and terms of service.
-
-## Troubleshooting
-
-### "anonKey not found in the bundle! Exiting."
-
-- The anon key was not found in the JavaScript bundle
-- Check if the URL is correct and accessible
-- Try downloading again without `--skip-download`
-
-### "No .js file found in output/"
-
-- No JavaScript file was found after download
-- Check if the application uses a different structure
-- Try accessing the URL manually in the browser
-
-### Timeout errors
-
-- Increase the `TIMEOUT` value in the script
-- Check your internet connection
-- The server may be blocking automated requests
-
-## License
-
-This project is provided "as is", without warranties. Use at your own risk.
-
-## Contributing
-
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest improvements
-- Send pull requests
+Ferramenta profissional de reconhecimento e mapeamento automatizado de segurança para aplicações modernas construídas com **Lovable** e **Supabase**. O analisador realiza engenharia reversa em bundles JavaScript para descobrir infraestruturas de backend, endpoints de autenticação e tabelas expostas.
 
 ---
 
+## 🚀 Funcionalidades
+
+- **Descoberta Automática**: Identifica assets e o bundle principal via `sw.js` ou fallback no `index.html`.
+- **Extração de Assets**: Download e organização local de todos os recursos da aplicação.
+- **Mapeamento de API**:
+    - **Auth**: Identificação de fluxos de login, registro e recuperação.
+    - **REST**: Descoberta de tabelas e esquemas de dados expostos pelo PostgREST.
+    - **RPC**: Mapeamento de funções de banco de dados e procedures.
+    - **Edge Functions**: Identificação de lógica serverless em execução.
+- **Swagger Generator**: Geração automática de especificação OpenAPI 3.0 completa para importação em ferramentas como Postman ou Insomnia.
+- **Relatório de Confiabilidade**: Testes automatizados de acessibilidade de endpoints utilizando a `anonKey` extraída.
+
+---
+
+## 🏛️ Arquitetura
+
+O projeto segue rigorosamente os princípios de **Clean Architecture** e **Domain-Driven Design (DDD)**:
+
+- **Domain**: Modelos de endpoints, assets e serviços de lógica pura (Bundle Parser, Swagger Builder).
+- **Application**: Casos de uso que orquestram o pipeline de análise e teste.
+- **Infrastructure**: Implementações técnicas de rede (HTTP Client resiliente), loaders e persistência em disco.
+- **Interfaces**: Camada de entrada CLI e interface visual de alta densidade via biblioteca Rich.
+
+---
+
+## 🛠️ Configuração e Uso
+
+### Requisitos
+- Python 3.13+
+- Dependências listadas em `requirements.txt`
+
+### Instalação
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### Operação
+Execute a análise completa fornecendo a URL da aplicação alvo:
+```bash
+python run.py --url https://exemplo-lovable.app.co
+```
+
+**Opções Adicionais:**
+- `--skip-download`: Ignora o download de assets e foca apenas no parsing de código.
+- `--no-test`: Desativa os testes automáticos de acessibilidade de endpoints.
+- `--methods GET,POST`: Filtra quais métodos testar durante a fase de confiabilidade.
+
+---
+
+## 💎 Qualidade e Conformidade
+
+O projeto mantém um padrão de **Zero-Debt Policy** através de um pipeline robusto de pre-commit:
+
+| Ferramenta | Objetivo | Métrica Exigida |
+| :--- | :--- | :--- |
+| **Ruff** | Linting e Formatação | Zero erros |
+| **Interrogate** | Documentação de Docstrings | 100% de cobertura |
+| **Pytest** | Testes Unitários | 100% de taxa de sucesso |
+| **Coverage** | Cobertura de Código | 100% de linhas testadas |
+| **Bandit** | Segurança Estática | Zero vulnerabilidades |
+| **Pip-audit** | CVE em Dependências | Zero vulnerabilidades |
+
+---
+
+## 📁 Estrutura do Projeto
+
+```text
+src/
+├── app/
+│   ├── application        # Casos de Uso (Analyze, TestReliability)
+│   ├── domain             # Modelos, Serviços de Domínio e Exceções
+│   ├── infrastructure     # HTTP Client, Loaders e Repositório
+│   └── interfaces         # CLI e Componentes Visual Rich
+└── main.py                # Entrypoint principal
+tests/                     # Suíte de testes unitários (100% coverage)
+output/                    # Resultados da análise (Assets e Swagger YAML)
+```
+
+---
+
+## ⚠️ Isenção de Responsabilidade
+
+Esta ferramenta deve ser utilizada exclusivamente para fins educacionais, de pesquisa ou em auditorias de segurança autorizadas. O uso indevido contra infraestruturas sem permissão explícita é ilegal e antiético. Os desenvolvedores não se responsabilizam por danos resultantes do uso desta ferramenta.
