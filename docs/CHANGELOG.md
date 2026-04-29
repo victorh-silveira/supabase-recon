@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.0...v1.0.1) (2026-04-29)
+
+### Refatoração
+
+* centraliza fluxos do pre-commit e expande script de limpeza ([b2698a3](https://github.com/victorh-silveira/supabase-recon/commit/b2698a3c7d86708294f1e62103d4f2e9c1a453cc))
+
 ## 1.0.0 (2026-04-17)
 
 ### Funcionalidades
