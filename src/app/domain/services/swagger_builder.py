@@ -24,7 +24,12 @@ class SwaggerBuilderService:
             {"name": "order", "in": "query", "schema": {"type": "string"}, "description": "Ordering"},
             {"name": "limit", "in": "query", "schema": {"type": "integer"}, "description": "Limit"},
             {"name": "offset", "in": "query", "schema": {"type": "integer"}, "description": "Offset"},
-            {"name": "Prefer", "in": "header", "schema": {"type": "string"}, "description": "PostgREST Prefer filtering"},
+            {
+                "name": "Prefer",
+                "in": "header",
+                "schema": {"type": "string"},
+                "description": "PostgREST Prefer filtering",
+            },
         ]
 
         for ep in endpoints:
