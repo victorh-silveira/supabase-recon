@@ -93,7 +93,7 @@ def test_analysis_report_to_dict():
     report = AnalysisReport(
         app_url="https://a.com",
         supabase_url="https://s.co",
-        anon_key="eyJ1234567890",
+        anon_key="eyJ1234567890",  # gitleaks:allow
         auth_endpoints_count=1,
         rest_tables_count=2,
         rpc_calls_count=3,
