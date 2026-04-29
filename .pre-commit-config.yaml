@@ -13,6 +13,12 @@ repos:
       - id: ruff-format
         name: Qualidade — Ruff Format (Estilo)
 
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.2
+    hooks:
+      - id: gitleaks
+        name: Segurança — Gitleaks (Vazamento de Segredos)
+
   - repo: local
     hooks:
       - id: interrogate
