@@ -1,34 +1,60 @@
 """Unit tests for AnalyzeApplication use case."""
 
-import pytest
 from pathlib import Path
-from app.application.use_cases.analyze_application import AnalyzeApplication
+
+import pytest
+
 from app.application.dto.analysis_report import AnalysisReport
+from app.application.use_cases.analyze_application import AnalyzeApplication
 from app.domain.models.supabase_config import SupabaseConfig
 
 
 @pytest.fixture
 def use_case(monkeypatch):
     """Return AnalyzeApplication with mocked dependencies."""
+
     # We use mocker/monkeypatch for dependencies
     class MockClient:
-        def get_text(self, url): return "sw content" if "sw.js" in url else "index content"
+        def get_text(self, url):
+            return "sw content" if "sw.js" in url else "index content"
+
     class MockRepo:
-        def get_project_dir(self, domain): return Path("test_output")
-        def find_largest_js(self, path): return Path("test_output/bundle.js")
-        def write_text(self, p, c): pass
+        def get_project_dir(self, domain):
+            return Path("test_output")
+
+        def find_largest_js(self, path):
+            return Path("test_output/bundle.js")
+
+        def write_text(self, p, c):
+            pass
+
     class MockDownloader:
-        def download_all(self, base, urls, dir): pass
+        def download_all(self, base, urls, directory):
+            pass
+
     class MockParser:
-        def discover_config(self, c): return SupabaseConfig("https://s.co", "key")
-        def extract_auth_endpoints(self, c): return []
-        def extract_rest_tables(self, c): return []
-        def extract_rpc_calls(self, c): return []
-        def extract_edge_functions(self, c): return []
+        def discover_config(self, c):
+            return SupabaseConfig("https://s.co", "key")
+
+        def extract_auth_endpoints(self, c):
+            return []
+
+        def extract_rest_tables(self, c):
+            return []
+
+        def extract_rpc_calls(self, c):
+            return []
+
+        def extract_edge_functions(self, c):
+            return []
+
     class MockSwagger:
-        def build_specification(self, c, e, b): return {"swagger": "ok"}
+        def build_specification(self, c, e, b):
+            return {"swagger": "ok"}
+
     class MockValidator:
-        def validate_supabase_config(self, c): pass
+        def validate_supabase_config(self, c):
+            pass
 
     return AnalyzeApplication(
         http_client=MockClient(),
@@ -44,9 +70,10 @@ def use_case(monkeypatch):
 @pytest.mark.application
 def test_analyze_execute(use_case, monkeypatch):
     """Test full execution of AnalyzeApplication."""
+
     class MockStat:
         st_size = 1024
-    
+
     monkeypatch.setattr("pathlib.Path.read_text", lambda *args, **kwargs: "js content")
     monkeypatch.setattr("pathlib.Path.write_text", lambda *args, **kwargs: 10)
     monkeypatch.setattr("pathlib.Path.resolve", lambda self: self)
@@ -119,10 +146,12 @@ def test_fetch_from_sw(use_case, monkeypatch):
     # Let's test _fetch_from_sw directly
     assets = use_case._fetch_from_sw("https://example.com")
     # My MockClient returns "sw content" if sw.js in url
-    assert len(assets) == 0 # because "sw content" doesn't have precacheAndRoute
+    assert len(assets) == 0  # because "sw content" doesn't have precacheAndRoute
 
     # Test with valid sw content
-    monkeypatch.setattr(use_case.http_client, "get_text", lambda u: 'precacheAndRoute([{"url": "a.js"}, {"url": "b.css"}])')
+    monkeypatch.setattr(
+        use_case.http_client, "get_text", lambda u: 'precacheAndRoute([{"url": "a.js"}, {"url": "b.css"}])'
+    )
     assets = use_case._fetch_from_sw("https://example.com")
     assert len(assets) == 2
     assert assets[0].url_path == "a.js"
@@ -134,7 +163,7 @@ def test_analyze_skip_download(use_case, monkeypatch):
     """Test skip_download branch."""
     monkeypatch.setattr("pathlib.Path.exists", lambda self: True)
     monkeypatch.setattr("pathlib.Path.read_text", lambda *args, **kwargs: "js content")
-    monkeypatch.setattr("pathlib.Path.stat", lambda self: type('S', (), {'st_size': 10})())
+    monkeypatch.setattr("pathlib.Path.stat", lambda self: type("S", (), {"st_size": 10})())
     monkeypatch.setattr("pathlib.Path.rglob", lambda self, p: [])
     monkeypatch.setattr("pathlib.Path.resolve", lambda self: self)
 

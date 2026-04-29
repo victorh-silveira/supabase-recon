@@ -1,6 +1,7 @@
 """Unit tests for SupabaseConfig model."""
 
 import pytest
+
 from app.domain.models.supabase_config import SupabaseConfig
 
 

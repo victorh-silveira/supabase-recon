@@ -1,6 +1,7 @@
 """Unit tests for Endpoint model."""
 
 import pytest
+
 from app.domain.models.endpoint import Endpoint, EndpointType
 
 

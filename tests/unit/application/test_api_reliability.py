@@ -1,15 +1,18 @@
 """Unit tests for ApiReliabilityTester use case."""
 
 import pytest
+
 from app.application.use_cases.test_api_reliability import ApiReliabilityTester
 
 
 @pytest.fixture
 def tester():
     """Return ApiReliabilityTester with mocked HTTP client."""
+
     class MockClient:
         def request(self, method, url, headers=None, json_data=None):
             return 200, "OK", '{"success": true}'
+
     return ApiReliabilityTester(http_client=MockClient())
 
 
@@ -17,20 +20,10 @@ def tester():
 @pytest.mark.application
 def test_tester_execute(tester):
     """Test full execution of API testing."""
-    swagger_spec = {
-        "paths": {
-            "/rest/v1/users": {
-                "get": {"tags": ["rest"], "summary": "test"}
-            }
-        }
-    }
-    
-    results = tester.execute(
-        swagger_spec=swagger_spec,
-        anon_key="abc",
-        methods_to_test={"GET"}
-    )
-    
+    swagger_spec = {"paths": {"/rest/v1/users": {"get": {"tags": ["rest"], "summary": "test"}}}}
+
+    results = tester.execute(swagger_spec=swagger_spec, anon_key="abc", methods_to_test={"GET"})
+
     assert len(results) == 1
     assert results[0]["status"] == 200
     assert results[0]["method"] == "GET"
@@ -59,12 +52,7 @@ def test_tester_execute_filter_methods(tester):
 @pytest.mark.application
 def test_tester_execute_with_filters(tester):
     """Test filtering and non-dict ops."""
-    spec = {
-        "paths": {
-            "/p1": {"get": {}, "post": {}},
-            "/p2": "not-a-dict"
-        }
-    }
+    spec = {"paths": {"/p1": {"get": {}, "post": {}}, "/p2": "not-a-dict"}}
     results = tester.execute(spec, "k", methods_to_test={"GET"})
     assert len(results) == 1
     assert results[0]["method"] == "GET"

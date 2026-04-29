@@ -1,7 +1,9 @@
 """Unit tests for FileRepository."""
 
-import pytest
 from pathlib import Path
+
+import pytest
+
 from app.infrastructure.persistence.file_repository import FileRepository
 
 
@@ -37,7 +39,7 @@ def test_find_largest_js(repo, tmp_path):
     f1.write_text("a")
     f2 = tmp_path / "large.js"
     f2.write_text("abc")
-    
+
     largest = repo.find_largest_js(tmp_path)
     assert largest.name == "large.js"
 
@@ -57,22 +59,28 @@ def test_write_bytes(repo, tmp_path):
     repo.write_bytes(file_path, b"content")
     assert file_path.read_bytes() == b"content"
 
+
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_write_text_error_patch(repo, monkeypatch):
     """Test OSError handling in write_text using monkeypatch."""
+
     def mock_write(*args, **kwargs):
         raise OSError("Disk full")
+
     monkeypatch.setattr("pathlib.Path.write_text", mock_write)
     # Should not raise
     repo.write_text(Path("any.txt"), "content")
+
 
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_write_bytes_error_patch(repo, monkeypatch):
     """Test OSError handling in write_bytes using monkeypatch."""
+
     def mock_write(*args, **kwargs):
         raise OSError("Disk full")
+
     monkeypatch.setattr("pathlib.Path.write_bytes", mock_write)
     # Should not raise
     repo.write_bytes(Path("any.bin"), b"content")
