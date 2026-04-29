@@ -1,0 +1,144 @@
+{
+  "branches": [
+    "main"
+  ],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits",
+        "releaseRules": [
+          {
+            "breaking": true,
+            "release": "major"
+          },
+          {
+            "type": "feat",
+            "release": "minor"
+          },
+          {
+            "type": "fix",
+            "release": "patch"
+          },
+          {
+            "type": "perf",
+            "release": "patch"
+          },
+          {
+            "type": "refactor",
+            "release": "patch"
+          },
+          {
+            "type": "qa",
+            "release": "patch"
+          },
+          {
+            "type": "style",
+            "release": "patch"
+          },
+          {
+            "type": "build",
+            "release": "patch"
+          },
+          {
+            "type": "revert",
+            "release": "patch"
+          },
+          {
+            "type": "chore",
+            "scope": "deps",
+            "release": "patch"
+          },
+          {
+            "type": "docs",
+            "scope": "README",
+            "release": "patch"
+          }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits",
+        "presetConfig": {
+          "types": [
+            {
+              "type": "feat",
+              "section": "Funcionalidades",
+              "hidden": false
+            },
+            {
+              "type": "fix",
+              "section": "Correções",
+              "hidden": false
+            },
+            {
+              "type": "perf",
+              "section": "Performance",
+              "hidden": false
+            },
+            {
+              "type": "refactor",
+              "section": "Refatoração",
+              "hidden": false
+            },
+            {
+              "type": "qa",
+              "section": "Qualidade e Segurança",
+              "hidden": false
+            },
+            {
+              "type": "style",
+              "section": "Estilo e Limpeza",
+              "hidden": false
+            },
+            {
+              "type": "build",
+              "section": "Build e Dependências",
+              "hidden": false
+            },
+            {
+              "type": "test",
+              "section": "Testes",
+              "hidden": false
+            },
+            {
+              "type": "docs",
+              "section": "Documentação",
+              "hidden": false
+            },
+            {
+              "type": "ci",
+              "section": "CI/CD",
+              "hidden": true
+            },
+            {
+              "type": "chore",
+              "section": "Manutenção",
+              "hidden": true
+            }
+          ]
+        }
+      }
+    ],
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "docs/CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "docs/CHANGELOG.md",
+          "pyproject.toml",
+          "requirements.txt"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    "@semantic-release/github"
+  ]
+}
