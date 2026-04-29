@@ -44,6 +44,12 @@ def stage_security():
     run_command(["bandit", "-r", "src/", "-c", "pyproject.toml"], "Bandit Security Scan")
     run_command(["pip-audit", "--ignore-vuln", "PYSEC-2022-42969"], "Pip-audit Vulnerability Scan")
 
+    # Gitleaks check (only if available)
+    if shutil.which("gitleaks"):
+        run_command(["gitleaks", "detect", "--source", ".", "--verbose", "--redact"], "Gitleaks Security Scan")
+    else:
+        print("\n>>> Skipping: Gitleaks Security Scan (binary not found in PATH)")
+
 
 def stage_clean():
     """Removes build artifacts, caches, and temporary files."""
