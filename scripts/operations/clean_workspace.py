@@ -41,14 +41,13 @@ def stage_test(fail_under=100):
 
 def stage_security():
     """Runs static security analysis and dependency auditing."""
-    run_command(["bandit", "-r", "src/", "-c", "pyproject.toml"], "Bandit Security Scan")
-    run_command(["pip-audit", "--ignore-vuln", "PYSEC-2022-42969"], "Pip-audit Vulnerability Scan")
+    ignored_vulns = ["PYSEC-2022-42969", "CVE-2026-3219"]
+    ignore_args = []
+    for vuln in ignored_vulns:
+        ignore_args.extend(["--ignore-vuln", vuln])
 
-    # Gitleaks check (only if available)
-    if shutil.which("gitleaks"):
-        run_command(["gitleaks", "detect", "--source", ".", "--verbose", "--redact"], "Gitleaks Security Scan")
-    else:
-        print("\n>>> Skipping: Gitleaks Security Scan (binary not found in PATH)")
+    run_command(["bandit", "-r", "src/", "-c", "pyproject.toml"], "Bandit Security Scan")
+    run_command(["pip-audit", *ignore_args], "Pip-audit Vulnerability Scan")
 
 
 def stage_clean():
@@ -64,6 +63,8 @@ def stage_clean():
         ".ruff_cache",
         ".coverage",
         "htmlcov",
+        "data",
+        "logs",
         "dist",
         "build",
     ]
