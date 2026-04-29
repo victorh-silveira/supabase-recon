@@ -1,3 +1,49 @@
-old.py
+# === Python (Caches e Artefatos) ===
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.py[cod]
+*$py.class
+*.log
+
+# === Ambiente Virtual e Segredos ===
+.venv/
+venv/
+env/
+.env
+build/
+dist/
+*.egg-info/
+
+# === Saídas do Projeto (DDD Output) ===
+# Ignora os resultados das análises para não poluir o repositório
 output/
-chupacu.py
+
+# === Configurações e Estado ===
+# Mantendo o padrão de permitir arquivos de configuração base
+!config/settings.json
+
+# Pasta de dados temporários ou cache de análise
+data/
+
+# === Cache de Ferramentas ===
+.cache/
+.pre-commit/
+
+# === IDEs e Editores ===
+.vscode/*
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+
+# === Ferramentas de IA (Caches Locais) ===
+.gemini/
+.antigravity/
+.agent/
+.agents/

@@ -1,0 +1,32 @@
+# === Controle de Quebra de Linha (Normalização) ===
+
+# Forçar LF para todos os arquivos de texto e código (Padrão Linux/Unix)
+* text eol=lf
+
+# Scripts de execução Batch precisam de CRLF para rodar corretamente no Windows
+*.bat text eol=crlf
+
+# === Identificação de Tipos de Arquivo ===
+
+*.py text
+*.json text
+*.toml text
+*.yaml text
+*.yml text
+*.md text
+*.txt text
+*.mjs text
+.python-version text
+.pre-commit-config.yaml text
+
+# === Dados e Estado (Tratamento Especial) ===
+# Impedir que o Git tente "corrigir" o JSON de estado, tratando-o como binário puro
+data/state.json -text
+
+# === Arquivos Binários e Assets ===
+*.png binary
+*.jpg binary
+*.ico binary
+
+# Cache de ferramentas (Evita corrupção de arquivos de cache do Ruff)
+.ruff_cache/** binary
