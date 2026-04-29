@@ -4,7 +4,7 @@ Este documento detalha a arquitetura de software do Chupabase Analyzer, fundamen
 
 ---
 
-## 🏗️ Visão Geral das Camadas
+## Visão Geral das Camadas
 
 A estrutura segue a regra de dependência: **as camadas externas dependem das internas, mas as internas nunca conhecem as externas.**
 
@@ -66,7 +66,7 @@ Ponto de entrada do usuário e telemetria visual.
 
 ---
 
-## 🔄 Pipeline de Processamento
+## Pipeline de Processamento
 
 O ciclo de vida de uma análise segue um fluxo determinístico:
 
@@ -91,7 +91,7 @@ sequenceDiagram
 
 ---
 
-## 🛡️ Qualidade e Confiabilidade
+## Qualidade e Confiabilidade
 
 ### Estratégia de Testes
 O projeto mantém **100% de cobertura de código** via `pytest`.
@@ -110,7 +110,7 @@ O projeto mantém **100% de cobertura de código** via `pytest`.
 
 ---
 
-## 📁 Layout de Diretórios
+## Layout de Diretórios
 
 ```text
 src/
