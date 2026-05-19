@@ -42,7 +42,7 @@ O projeto segue rigorosamente os princípios de **Clean Architecture** e **Domai
 ## Configuração e Uso
 
 ### Requisitos
-- Python 3.13+
+- Python 3.14+
 - Dependências listadas em `requirements.txt`
 
 ### Instalação

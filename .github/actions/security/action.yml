@@ -1,5 +1,5 @@
-name: Segurança do código
-description: Python 3.14.3 (.python-version) — clean_workspace stage=security + Gitleaks
+name: Auditoria de Segurança
+description: Python 3.14.5 (.python-version) — clean_workspace stage=security + Gitleaks
 
 runs:
   using: composite

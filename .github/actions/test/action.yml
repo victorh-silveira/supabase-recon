@@ -1,5 +1,5 @@
 name: Testes Pytest
-description: Python 3.14.3 (.python-version) — pytest completo + coverage 100%
+description: Python 3.14.5 (.python-version) — pytest completo + coverage 100%
 
 runs:
   using: composite
