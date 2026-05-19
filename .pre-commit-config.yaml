@@ -7,7 +7,7 @@ repos:
   - repo: local
     hooks:
       - id: lint
-        name: Qualidade & Documentação — Lint
+        name: Qualidade (Ruff, Interrogate, Vulture, limite de linhas)
         entry: python scripts/operations/clean_workspace.py --stage lint
         language: system
         pass_filenames: false
@@ -15,7 +15,7 @@ repos:
         stages: [pre-commit]
 
       - id: test
-        name: Testes — Unitários & Cobertura (100%)
+        name: Testes (pytest + cobertura 100% em src)
         entry: python scripts/operations/clean_workspace.py --stage test
         language: system
         pass_filenames: false
@@ -23,7 +23,7 @@ repos:
         stages: [pre-commit]
 
       - id: security
-        name: Segurança — Auditoria & Vulnerabilidades
+        name: Seguranca (Bandit + pip-audit)
         entry: python scripts/operations/clean_workspace.py --stage security
         language: system
         pass_filenames: false
@@ -31,13 +31,13 @@ repos:
         stages: [pre-commit]
 
       - id: commitlint
-        name: Mensagem — Commitlint (Conventional Commits)
+        name: Commitlint (Conventional Commits)
         entry: npx --yes -p @commitlint/cli -p @commitlint/config-conventional commitlint --config tools/commitlint.config.mjs --edit
         language: system
         stages: [commit-msg]
 
       - id: cleanup
-        name: Limpeza — Remover lixo e caches
+        name: Limpeza (caches e artefatos locais)
         entry: python scripts/operations/clean_workspace.py --stage clean
         language: system
         pass_filenames: false
