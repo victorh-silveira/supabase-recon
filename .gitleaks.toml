@@ -2,5 +2,5 @@
 paths = [
     "docs/arquitetura.md",
     "README.md",
-    "app/tests/**",
+    "app/tests/.*",
 ]
