@@ -6,15 +6,13 @@ on:
 
     paths:
       - ".github/**"
-      - ".python-version"
+      - ".pre-commit-config.yaml"
+      - "linters/**"
+      - "Makefile"
       - "README.md"
       - "docs/**"
-      - "pyproject.toml"
-      - "requirements*.txt"
-      - "src/**"
-      - "scripts/**"
-      - "tests/**"
-      - "tools/**"
+      - "config/**"
+      - "app/**"
       - "run.py"
 
   workflow_dispatch:
@@ -52,7 +50,7 @@ jobs:
         uses: ./.github/actions/test
 
   security:
-    name: Segurança - Auditoria
+    name: Seguranca - Auditoria
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -60,13 +58,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Segurança
+      - name: Seguranca
         uses: ./.github/actions/security
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release:
-    name: Release - Versão
+    name: Release - Versao
     needs: [quality, tests, security]
 
     if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'

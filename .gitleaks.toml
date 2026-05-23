@@ -1,0 +1,6 @@
+[allowlist]
+paths = [
+    "docs/arquitetura.md",
+    "README.md",
+    "app/tests/**",
+]

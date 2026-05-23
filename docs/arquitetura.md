@@ -10,26 +10,26 @@ A estrutura segue a regra de dependência: **as camadas externas dependem das in
 
 ```mermaid
 graph TD
-    subgraph "Interfaces (Outer)"
-        CLI[app.interfaces.cli]
-        UI[app.interfaces.terminal_ui]
+    subgraph "Presentation (Outer)"
+        CLI[src.presentation.cli]
+        UI[src.presentation.terminal_ui]
     end
 
     subgraph "Application"
-        UC[app.application.use_cases]
-        DTO[app.application.dto]
+        UC[src.application.use_cases]
+        DTO[src.application.dto]
     end
 
     subgraph "Domain (Core)"
-        Models[app.domain.models]
-        Services[app.domain.services]
-        Exceptions[app.domain.exceptions]
+        Models[src.domain.models]
+        Services[src.domain.services]
+        Exceptions[src.domain.exceptions]
     end
 
     subgraph "Infrastructure (Outer)"
-        HTTP[app.infrastructure.network]
-        Repo[app.infrastructure.persistence]
-        Loaders[app.infrastructure.loaders]
+        HTTP[src.infrastructure.network]
+        Repo[src.infrastructure.persistence]
+        Loaders[src.infrastructure.loaders]
     end
 
     CLI --> UC
@@ -59,10 +59,10 @@ Implementações concretas de I/O, rede e persistência.
 - **`persistence/`**: `FileRepository` responsável pela gestão física de diretórios e arquivos.
 - **`loaders/`**: `AssetDownloader` especializado na ingestão em massa de recursos estáticos.
 
-### 4. Camada de Interface (Interfaces)
+### 4. Camada de Apresentação (Presentation)
 Ponto de entrada do usuário e telemetria visual.
 - **`cli/`**: Gestão de argumentos e UX via biblioteca **Rich**.
-- **`main.py`**: Realiza a **Injeção de Dependências** manual e inicializa o sistema.
+- **`app/run.py`**: Realiza a **Injeção de Dependências** manual e inicializa o sistema.
 
 ---
 
@@ -113,10 +113,13 @@ O projeto mantém **100% de cobertura de código** via `pytest`.
 ## Layout de Diretórios
 
 ```text
-src/
-└── app/
-    ├── domain/            # Regras Puras (Pydantic-like models)
-    ├── application/       # Orquestração (Use Cases & DTOs)
-    ├── infrastructure/    # Adaptadores Externos (Requests, Pathlib)
-    └── interfaces/        # Apresentação (CLI, Terminal UI)
+app/
+├── src/
+│   ├── domain/            # Regras puras (models, services)
+│   ├── application/       # Orquestracao (use cases, DTOs)
+│   ├── infrastructure/    # Adaptadores externos (HTTP, disco)
+│   └── presentation/      # CLI e Terminal UI
+├── scripts/               # Operacoes de qualidade
+└── run.py                 # Entrypoint e injecao de dependencias
+config/settings.json       # Configuracao do repositorio
 ```

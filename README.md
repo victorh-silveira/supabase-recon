@@ -1,12 +1,12 @@
 # Supabase Recon Analyzer
 
-[![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)](.python-version)
+[![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)](app/.python-version)
 [![Lint](https://img.shields.io/badge/Lint-ruff%20%7C%20isort%20%7C%20interrogate-3776AB?logo=ruff&logoColor=white)](.github/actions/lint/action.yml)
-[![Tests](https://img.shields.io/badge/Tests-pytest-0F9D58?logo=pytest&logoColor=white)](tests/unit)
+[![Tests](https://img.shields.io/badge/Tests-pytest-0F9D58?logo=pytest&logoColor=white)](app/tests/unit)
 [![Pre-commit](https://img.shields.io/badge/Pre--commit-local%20hooks%20ativos-FAB040?logo=pre-commit&logoColor=white)](.pre-commit-config.yaml)
 [![CI](https://github.com/victorh-silveira/supabase-recon/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/victorh-silveira/supabase-recon/actions/workflows/ci.yml)
 [![CI/CD](https://img.shields.io/badge/GitHub%20Actions-Quality%20%7C%20Tests%20%7C%20Security-2088FF?logo=githubactions&logoColor=white)](.github/workflows/ci.yml)
-[![Release](https://img.shields.io/badge/Release-semantic--release-494949?logo=semantic-release&logoColor=white)](tools/releaserc.json)
+[![Release](https://img.shields.io/badge/Release-semantic--release-494949?logo=semantic-release&logoColor=white)](linters/releaserc.json)
 [![API](https://img.shields.io/badge/API-PostgREST%20%7C%20Supabase-1D1E30)](https://supabase.com/docs)
 [![Changelog](https://img.shields.io/badge/docs-CHANGELOG-6BA539)](docs/CHANGELOG.md)
 
@@ -35,7 +35,7 @@ O projeto segue rigorosamente os princípios de **Clean Architecture** e **Domai
 - **Domain**: Modelos de endpoints, assets e serviços de lógica pura (Bundle Parser, Swagger Builder).
 - **Application**: Casos de uso que orquestram o pipeline de análise e teste.
 - **Infrastructure**: Implementações técnicas de rede (HTTP Client resiliente), loaders e persistência em disco.
-- **Interfaces**: Camada de entrada CLI e interface visual de alta densidade via biblioteca Rich.
+- **Presentation**: Camada de entrada CLI e interface visual de alta densidade via biblioteca Rich.
 
 ---
 
@@ -43,17 +43,27 @@ O projeto segue rigorosamente os princípios de **Clean Architecture** e **Domai
 
 ### Requisitos
 - Python 3.14+
-- Dependências listadas em `requirements.txt`
+- Dependências listadas em `app/requirements.txt`
 
 ### Instalação
 ```bash
+make install
+```
+
+Ou manualmente:
+```bash
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+.venv\Scripts\activate
+pip install -r app/requirements.txt -r app/requirements-dev.txt
 ```
 
 ### Operação
 Execute a análise completa fornecendo a URL da aplicação alvo:
+```bash
+make run ARGS="--url https://exemplo-lovable.app.co"
+```
+
+Ou diretamente:
 ```bash
 python run.py --url https://exemplo-lovable.app.co
 ```
@@ -62,6 +72,8 @@ python run.py --url https://exemplo-lovable.app.co
 - `--skip-download`: Ignora o download de assets e foca apenas no parsing de código.
 - `--no-test`: Desativa os testes automáticos de acessibilidade de endpoints.
 - `--methods GET,POST`: Filtra quais métodos testar durante a fase de confiabilidade.
+
+Configuração central em `config/settings.json` (timeout HTTP, diretório de saída).
 
 ---
 
@@ -78,20 +90,32 @@ O projeto mantém um padrão de **Zero-Debt Policy** através de um pipeline rob
 | **Bandit** | Segurança Estática | Zero vulnerabilidades |
 | **Pip-audit** | CVE em Dependências | Zero vulnerabilidades |
 
+```bash
+make lint
+make test
+make security
+```
+
 ---
 
 ## Estrutura do Projeto
 
 ```text
-src/
-├── app/
-│   ├── application        # Casos de Uso (Analyze, TestReliability)
-│   ├── domain             # Modelos, Serviços de Domínio e Exceções
-│   ├── infrastructure     # HTTP Client, Loaders e Repositório
-│   └── interfaces         # CLI e Componentes Visual Rich
-└── main.py                # Entrypoint principal
-tests/                     # Suíte de testes unitários (100% coverage)
-output/                    # Resultados da análise (Assets e Swagger YAML)
+app/
+├── src/
+│   ├── application        # Casos de uso (Analyze, TestReliability)
+│   ├── domain             # Modelos, serviços de domínio e exceções
+│   ├── infrastructure     # HTTP Client, loaders e repositório
+│   └── presentation       # CLI e componentes Rich
+├── scripts/               # Operações (clean_workspace, etc.)
+├── tests/                 # Suíte unitária (100% coverage)
+├── pyproject.toml
+└── run.py                 # Entrypoint da aplicação
+config/settings.json       # Configuração do repositório
+linters/                   # pre-commit, commitlint, semantic-release
+docs/                      # Documentação técnica
+output/                    # Resultados da análise (ignorado pelo git)
+run.py                     # Atalho na raiz do monorepo
 ```
 
 ---

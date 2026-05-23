@@ -1,16 +1,15 @@
-"""Entrypoint shim for Chupabase Analyzer."""
+"""Atalho na raiz do repositorio para app/run.py."""
 
+import subprocess
 import sys
 from pathlib import Path
 
 
-# Add src to sys.path to allow imports from app
-src_path = str(Path(__file__).parent / "src")
-if src_path not in sys.path:
-    sys.path.insert(0, src_path)
-
-from main import bootstrap
+def main() -> None:
+    repo = Path(__file__).resolve().parent
+    target = repo / "app" / "run.py"
+    raise SystemExit(subprocess.call([sys.executable, str(target), *sys.argv[1:]], cwd=repo))
 
 
 if __name__ == "__main__":
-    bootstrap()
+    main()

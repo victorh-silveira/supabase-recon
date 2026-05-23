@@ -1,0 +1,11 @@
+{
+  "http": {
+    "timeout_seconds": 30
+  },
+  "output": {
+    "base_path": "output"
+  },
+  "logging": {
+    "level": "INFO"
+  }
+}
