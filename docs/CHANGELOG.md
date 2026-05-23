@@ -1,3 +1,13 @@
+## [1.0.1](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.0...v1.0.1) (2026-05-23)
+
+### Correções
+
+* **ci:** corrigir regex do allowlist do Gitleaks ([9ea1de8](https://github.com/victorh-silveira/supabase-recon/commit/9ea1de852f7d0f81d9667d50dee814e301592ad6))
+
+### Refatoração
+
+* **repo:** alinhar monorepo ao padrao app/linters/config ([8e94428](https://github.com/victorh-silveira/supabase-recon/commit/8e94428505729f3b3a75fdec5873a9c25c680479))
+
 ## 1.0.0 (2026-04-29)
 
 ### Funcionalidades
