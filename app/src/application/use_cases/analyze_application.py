@@ -1,22 +1,18 @@
 """Use case for analyzing a Lovable/Supabase application."""
 
 import json
-import logging
 import re
 
 import yaml
 
-from src.application.dto.analysis_report import AnalysisReport
-from src.domain.models.asset import Asset
-from src.domain.services.bundle_parser import BundleParserService
-from src.domain.services.swagger_builder import SwaggerBuilderService
-from src.domain.validation.config_validator import ConfigValidator
-from src.infrastructure.loaders.asset_downloader import AssetDownloader
-from src.infrastructure.network.http_client import HTTPClient
-from src.infrastructure.persistence.file_repository import FileRepository
-
-
-logger = logging.getLogger(__name__)
+from application.dto.analysis_report import AnalysisReport
+from application.ports.asset_downloader import AssetDownloaderPort
+from application.ports.file_repository import FileRepositoryPort
+from application.ports.http_client import HttpClientPort
+from domain.entities.asset import Asset
+from domain.services.bundle_parser import BundleParserService
+from domain.services.swagger_builder import SwaggerBuilderService
+from domain.validation.config_validator import ConfigValidator
 
 
 class AnalyzeApplication:
@@ -24,13 +20,13 @@ class AnalyzeApplication:
 
     def __init__(
         self,
-        http_client: HTTPClient,
-        file_repository: FileRepository,
-        asset_downloader: AssetDownloader,
+        http_client: HttpClientPort,
+        file_repository: FileRepositoryPort,
+        asset_downloader: AssetDownloaderPort,
         bundle_parser: BundleParserService,
         swagger_builder: SwaggerBuilderService,
         config_validator: ConfigValidator,
-    ):
+    ) -> None:
         """Initialize with required services."""
         self.http_client = http_client
         self.file_repository = file_repository
@@ -45,14 +41,10 @@ class AnalyzeApplication:
         domain = re.sub(r"http[s]?://", "", base_url).split("/")[0]
         project_dir = self.file_repository.get_project_dir(domain)
 
-        # 1. Discovery
-        if skip_download and project_dir.exists():
-            logger.info(f"Skipping download, using existing assets in {project_dir}")
-        else:
+        if not (skip_download and project_dir.exists()):
             assets = self._discover_assets(base_url)
             self.asset_downloader.download_all(base_url, assets, project_dir)
 
-        # 2. Heuristics: Find main JS bundle
         main_bundle = self.file_repository.find_largest_js(project_dir)
         if not main_bundle:
             raise FileNotFoundError(f"No JS bundle found in {project_dir}")
@@ -60,7 +52,6 @@ class AnalyzeApplication:
         bundle_content = main_bundle.read_text(encoding="utf-8", errors="replace")
         bundle_stats = main_bundle.stat()
 
-        # 3. Extraction
         config = self.bundle_parser.discover_config(bundle_content)
         self.config_validator.validate_supabase_config(config)
 
@@ -69,11 +60,9 @@ class AnalyzeApplication:
         rpcs = self.bundle_parser.extract_rpc_calls(bundle_content)
         edge_fns = self.bundle_parser.extract_edge_functions(bundle_content)
 
-        # 4. Specification
         all_endpoints = auth_eps + tables + rpcs + edge_fns
         swagger = self.swagger_builder.build_specification(config, all_endpoints, app_url)
 
-        # 5. Output
         swagger_path = project_dir / "swagger.yaml"
         yaml_content = yaml.dump(swagger, allow_unicode=True, sort_keys=False)
         self.file_repository.write_text(swagger_path, yaml_content)
@@ -96,7 +85,6 @@ class AnalyzeApplication:
         """Discovery logic: try sw.js, then fallback to index.html."""
         assets = self._fetch_from_sw(base_url)
         if not assets:
-            logger.info("Falling back to index.html for asset extraction...")
             assets = self._fetch_from_index(base_url)
         return assets
 
@@ -112,16 +100,22 @@ class AnalyzeApplication:
             return []
 
         raw_json = match.group(1)
-        # Fix JS object literal to valid JSON
         raw_json = re.sub(r"([{,])\s*(\w+)\s*:", r'\1"\2":', raw_json)
         raw_json = re.sub(r",\s*([}\]])", r"\1", raw_json)
 
         try:
             entries = json.loads(raw_json)
-            return [Asset(url_path=e["url"]) for e in entries if "url" in e]
-        except (json.JSONDecodeError, KeyError) as e:
-            logger.error(f"Failed to parse sw.js assets: {e}")
+        except json.JSONDecodeError:
             return []
+
+        if not isinstance(entries, list):
+            return []
+
+        assets: list[Asset] = []
+        for entry in entries:
+            if isinstance(entry, dict) and "url" in entry:
+                assets.append(Asset(url_path=entry["url"]))
+        return assets
 
     def _fetch_from_index(self, base_url: str) -> list[Asset]:
         """Extract assets from index.html using regex."""
@@ -131,7 +125,6 @@ class AnalyzeApplication:
 
         seen: set[str] = set()
         assets = []
-        # Pattern for typical assets in Lovable apps
         for match in re.finditer(r'(?:src|href)=["\'`](/assets/[^"\'`]+)["\'`]', content):
             u = match.group(1)
             if u not in seen:

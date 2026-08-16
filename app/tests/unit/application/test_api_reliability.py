@@ -2,18 +2,24 @@
 
 import pytest
 
-from src.application.use_cases.test_api_reliability import ApiReliabilityTester
+from application.use_cases.test_api_reliability import ApiReliabilityTester
 
 
 @pytest.fixture
 def tester():
-    """Return ApiReliabilityTester with mocked HTTP client."""
+    """Return ApiReliabilityTester with fake HTTP client."""
 
-    class MockClient:
+    class FakeClient:
         def request(self, method, url, headers=None, json_data=None):
             return 200, "OK", '{"success": true}'
 
-    return ApiReliabilityTester(http_client=MockClient())
+        def get_text(self, url):
+            return None
+
+        def get_bytes(self, url):
+            return None
+
+    return ApiReliabilityTester(http_client=FakeClient())
 
 
 @pytest.mark.unit
@@ -62,7 +68,6 @@ def test_tester_execute_with_filters(tester):
 @pytest.mark.application
 def test_tester_fill_path_params(tester):
     """Test path parameter replacement."""
-    # pylint: disable=protected-access
     path = "/users/{id}/profile/{name}"
     filled = tester._fill_path_params(path)
     assert "{id}" not in filled

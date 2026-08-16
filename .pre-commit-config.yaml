@@ -8,7 +8,7 @@ repos:
     hooks:
       - id: lint
         name: Qualidade (Ruff, Interrogate, Vulture, limite de linhas)
-        entry: python app/scripts/operations/clean_workspace.py --stage lint
+        entry: linters/git-hooks/bin/python app/scripts/operations/clean_workspace.py --stage lint
         language: system
         pass_filenames: false
         types: [python]
@@ -16,7 +16,7 @@ repos:
 
       - id: test
         name: Testes (pytest + cobertura 100% em src)
-        entry: python app/scripts/operations/clean_workspace.py --stage test
+        entry: linters/git-hooks/bin/python app/scripts/operations/clean_workspace.py --stage test
         language: system
         pass_filenames: false
         always_run: true
@@ -24,7 +24,7 @@ repos:
 
       - id: security
         name: Seguranca (Bandit + pip-audit)
-        entry: python app/scripts/operations/clean_workspace.py --stage security
+        entry: linters/git-hooks/bin/python app/scripts/operations/clean_workspace.py --stage security
         language: system
         pass_filenames: false
         types: [python]
@@ -38,7 +38,7 @@ repos:
 
       - id: cleanup
         name: Limpeza (caches e artefatos locais)
-        entry: python app/scripts/operations/clean_workspace.py --stage clean
+        entry: linters/git-hooks/bin/python app/scripts/operations/clean_workspace.py --stage clean
         language: system
         pass_filenames: false
         always_run: true

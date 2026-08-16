@@ -1,14 +1,10 @@
 """Use case for testing API reliability and permissions."""
 
-import logging
 import re
 from typing import Any
 
-from src.domain.models.endpoint import PATH_PARAM_PLACEHOLDERS
-from src.infrastructure.network.http_client import HTTPClient
-
-
-logger = logging.getLogger(__name__)
+from application.ports.http_client import HttpClientPort
+from domain.entities.endpoint import PATH_PARAM_PLACEHOLDERS
 
 
 class ApiReliabilityTester:
@@ -16,8 +12,8 @@ class ApiReliabilityTester:
 
     ACCESSIBLE_STATUS_CODES = {200, 201, 204, 400, 405, 422}
 
-    def __init__(self, http_client: HTTPClient):
-        """Initialize with HTTP client."""
+    def __init__(self, http_client: HttpClientPort) -> None:
+        """Initialize with HTTP client port."""
         self.http_client = http_client
 
     def execute(
@@ -30,7 +26,7 @@ class ApiReliabilityTester:
         base_url = swagger_spec.get("servers", [{}])[0].get("url", "").rstrip("/")
         paths = swagger_spec.get("paths", {})
 
-        results = []
+        results: list[dict[str, Any]] = []
 
         for path, ops in sorted(paths.items()):
             if not isinstance(ops, dict):
@@ -50,14 +46,10 @@ class ApiReliabilityTester:
                     "status": status,
                     "reason": reason,
                     "body": body,
-                    "tag": (op.get("tags") or [""])[0],
+                    "tag": (op.get("tags") or [""])[0] if isinstance(op, dict) else "",
                     "accessible": status in self.ACCESSIBLE_STATUS_CODES,
                 }
                 results.append(result)
-
-                # Log result summary
-                level = logging.INFO if result["accessible"] else logging.WARNING
-                logger.log(level, f"{method.upper():6} {path} -> {status} ({reason})")
 
         return results
 
@@ -77,7 +69,6 @@ class ApiReliabilityTester:
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
-        # For testing purposes, we send an empty body for mutating methods
-        json_data = {} if method.lower() in ("post", "patch", "put") else None
+        json_data: dict[str, Any] | None = {} if method.lower() in ("post", "patch", "put") else None
 
         return self.http_client.request(method, url, headers=headers, json_data=json_data)

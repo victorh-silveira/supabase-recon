@@ -1,12 +1,7 @@
 """Validation logic for Supabase configuration."""
 
-import logging
-
-from src.domain.exceptions import ValidationError
-from src.domain.models.supabase_config import SupabaseConfig
-
-
-logger = logging.getLogger(__name__)
+from domain.entities.supabase_config import SupabaseConfig
+from domain.exceptions import ValidationError
 
 
 class ConfigValidator:
@@ -30,5 +25,3 @@ class ConfigValidator:
 
         if not config.url.startswith("http"):
             raise ValidationError(f"Invalid Supabase URL format: {config.url}")
-
-        logger.info("Supabase configuration validated successfully.")

@@ -2,8 +2,8 @@
 
 from typing import Any
 
-from src.domain.models.endpoint import Endpoint, EndpointType
-from src.domain.models.supabase_config import SupabaseConfig
+from domain.entities.endpoint import Endpoint, EndpointType
+from domain.entities.supabase_config import SupabaseConfig
 
 
 class SwaggerBuilderService:
@@ -18,7 +18,6 @@ class SwaggerBuilderService:
         """Generate a complete OpenAPI dictionary based on the provided endpoints and config."""
         paths: dict[str, Any] = {}
 
-        # Default PostgREST query parameters for tables
         standard_rest_params = [
             {"name": "select", "in": "query", "schema": {"type": "string"}, "description": "Columns"},
             {"name": "order", "in": "query", "schema": {"type": "string"}, "description": "Ordering"},
@@ -33,17 +32,13 @@ class SwaggerBuilderService:
         ]
 
         for ep in endpoints:
-            # Determine path prefix based on type
-            # Note: ep.path might already contain /rest/v1 or /functions/v1 if from bundle_parser
             full_path = ep.full_path
 
-            # If it's pure Auth (from Mr calls), prepend /auth/v1 if not already present
             if ep.type == EndpointType.AUTH and not full_path.startswith("/auth/v1"):
                 full_path = f"/auth/v1{full_path}"
 
             operation = self._build_operation(ep, config.anon_key)
 
-            # Add extra params for REST tables
             if ep.type == EndpointType.REST:
                 operation["parameters"].extend(standard_rest_params)
 
@@ -77,7 +72,6 @@ class SwaggerBuilderService:
 
     def _build_operation(self, endpoint: Endpoint, anon_key: str) -> dict[str, Any]:
         """Build an OpenAPI operation object for a single endpoint."""
-        # Fixed headers for direct usage in Swagger UI
         parameters = [
             {
                 "name": "apikey",
@@ -97,11 +91,9 @@ class SwaggerBuilderService:
             },
         ]
 
-        # Add path parameters
         for p in endpoint.path_params:
             parameters.append({"name": p, "in": "path", "required": True, "schema": {"type": "string"}})
 
-        # Add static query parameters
         for q in endpoint.query_params:
             parameters.append(
                 {
@@ -112,7 +104,7 @@ class SwaggerBuilderService:
                 }
             )
 
-        op = {
+        op: dict[str, Any] = {
             "summary": f"{endpoint.method} {endpoint.path}",
             "tags": [endpoint.tag],
             "responses": {
@@ -123,7 +115,6 @@ class SwaggerBuilderService:
             "parameters": parameters,
         }
 
-        # Add request body if there are body keys
         if endpoint.body_keys:
             schema: dict[str, Any] = {"type": "object"}
             if "*" in endpoint.body_keys:

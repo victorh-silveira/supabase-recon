@@ -1,14 +1,10 @@
 """Service for parsing JS bundles and extracting Supabase metadata."""
 
-import logging
 import re
 
-from src.domain.exceptions import SupabaseConfigNotFoundError
-from src.domain.models.endpoint import Endpoint, EndpointType, QueryParam
-from src.domain.models.supabase_config import SupabaseConfig
-
-
-logger = logging.getLogger(__name__)
+from domain.entities.endpoint import Endpoint, EndpointType, QueryParam
+from domain.entities.supabase_config import SupabaseConfig
+from domain.exceptions import SupabaseConfigNotFoundError
 
 
 class BundleParserService:
@@ -16,18 +12,16 @@ class BundleParserService:
 
     def discover_config(self, content: str) -> SupabaseConfig:
         """Find Supabase URL and anonKey in the bundle content."""
-        # Find Supabase URL
         url_match = re.search(
             r'["\'\`](http[s]?://(?:'
-            r"[a-z0-9\-]+\.supabase\.co"  # supabase.co
-            r"|[\d]{1,3}(?:\.[\d]{1,3}){3}"  # IP
-            r"|[a-z0-9][a-z0-9\-\.]*\.[a-z]{2,}"  # hostname
+            r"[a-z0-9\-]+\.supabase\.co"
+            r"|[\d]{1,3}(?:\.[\d]{1,3}){3}"
+            r"|[a-z0-9][a-z0-9\-\.]*\.[a-z]{2,}"
             r')(?::\d+)?)["\'\`]',
             content,
         )
         base_url = url_match.group(1).rstrip("/") if url_match else "{SUPABASE_URL}"
 
-        # Find anonKey (JWT)
         anon_match = re.search(
             r'https?://[^"\'\`\s]+["\'\`],?\s*["\'\`](eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+)',
             content,
@@ -40,7 +34,6 @@ class BundleParserService:
         config = SupabaseConfig(url=base_url, anon_key=anon_key)
 
         if not config.is_valid:
-            logger.error("Supabase anonKey not found in the bundle.")
             raise SupabaseConfigNotFoundError("Could not find a valid Supabase anonKey in the provided bundle.")
 
         return config
@@ -64,14 +57,12 @@ class BundleParserService:
             path_clean = self._js_path_to_openapi(path_no_qs)
             qparams = self._extract_static_query(raw_path)
 
-            # Deduplication key
             key = (method, path_clean, str(sorted(q.key for q in qparams)))
             if key in seen:
                 continue
             seen.add(key)
 
             body_keys = []
-            # Extract body keys from Object.assign or direct object literals
             bm = re.search(r"body\s*:\s*(?:Object\.assign\s*\()?\{([^}]*)\}", options)
             if bm:
                 body_keys = [k.strip().strip("\"'") for k in re.findall(r"(\w+)\s*:", bm.group(1))]
@@ -98,7 +89,6 @@ class BundleParserService:
         endpoints = []
         for table in table_names:
             path = f"/rest/v1/{table}"
-            # Standard REST operations for each table
             for method in ["GET", "POST", "PATCH", "DELETE"]:
                 endpoints.append(
                     Endpoint(

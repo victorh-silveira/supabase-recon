@@ -2,9 +2,9 @@
 
 import pytest
 
-from src.application.dto.analysis_report import AnalysisReport
-from src.presentation.cli import terminal_ui
-from src.presentation.cli.terminal_ui import TerminalUI
+from application.dto.analysis_report import AnalysisReport
+from presentation.cli import terminal_ui
+from presentation.cli.terminal_ui import TerminalUI
 
 
 @pytest.fixture
@@ -57,7 +57,7 @@ def test_display_report(terminal_ui_instance, monkeypatch):
     report = AnalysisReport(
         app_url="https://a.com",
         supabase_url="https://s.co",
-        anon_key="eyJ1234567890",  # gitleaks:allow
+        anon_key="eyJ1234567890",
         auth_endpoints_count=1,
         rest_tables_count=2,
         rpc_calls_count=3,
@@ -83,11 +83,9 @@ def test_display_test_results(terminal_ui_instance, monkeypatch):
 
     monkeypatch.setattr(terminal_ui.console, "print", mock_print)
 
-    # Empty results
     terminal_ui_instance.display_test_results([])
     assert len(printed_messages) == 0
 
-    # Non-empty results
     results = [
         {"status": 200, "method": "GET", "path": "/rest/v1/users", "accessible": True, "reason": None},
         {"status": 403, "method": "POST", "path": "/rest/v1/posts", "accessible": False, "reason": "Forbidden"},

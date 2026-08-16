@@ -1,4 +1,4 @@
-"""Domain exceptions for Chupabase Analyzer."""
+"""Domain exceptions for Supabase Recon Analyzer."""
 
 
 class DomainError(Exception):

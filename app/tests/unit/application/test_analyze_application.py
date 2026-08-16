@@ -4,21 +4,26 @@ from pathlib import Path
 
 import pytest
 
-from src.application.dto.analysis_report import AnalysisReport
-from src.application.use_cases.analyze_application import AnalyzeApplication
-from src.domain.models.supabase_config import SupabaseConfig
+from application.dto.analysis_report import AnalysisReport
+from application.use_cases.analyze_application import AnalyzeApplication
+from domain.entities.supabase_config import SupabaseConfig
 
 
 @pytest.fixture
-def use_case(monkeypatch):
-    """Return AnalyzeApplication with mocked dependencies."""
+def use_case():
+    """Return AnalyzeApplication with fake port implementations."""
 
-    # We use mocker/monkeypatch for dependencies
-    class MockClient:
+    class FakeClient:
         def get_text(self, url):
             return "sw content" if "sw.js" in url else "index content"
 
-    class MockRepo:
+        def get_bytes(self, url):
+            return b"content"
+
+        def request(self, method, url, headers=None, json_data=None):
+            return 200, "OK", "{}"
+
+    class FakeRepo:
         def get_project_dir(self, domain):
             return Path("test_output")
 
@@ -26,13 +31,16 @@ def use_case(monkeypatch):
             return Path("test_output/bundle.js")
 
         def write_text(self, p, c):
-            pass
+            return None
 
-    class MockDownloader:
+        def write_bytes(self, p, c):
+            return None
+
+    class FakeDownloader:
         def download_all(self, base, urls, directory):
-            pass
+            return []
 
-    class MockParser:
+    class FakeParser:
         def discover_config(self, c):
             return SupabaseConfig("https://s.co", "key")
 
@@ -48,21 +56,21 @@ def use_case(monkeypatch):
         def extract_edge_functions(self, c):
             return []
 
-    class MockSwagger:
+    class FakeSwagger:
         def build_specification(self, c, e, b):
             return {"swagger": "ok"}
 
-    class MockValidator:
+    class FakeValidator:
         def validate_supabase_config(self, c):
-            pass
+            return None
 
     return AnalyzeApplication(
-        http_client=MockClient(),
-        file_repository=MockRepo(),
-        asset_downloader=MockDownloader(),
-        bundle_parser=MockParser(),
-        swagger_builder=MockSwagger(),
-        config_validator=MockValidator(),
+        http_client=FakeClient(),
+        file_repository=FakeRepo(),
+        asset_downloader=FakeDownloader(),
+        bundle_parser=FakeParser(),
+        swagger_builder=FakeSwagger(),
+        config_validator=FakeValidator(),
     )
 
 
@@ -93,7 +101,7 @@ def test_analysis_report_to_dict():
     report = AnalysisReport(
         app_url="https://a.com",
         supabase_url="https://s.co",
-        anon_key="eyJ1234567890",  # gitleaks:allow
+        anon_key="eyJ1234567890",
         auth_endpoints_count=1,
         rest_tables_count=2,
         rpc_calls_count=3,
@@ -143,12 +151,9 @@ def test_fetch_from_index_matching(use_case, monkeypatch):
 @pytest.mark.application
 def test_fetch_from_sw(use_case, monkeypatch):
     """Test asset discovery from sw.js."""
-    # Let's test _fetch_from_sw directly
     assets = use_case._fetch_from_sw("https://example.com")
-    # My MockClient returns "sw content" if sw.js in url
-    assert len(assets) == 0  # because "sw content" doesn't have precacheAndRoute
+    assert len(assets) == 0
 
-    # Test with valid sw content
     monkeypatch.setattr(
         use_case.http_client, "get_text", lambda u: 'precacheAndRoute([{"url": "a.js"}, {"url": "b.css"}])'
     )
@@ -186,5 +191,58 @@ def test_discover_assets_fallback(use_case, monkeypatch):
     """Test fallback logic when sw.js fails."""
     monkeypatch.setattr(use_case.http_client, "get_text", lambda u: "" if "sw.js" in u else "index content")
     assets = use_case._discover_assets("https://example.com")
-    # Should fall back to index (index content has no assets in my mock logic unless I fix it)
+    assert len(assets) == 0
+
+
+@pytest.mark.unit
+@pytest.mark.application
+def test_discover_assets_from_sw(use_case, monkeypatch):
+    """Non-empty sw.js discovery skips index fallback."""
+    monkeypatch.setattr(
+        use_case.http_client,
+        "get_text",
+        lambda u: 'precacheAndRoute([{"url": "main.js"}])',
+    )
+    assets = use_case._discover_assets("https://example.com")
+    assert len(assets) == 1
+    assert assets[0].url_path == "main.js"
+
+
+@pytest.mark.unit
+@pytest.mark.application
+def test_fetch_from_index_deduplicates(use_case, monkeypatch):
+    """Duplicate asset URLs in index.html are ignored."""
+    html = '<script src="/assets/m.js"></script><script src="/assets/m.js"></script>'
+    monkeypatch.setattr(use_case.http_client, "get_text", lambda u: html)
+    assets = use_case._fetch_from_index("https://example.com")
+    assert len(assets) == 1
+
+
+@pytest.mark.unit
+@pytest.mark.application
+def test_fetch_from_sw_type_error(use_case, monkeypatch):
+    """Non-dict precache entries are skipped."""
+    monkeypatch.setattr(
+        use_case.http_client,
+        "get_text",
+        lambda u: "precacheAndRoute([1])",
+    )
+    assets = use_case._fetch_from_sw("https://example.com")
+    assert len(assets) == 0
+
+
+@pytest.mark.unit
+@pytest.mark.application
+def test_fetch_from_sw_non_list_json(use_case, monkeypatch):
+    """Non-list JSON payload returns no assets."""
+    monkeypatch.setattr(
+        use_case.http_client,
+        "get_text",
+        lambda u: 'precacheAndRoute([{"url": "a.js"}])',
+    )
+    monkeypatch.setattr(
+        "application.use_cases.analyze_application.json.loads",
+        lambda raw: {"url": "a.js"},
+    )
+    assets = use_case._fetch_from_sw("https://example.com")
     assert len(assets) == 0

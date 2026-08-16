@@ -1,0 +1,11 @@
+---
+description: Scripts e Make — orquestrador unico clean_workspace / app-*
+alwaysApply: true
+---
+
+# Scripts
+
+- Qualidade apenas via `app/scripts/operations/clean_workspace.py`
+- Make: `app-install`, `app-lint`, `app-test`, `app-security`, `app-clean`, `app-setup`, `app-run`, `app-pre-commit`, `app-pre-commit-run`
+- Nao inventar pipelines paralelos de lint/test
+- Docs: `docs/engineering-python.md`, skill `recon-ops-runbook`

@@ -1,0 +1,16 @@
+---
+description: Engenharia supabase-recon — WSL, 300 linhas, cobertura 100%, commitlint PT-BR
+alwaysApply: true
+---
+
+# Engenharia
+
+- Terminal: **WSL** apenas (nunca CMD/PowerShell nativo)
+- `app/src/**/*.py` <= **300** linhas; cobertura **100%** com branch coverage
+- Sem comentarios no codigo; docstrings OK; sem emojis
+- Pre-commit: lint + test + security + cleanup; commit-msg commitlint
+- Commit: `tipo(escopo): assunto PT-BR`; escopos em `linters/commitlint.config.mjs`
+- SSOT de agentes: `AGENTS.md` + `docs/agent-coverage.md`
+- Scaffold cross-repo: `prompt-model.md`
+- Nao afrouxar QA para “passar o hook”; corrigir a causa
+- Docs: `docs/engineering-standards.md`

@@ -4,7 +4,7 @@ import sys
 
 import pytest
 
-from src.presentation.cli.arguments import parse_args
+from presentation.cli.arguments import parse_args
 
 
 @pytest.mark.unit

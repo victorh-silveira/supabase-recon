@@ -19,7 +19,7 @@ class AnalysisReport:
     bundle_size_kb: float
     detected_assets_count: int
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, object]:
         """Convert the report to a dictionary."""
         return {
             "app_url": self.app_url,

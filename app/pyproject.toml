@@ -50,7 +50,9 @@ ignore = [
     "D213",
     "ANN204",
     "PLR0913",
+    "PLR0917",
     "PLR2004",
+    "PLW0108",
     "COM812",
     "ISC001",
     "D1",
@@ -65,6 +67,7 @@ max-statements = 50
 combine-as-imports = true
 force-wrap-aliases = true
 lines-after-imports = 2
+known-first-party = ["domain", "application", "infrastructure", "presentation", "recon_paths"]
 section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
 
 [tool.ruff.lint.pydocstyle]
@@ -83,8 +86,28 @@ line-ending = "auto"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["."]
+pythonpath = ["src", "."]
 addopts = "-q --strict-markers"
+markers = [
+    "unit: unit tests",
+    "domain: domain layer",
+    "application: application layer",
+    "infrastructure: infrastructure layer",
+    "presentation: presentation layer",
+    "interface: presentation/CLI",
+    "integration: integration tests",
+]
+
+[tool.mypy]
+python_version = "3.14"
+strict = true
+mypy_path = "src"
+packages = ["domain", "application", "infrastructure", "presentation"]
+exclude = ["tests/", "scripts/"]
+
+[[tool.mypy.overrides]]
+module = ["yaml.*", "dotenv.*", "rich.*"]
+ignore_missing_imports = true
 
 [tool.interrogate]
 ignore-init-method = true
@@ -105,8 +128,9 @@ skips = ["B105", "B106"]
 exclude_dirs = [".git", ".venv", "tests", "venv"]
 
 [tool.coverage.run]
-source = ["src"]
-omit = ["run.py"]
+branch = true
+source = ["domain", "application", "infrastructure", "presentation"]
+omit = ["*/tests/*"]
 
 [tool.coverage.report]
 show_missing = true
@@ -120,6 +144,7 @@ exclude_lines = [
     "if TYPE_CHECKING:",
     "pass",
     "raise ImportError",
+    "\\.\\.\\.",
 ]
 
 [tool.vulture]

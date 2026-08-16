@@ -1,22 +1,12 @@
 """Premium Terminal UI using Rich."""
 
-import logging
 from typing import Any
 
 from rich.console import Console
-from rich.logging import RichHandler
 from rich.table import Table
 
-from src.application.dto.analysis_report import AnalysisReport
+from application.dto.analysis_report import AnalysisReport
 
-
-# Configure logging to use Rich
-logging.basicConfig(
-    level="INFO",
-    format="%(message)s",
-    datefmt="[%X]",
-    handlers=[RichHandler(rich_tracebacks=True)],
-)
 
 console = Console()
 

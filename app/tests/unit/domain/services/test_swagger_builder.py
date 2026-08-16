@@ -2,9 +2,9 @@
 
 import pytest
 
-from src.domain.models.endpoint import Endpoint, EndpointType
-from src.domain.models.supabase_config import SupabaseConfig
-from src.domain.services.swagger_builder import SwaggerBuilderService
+from domain.entities.endpoint import Endpoint, EndpointType, QueryParam
+from domain.entities.supabase_config import SupabaseConfig
+from domain.services.swagger_builder import SwaggerBuilderService
 
 
 @pytest.fixture
@@ -28,7 +28,7 @@ def test_build_specification(builder):
             path="/search",
             type=EndpointType.REST,
             tag="rest",
-            query_params=[type("Q", (), {"key": "q", "value": "test"})()],
+            query_params=[QueryParam(key="q", value="test")],
         ),
     ]
 
@@ -37,13 +37,11 @@ def test_build_specification(builder):
     assert spec["openapi"] == "3.0.3"
     assert "/auth/v1/signup" in spec["paths"]
 
-    # Coverage for non-wildcard body keys (lines 97, 101)
     user_op = spec["paths"]["/rest/v1/users"]["post"]
     user_schema = user_op["requestBody"]["content"]["application/json"]["schema"]
     assert "properties" in user_schema
     assert "id" in user_schema["properties"]
 
-    # Coverage for wildcard body keys
     post_op = spec["paths"]["/rest/v1/posts"]["post"]
     post_schema = post_op["requestBody"]["content"]["application/json"]["schema"]
     assert post_schema["additionalProperties"] is True

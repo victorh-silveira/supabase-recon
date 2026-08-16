@@ -1,0 +1,11 @@
+---
+description: CLI — run.py, bootstrap, args --url/--skip-download/--no-test
+alwaysApply: true
+---
+
+# CLI
+
+- Entrypoint raiz: `run.py` → `app/run.py` → `presentation.cli.bootstrap`
+- Args: `--url` (obrigatorio), `--skip-download`, `--no-test`, `--methods`
+- Wiring Settings → adapters → use cases so no bootstrap
+- Docs: `docs/engineering-python.md`, skill `recon-ops-runbook`

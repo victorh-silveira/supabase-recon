@@ -1,4 +1,4 @@
-"""CLI argument parsing for Chupabase Analyzer."""
+"""CLI argument parsing for Supabase Recon Analyzer."""
 
 import argparse
 
@@ -10,10 +10,10 @@ def parse_args() -> argparse.Namespace:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "Examples:\n"
-            "  python src/main.py --url https://application.lovable.app\n"
-            "  python src/main.py --url https://application.lovable.app --skip-download\n"
-            "  python src/main.py --url https://application.lovable.app --no-test\n"
-            "  python src/main.py --url https://application.lovable.app --methods get,post"
+            "  python run.py --url https://application.lovable.app\n"
+            "  python run.py --url https://application.lovable.app --skip-download\n"
+            "  python run.py --url https://application.lovable.app --no-test\n"
+            "  python run.py --url https://application.lovable.app --methods get,post"
         ),
     )
     parser.add_argument("--url", required=True, help="Target Application URL (e.g. https://myapp.lovable.app)")

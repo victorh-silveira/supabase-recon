@@ -2,9 +2,9 @@
 
 import pytest
 
-from src.domain.exceptions import ValidationError
-from src.domain.models.supabase_config import SupabaseConfig
-from src.domain.validation.config_validator import ConfigValidator
+from domain.entities.supabase_config import SupabaseConfig
+from domain.exceptions import ValidationError
+from domain.validation.config_validator import ConfigValidator
 
 
 @pytest.mark.unit

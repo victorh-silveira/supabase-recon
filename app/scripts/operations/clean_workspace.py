@@ -1,13 +1,20 @@
 import argparse
+import ast
 import os
 import shutil
-import subprocess  # nosec
+import subprocess
 import sys
 from pathlib import Path
 
 
 APP_ROOT = Path(__file__).resolve().parents[2]
 REPO_ROOT = APP_ROOT.parent
+SRC_ROOT = APP_ROOT / "src"
+
+FORBIDDEN_IMPORTS = {
+    "domain": {"infrastructure", "presentation", "application"},
+    "application": {"infrastructure", "presentation"},
+}
 
 
 def _use_app_cwd() -> None:
@@ -19,22 +26,64 @@ def run_tool(module, args, description):
     command = [sys.executable, "-m", module] + args
     print(f"Command: {' '.join(command)}")
     try:
-        subprocess.run(command, check=True, text=True)  # nosec
+        subprocess.run(command, check=True, text=True)
         return True
     except subprocess.CalledProcessError as e:
         print(f"Erro durante {description}: {e}")
         sys.exit(e.returncode)
 
 
+def _module_root(module_name: str) -> str | None:
+    top = module_name.split(".", 1)[0]
+    if top in {"domain", "application", "infrastructure", "presentation"}:
+        return top
+    return None
+
+
+def stage_layer_dependencies() -> None:
+    print("\n>>> Executando: Verificacao de dependencias entre camadas")
+    violations: list[str] = []
+
+    for path in SRC_ROOT.rglob("*.py"):
+        relative = path.relative_to(SRC_ROOT)
+        if not relative.parts:
+            continue
+        layer = relative.parts[0]
+        if layer not in FORBIDDEN_IMPORTS:
+            continue
+
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        for node in ast.walk(tree):
+            imported: list[str] = []
+            if isinstance(node, ast.Import):
+                imported = [alias.name for alias in node.names]
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                imported = [node.module]
+
+            for name in imported:
+                target = _module_root(name)
+                if target and target in FORBIDDEN_IMPORTS[layer]:
+                    violations.append(f"{path}: {layer} importa {name}")
+
+    if violations:
+        print("\n[ERRO] Violacao de dependencias entre camadas:")
+        for item in violations:
+            print(f"  - {item}")
+        sys.exit(1)
+    print("[OK] Regras de dependencia entre camadas respeitadas.")
+
+
 def stage_lint():
     print("\n>>> Executando: Ruff Check (auto-fix)")
     fix_cmd = [sys.executable, "-m", "ruff", "check", "--fix", "."]
     print(f"Command: {' '.join(fix_cmd)}")
-    subprocess.run(fix_cmd, check=True, text=True)  # nosec
+    subprocess.run(fix_cmd, check=True, text=True)
     run_tool("ruff", ["check", "."], "Ruff Check")
     run_tool("ruff", ["format", "."], "Ruff Format")
-    run_tool("interrogate", ["-vv", "."], "Interrogate Docstrings")
+    run_tool("interrogate", ["-vv", "src"], "Interrogate Docstrings")
     run_tool("vulture", [], "Vulture Dead Code Detection")
+    run_tool("mypy", ["--config-file", "pyproject.toml"], "Mypy Strict")
+    stage_layer_dependencies()
     stage_structure()
 
 
@@ -61,7 +110,7 @@ def stage_structure(max_lines=300):
 
 
 def stage_test(fail_under=100):
-    run_tool("coverage", ["run", "-m", "pytest"], "Pytest execution")
+    run_tool("coverage", ["run", "--branch", "-m", "pytest"], "Pytest execution (branch coverage)")
     run_tool("coverage", ["report", f"--fail-under={fail_under}"], f"Coverage report (min {fail_under}%)")
 
 
@@ -71,7 +120,7 @@ def stage_security():
     for vuln in ignored_vulns:
         ignore_args.extend(["--ignore-vuln", vuln])
 
-    run_tool("bandit", ["-r", ".", "-c", "pyproject.toml"], "Bandit Security Scan")
+    run_tool("bandit", ["-r", "src", "-c", "pyproject.toml"], "Bandit Security Scan")
     run_tool("pip_audit", ignore_args, "Pip-audit Vulnerability Scan")
 
 
@@ -99,7 +148,7 @@ def stage_clean():
                 if path.is_file():
                     safe_remove(path)
 
-    for name in (".pytest_cache", ".ruff_cache", ".coverage", "htmlcov", "dist", "build"):
+    for name in (".pytest_cache", ".ruff_cache", ".coverage", "htmlcov", "dist", "build", ".mypy_cache"):
         p = APP_ROOT / name
         if p.exists():
             safe_remove(p)
