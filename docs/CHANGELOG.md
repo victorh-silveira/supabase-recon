@@ -1,3 +1,13 @@
+## [1.0.3](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.2...v1.0.3) (2026-09-03)
+
+### Correções
+
+* **repo:** fixar conventionalcommits@9 no semantic-release ([361e3f7](https://github.com/victorh-silveira/supabase-recon/commit/361e3f74cbd9bbd675fcace3376b176cb657e10e))
+
+### Estilo e Limpeza
+
+* **repo:** ordenar make help e docs alfabeticamente ([8d26475](https://github.com/victorh-silveira/supabase-recon/commit/8d26475872bc14cf66a8a383d0320a3d03089b16))
+
 ## [1.0.2](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.1...v1.0.2) (2026-08-16)
 
 ## [1.0.1](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.0...v1.0.1) (2026-05-23)
