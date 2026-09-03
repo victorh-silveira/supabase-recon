@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.3...v1.1.0) (2026-09-03)
+
+### Funcionalidades
+
+* **repo:** adicionar superficie senior AppSec, CI e curso ([60c722a](https://github.com/victorh-silveira/supabase-recon/commit/60c722a528c5211eb679655f5ec9c19c7d66fc98))
+
 ## [1.0.3](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.2...v1.0.3) (2026-09-03)
 
 ### Correções
