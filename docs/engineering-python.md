@@ -19,15 +19,15 @@
 | Target | Acao |
 |--------|------|
 | `make help` | Menu de ajuda (default) |
-| `make app-install` | Instala requirements |
-| `make app-setup` | Install + hooks pre-commit/commit-msg |
-| `make app-lint` | Ruff, interrogate, vulture, mypy, deps, limite 300 linhas |
-| `make app-test` | pytest + coverage branch 100% |
-| `make app-security` | bandit + pip-audit |
 | `make app-clean` | caches e artefatos |
-| `make app-run ARGS="--url ..."` | executa o CLI |
+| `make app-install` | Instala requirements |
+| `make app-lint` | Ruff, interrogate, vulture, mypy, deps, limite 300 linhas |
 | `make app-pre-commit` | instala hooks |
 | `make app-pre-commit-run` | roda hooks em all-files |
+| `make app-run ARGS="--url ..."` | executa o CLI |
+| `make app-security` | bandit + pip-audit |
+| `make app-setup` | Install + hooks pre-commit/commit-msg |
+| `make app-test` | pytest + coverage branch 100% |
 
 Orquestrador unico: `app/scripts/operations/clean_workspace.py`.
 Python: `.venv/bin/python` se existir; senao `python3`/`python`.
