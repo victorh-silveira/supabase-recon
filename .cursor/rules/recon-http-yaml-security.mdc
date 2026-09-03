@@ -1,0 +1,13 @@
+---
+description: HTTP timeouts/retries seguros; yaml.safe_load; sem verify=False nem dump de anon_key
+alwaysApply: true
+---
+
+# HTTP / YAML security
+
+- `HTTPClient`: Session + HTTPAdapter/Retry + timeout em toda chamada
+- Proibido `verify=False`
+- YAML apenas `safe_load` / SafeLoader; banir `yaml.load` inseguro
+- Logs: sem body/payload em INFO; URL query → `?***`; sem `anon_key` em claro
+- Doc: `docs/engineering-http-yaml-security.md`
+- Skills: `recon-http-adapter`, `recon-senior-appsec`

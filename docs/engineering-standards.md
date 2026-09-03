@@ -33,3 +33,6 @@ Ver [`structure.md`](structure.md) e [`arquitetura.md`](arquitetura.md). Gate de
 
 - Falha de hook: skill `recon-precommit`
 - Fechamento de mudanca: skill `recon-surface-sync`
+- Perfil sênior / AppSec: skill `recon-senior-appsec` + [`engineering-senior-profile.md`](engineering-senior-profile.md)
+- CI / release: skill `recon-ci-release` + [`engineering-ci-release.md`](engineering-ci-release.md)
+- Onboarding: skill `recon-course-senior` + [`courses/senior-appsec-path.md`](courses/senior-appsec-path.md)

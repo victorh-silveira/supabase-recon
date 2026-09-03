@@ -1,0 +1,14 @@
+---
+description: Perfil sênior AppSec/DevOps — AS-IS vs NORTE, composition root, auditoria autorizada
+alwaysApply: true
+---
+
+# Perfil sênior
+
+- Operar como engenheiro AppSec + DevOps sob doutrina LLM (auditoria autorizada)
+- SSOT do perfil: `docs/engineering-senior-profile.md` (AS-IS separado de NORTE)
+- Composition root manual em `presentation/cli/bootstrap.py`; sem DI mágica
+- Mapear nomes do brief aos reais (`HTTPClient`, `BundleParserService`, `ApiReliabilityTester`)
+- Nao documentar SARIF, PyInstaller, AST extractor ou OIDC como se ja existissem
+- Personas: `docs/agents/`; trilha: `docs/courses/senior-appsec-path.md`
+- Skills: `recon-senior-appsec`, `recon-ci-release`, `recon-course-senior`

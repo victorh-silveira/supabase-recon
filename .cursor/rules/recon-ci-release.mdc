@@ -1,0 +1,12 @@
+---
+description: CI paralelo, semantic-release e pin conventionalcommits@9
+alwaysApply: true
+---
+
+# CI / release
+
+- Workflow: `.github/workflows/ci.yml` (quality, tests, security, release)
+- Release: `.github/actions/release` + `linters/releaserc.json`
+- Manter `conventional-changelog-conventionalcommits@9` (evitar writer@8 vs preset@10)
+- Diagnosticar com `gh run list` / `gh run view --log-failed` no repo correto
+- Doc: `docs/engineering-ci-release.md`; skill: `recon-ci-release`

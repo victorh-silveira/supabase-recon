@@ -22,5 +22,8 @@ Uso previsto: educacao, pesquisa e auditorias **autorizadas** (ver isencao no RE
 
 - Contrato: [`prompt-model.md`](../prompt-model.md)
 - Entrada agentes: [`AGENTS.md`](../AGENTS.md)
+- Perfil sênior: [`engineering-senior-profile.md`](engineering-senior-profile.md)
+- Personas: [`agents/README.md`](agents/README.md)
+- Curso: [`courses/senior-appsec-path.md`](courses/senior-appsec-path.md)
 - Matriz: [`agent-coverage.md`](agent-coverage.md)
 - Arquitetura: [`arquitetura.md`](arquitetura.md)

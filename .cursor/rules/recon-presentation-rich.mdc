@@ -1,0 +1,11 @@
+---
+description: Rich e print apenas na presentation; use cases devolvem DTOs
+alwaysApply: true
+---
+
+# Presentation / Rich
+
+- Domain e application nao importam `rich` nem usam `print` / `rich.print`
+- Use cases devolvem DTOs (`AnalysisReport` e correlatos)
+- Tabelas, progress e cores ficam em `presentation/cli/terminal_ui.py`
+- Doc: `docs/engineering-http-yaml-security.md`; perfil: `docs/engineering-senior-profile.md`

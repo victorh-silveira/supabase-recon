@@ -23,6 +23,9 @@ Ponto de entrada para agentes Cursor/LLM neste repositorio.
 - **Nao e:** autorizacao para atacar alvos sem permissao; gerador de exploits fora do analyzer
 
 Doutrina: [`docs/llm-doctrine.md`](docs/llm-doctrine.md)
+Perfil sênior (AS-IS/NORTE): [`docs/engineering-senior-profile.md`](docs/engineering-senior-profile.md)
+Personas: [`docs/agents/`](docs/agents/)
+Curso: [`docs/courses/senior-appsec-path.md`](docs/courses/senior-appsec-path.md)
 Matriz 100% cobertura: [`docs/agent-coverage.md`](docs/agent-coverage.md)
 Rules/skills versionadas: [`.cursor/rules/`](.cursor/rules/) e [`.cursor/skills/`](.cursor/skills/)
 
@@ -51,10 +54,16 @@ Formato: `tipo(escopo): assunto em PT-BR` (escopo opcional). Tipos: build, chore
 | Tarefa | Abrir primeiro |
 |--------|----------------|
 | Qualquer mudanca | este arquivo + `docs/agent-coverage.md` |
+| Perfil sênior / AppSec | `docs/engineering-senior-profile.md` + skill `recon-senior-appsec` |
+| Onboarding / curso | `docs/courses/senior-appsec-path.md` + skill `recon-course-senior` |
+| Personas | `docs/agents/README.md` |
 | QA / pre-commit | `docs/engineering-standards.md` + skill `recon-precommit` |
 | Fechamento de mudanca | `docs/engineering-surface-sync.md` + skill `recon-surface-sync` |
 | Domain / ports | `docs/arquitetura.md` + `docs/structure.md` |
 | Logging | `docs/engineering-logging.md` |
+| HTTP / YAML seguro | `docs/engineering-http-yaml-security.md` + skill `recon-http-adapter` |
+| Rich / presentation | rule `recon-presentation-rich` |
+| CI / release | `docs/engineering-ci-release.md` + skill `recon-ci-release` |
 | Settings / `.env` | `docs/engineering-settings-ssot.md` + skill `recon-settings-change` |
 | Analyze pipeline | skill `recon-analyze-debug` |
 | Bundle / swagger | skill `recon-bundle-parse` |

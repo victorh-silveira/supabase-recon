@@ -10,6 +10,9 @@ Rule: `recon-surface-sync`. Skill: `recon-surface-sync`.
 |---------|-------------------|
 | Camadas / ports | `arquitetura.md`, `structure.md`, rules hexagonal/domain |
 | Logging | `engineering-logging.md`, rule `recon-logging` |
+| HTTP / YAML / Rich | `engineering-http-yaml-security.md`, rules http-yaml + presentation-rich |
+| CI / release | `engineering-ci-release.md`, skill `recon-ci-release` |
+| Perfil / personas / curso | `engineering-senior-profile.md`, `docs/agents/`, `docs/courses/` |
 | Settings / `.env` | `engineering-settings-ssot.md`, skill `recon-settings-change` |
 | Gates / QA | `engineering-standards.md`, skill `recon-precommit` |
 | Deps pip | `engineering-python-deps.md`, skill `recon-python-deps` |

@@ -9,10 +9,16 @@ Rules/skills vivem em [`.cursor/`](../.cursor/) e sao **versionadas** no git.
 | Superficie | Doc | Rule (`.cursor/rules/`) | Skill (`.cursor/skills/`) |
 |------------|-----|-------------------------|---------------------------|
 | Doutrina LLM | [llm-doctrine.md](llm-doctrine.md) | `recon-llm-doctrine.mdc` | `recon-surface-sync` |
+| Perfil sênior | [engineering-senior-profile.md](engineering-senior-profile.md) | `recon-senior-profile.mdc` | `recon-senior-appsec` |
+| Personas / agentes | [agents/README.md](agents/README.md) | `recon-senior-profile.mdc` | `recon-course-senior` |
+| Curso sênior | [courses/senior-appsec-path.md](courses/senior-appsec-path.md) | `recon-senior-profile.mdc` | `recon-course-senior` |
 | Engenharia / QA | [engineering-standards.md](engineering-standards.md) | `recon-engineering.mdc` + `recon-testing.mdc` | `recon-precommit` |
 | Domain puro | [arquitetura.md](arquitetura.md) + [structure.md](structure.md) | `recon-domain-pure.mdc` | — |
 | Hexagonal / ports | [arquitetura.md](arquitetura.md) + [structure.md](structure.md) | `recon-hexagonal.mdc` | `recon-analyze-debug` |
 | Logging | [engineering-logging.md](engineering-logging.md) | `recon-logging.mdc` | `recon-analyze-debug` |
+| HTTP / YAML security | [engineering-http-yaml-security.md](engineering-http-yaml-security.md) | `recon-http-yaml-security.mdc` | `recon-http-adapter` |
+| Presentation / Rich | [engineering-http-yaml-security.md](engineering-http-yaml-security.md) | `recon-presentation-rich.mdc` | `recon-senior-appsec` |
+| CI / release | [engineering-ci-release.md](engineering-ci-release.md) | `recon-ci-release.mdc` | `recon-ci-release` |
 | Settings / `.env` | [engineering-settings-ssot.md](engineering-settings-ssot.md) | `recon-settings-ssot.mdc` | `recon-settings-change` |
 | Deps Python | [engineering-python-deps.md](engineering-python-deps.md) | `recon-python-deps.mdc` | `recon-python-deps` |
 | Higienizacao | [engineering-repo-hygiene.md](engineering-repo-hygiene.md) | `recon-repo-hygiene.mdc` | `recon-repo-hygiene` |
@@ -23,7 +29,7 @@ Rules/skills vivem em [`.cursor/`](../.cursor/) e sao **versionadas** no git.
 | Analyze pipeline | [arquitetura.md](arquitetura.md) | `recon-hexagonal.mdc` | `recon-analyze-debug` |
 | Bundle / swagger | [arquitetura.md](arquitetura.md) | `recon-domain-pure.mdc` | `recon-bundle-parse` |
 | Reliability tests | [arquitetura.md](arquitetura.md) | `recon-testing.mdc` | `recon-reliability-test` |
-| HTTP adapter | [engineering-logging.md](engineering-logging.md) | `recon-hexagonal.mdc` | `recon-http-adapter` |
+| HTTP adapter | [engineering-logging.md](engineering-logging.md) + [engineering-http-yaml-security.md](engineering-http-yaml-security.md) | `recon-hexagonal.mdc` + `recon-http-yaml-security.mdc` | `recon-http-adapter` |
 
 ## Pastas DDD ↔ matriz
 

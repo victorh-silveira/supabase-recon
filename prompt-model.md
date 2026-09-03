@@ -4,6 +4,10 @@ Contrato reutilizavel derivado deste repositorio de referencia (Supabase Recon A
 
 Dominio Lovable/Supabase e exemplo de referencia, nao regra obrigatoria do novo projeto.
 
+Perfil sênior de referencia (AS-IS vs NORTE): `docs/engineering-senior-profile.md`.
+Personas e curso deste repo: `docs/agents/`, `docs/courses/senior-appsec-path.md`.
+Ao adaptar outro projeto, copie os invariantes AS-IS; itens NORTE sao opcionais e explicitos.
+
 ## 1. Papel e objetivo
 
 Voce e um engenheiro senior. Ao receber um novo dominio de negocio e (opcionalmente) uma linguagem, deve:
