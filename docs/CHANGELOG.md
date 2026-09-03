@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.1...v1.1.2) (2026-09-03)
+
+### Correções
+
+* **linters:** executar gates crash-first no stage commit-msg ([52de1d5](https://github.com/victorh-silveira/supabase-recon/commit/52de1d51e73d33a11a496af075d42bb549551180))
+
 ## [1.1.1](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.0...v1.1.1) (2026-09-03)
 
 ### Correções
