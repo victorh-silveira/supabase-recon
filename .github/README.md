@@ -35,6 +35,6 @@ Python e Workflows em paralelo. Steps do Python sao sequenciais (crash-first).
 └── sync-tags/
 ```
 
-Orquestrador: `app/scripts/operations/clean_workspace.py --area python --stage <lint|security|test|validate|build|clean>`.
+Actionlint analisa apenas [`.github/workflows/ci.yml`](workflows/ci.yml). O arquivo em `workflows/templates/` e markdown de anuncio, nao um workflow.
 
 Documentacao: [docs/engineering-ci-release.md](../docs/engineering-ci-release.md).

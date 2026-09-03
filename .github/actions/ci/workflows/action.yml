@@ -11,4 +11,4 @@ runs:
         sudo mv actionlint /usr/local/bin/actionlint
     - name: Actionlint
       shell: bash
-      run: actionlint
+      run: actionlint .github/workflows/ci.yml
