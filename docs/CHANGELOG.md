@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.0...v1.1.1) (2026-09-03)
+
+### Correções
+
+* **repo:** limitar actionlint ao ci.yml e template markdown ([f567c18](https://github.com/victorh-silveira/supabase-recon/commit/f567c18a6a054f085f7af12ac8e416570edf1ebc))
+
 ## [1.1.0](https://github.com/victorh-silveira/supabase-recon/compare/v1.0.3...v1.1.0) (2026-09-03)
 
 ### Funcionalidades
