@@ -8,4 +8,4 @@ Configuracao centralizada de hooks e release semantico.
 | `commitlint.config.mjs` | Mensagens de commit (Conventional Commits) |
 | `releaserc.json` | semantic-release no CI |
 
-Os gates executam `app/scripts/operations/clean_workspace.py` com `cwd` implicito em `app/` (Ruff, pytest, bandit, interrogate).
+Os gates executam `app/scripts/operations/clean_workspace.py --area python --stage ...` (YAML/JSON no lint/validate Python). Actionlint cobre workflows no CI.

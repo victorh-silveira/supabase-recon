@@ -8,13 +8,11 @@ inputs:
 
 runs:
   using: composite
-
   steps:
     - name: Configurar Node.js 24
       uses: actions/setup-node@v4
       with:
         node-version: "24"
-
     - name: Instalar pacotes do semantic-release
       shell: bash
       run: |
@@ -27,7 +25,6 @@ runs:
           @semantic-release/exec \
           @semantic-release/github \
           conventional-changelog-conventionalcommits@9
-
     - name: Executar semantic-release
       shell: bash
       env:

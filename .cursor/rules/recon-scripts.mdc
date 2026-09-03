@@ -7,5 +7,6 @@ alwaysApply: true
 
 - Qualidade apenas via `app/scripts/operations/clean_workspace.py`
 - Make: `app-clean`, `app-install`, `app-lint`, `app-pre-commit`, `app-pre-commit-run`, `app-run`, `app-security`, `app-setup`, `app-test`
+- Orquestrador: `--area python` e `--stage` crash-first (`lint` → `security` → `test` → `validate` → `build`); YAML/JSON no lint/validate Python
 - Nao inventar pipelines paralelos de lint/test
 - Docs: `docs/engineering-python.md`, skill `recon-ops-runbook`

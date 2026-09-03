@@ -1,0 +1,14 @@
+name: CI - Workflows
+description: Actionlint nos workflows GitHub Actions
+
+runs:
+  using: composite
+  steps:
+    - name: Instalar actionlint
+      shell: bash
+      run: |
+        curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash | bash
+        sudo mv actionlint /usr/local/bin/actionlint
+    - name: Actionlint
+      shell: bash
+      run: actionlint

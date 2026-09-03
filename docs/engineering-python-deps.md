@@ -5,7 +5,7 @@
 | Arquivo | Papel |
 |---------|-------|
 | `app/requirements.txt` | Runtime |
-| `app/requirements-dev.txt` | Lint, tipos, testes, seguranca |
+| `app/requirements-dev.txt` | Lint, tipos, testes, seguranca, yamllint |
 | `app/pyproject.toml` | Ruff, mypy, coverage, pytest, bandit, vulture |
 
 Nao duplicar a mesma lib em runtime e dev sem necessidade. Preferir ranges minimos coerentes com o restante do repo.

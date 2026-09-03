@@ -65,4 +65,4 @@ from infrastructure.adapters.http_client import HTTPClient
 from presentation.cli.bootstrap import main
 ```
 
-O gate de lint (`clean_workspace.py`) falha se `domain`/`application` importarem camadas externas.
+O gate de validate Python (`clean_workspace.py --area python --stage validate`) falha se `domain`/`application` importarem camadas externas.

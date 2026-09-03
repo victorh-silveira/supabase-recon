@@ -6,15 +6,15 @@ Orquestrador unico: `app/scripts/operations/clean_workspace.py`.
 
 | Gate | Comando | Intencao |
 |------|---------|----------|
-| Lint | `make app-lint` | Ruff, interrogate, vulture, mypy strict, deps entre camadas, max 300 linhas |
+| Lint | `make app-lint` | Python lint+validate (YAML/JSON incluidos) |
 | Test | `make app-test` | pytest + coverage branch fail-under 100 |
-| Security | `make app-security` | bandit + pip-audit |
+| Security | `make app-security` | bandit + pip-audit + Gitleaks (se no PATH) |
 | Setup | `make app-setup` | install + hooks pre-commit/commit-msg |
 | Hooks all | `make app-pre-commit-run` | pre-commit run --all-files |
 
 Ajuda: `make help`.
 
-Pre-commit (`linters/pre-commit-config.yaml`) chama os mesmos stages + commitlint.
+Pre-commit (`linters/pre-commit-config.yaml`): commitlint primeiro; Python | Lint, Seguranca, Testes, Validate, Build; YAML/JSON no lint/validate Python.
 
 ## Invariantes
 

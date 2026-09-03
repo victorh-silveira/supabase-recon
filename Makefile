@@ -42,8 +42,8 @@ help:
 	@echo -e ""
 	@echo -e "$(YELLOW)Qualidade:$(RESET)"
 	@echo -e "  $(GREEN)app-clean$(RESET)            - Limpa caches/artefatos locais"
-	@echo -e "  $(GREEN)app-lint$(RESET)             - Ruff / interrogate / vulture / mypy / deps"
-	@echo -e "  $(GREEN)app-security$(RESET)         - Bandit + pip-audit"
+	@echo -e "  $(GREEN)app-lint$(RESET)             - Python | Lint + Validate (YAML/JSON no Python)"
+	@echo -e "  $(GREEN)app-security$(RESET)         - Bandit + pip-audit + Gitleaks (se no PATH)"
 	@echo -e "  $(GREEN)app-test$(RESET)             - Testes + cobertura branch 100%"
 	@echo -e "$(BLUE)========================================================================$(RESET)"
 
@@ -52,16 +52,17 @@ app-install:
 	$(PYTHON) -m pip install -r $(APP_DIR)/requirements.txt -r $(APP_DIR)/requirements-dev.txt
 
 app-lint:
-	$(PYTHON) $(APP_DIR)/scripts/operations/clean_workspace.py --stage lint
+	$(PYTHON) $(APP_DIR)/scripts/operations/clean_workspace.py --area python --stage lint
+	$(PYTHON) $(APP_DIR)/scripts/operations/clean_workspace.py --area python --stage validate
 
 app-test:
-	$(PYTHON) $(APP_DIR)/scripts/operations/clean_workspace.py --stage test
+	$(PYTHON) $(APP_DIR)/scripts/operations/clean_workspace.py --area python --stage test
 
 app-security:
-	$(PYTHON) $(APP_DIR)/scripts/operations/clean_workspace.py --stage security
+	$(PYTHON) $(APP_DIR)/scripts/operations/clean_workspace.py --area python --stage security
 
 app-clean:
-	$(PYTHON) $(APP_DIR)/scripts/operations/clean_workspace.py --stage clean
+	$(PYTHON) $(APP_DIR)/scripts/operations/clean_workspace.py --area python --stage clean
 
 app-run:
 	$(PYTHON) run.py $(ARGS)

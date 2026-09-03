@@ -47,7 +47,7 @@ Formato: `tipo(escopo): assunto em PT-BR` (escopo opcional). Tipos: build, chore
 
 ## Pre-commit
 
-`linters/pre-commit-config.yaml` → `clean_workspace.py` stages: lint, test (cov 100%), security, cleanup; commit-msg: commitlint.
+`linters/pre-commit-config.yaml` → commitlint primeiro; Python | Lint, Seguranca, Testes, Validate, Build (YAML/JSON no Python). CI: [`.github/README.md`](.github/README.md).
 
 ## Leitura por tarefa
 

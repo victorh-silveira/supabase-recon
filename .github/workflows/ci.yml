@@ -3,10 +3,11 @@ name: CI
 on:
   push:
     branches: [main]
-
     paths:
       - ".github/**"
       - ".pre-commit-config.yaml"
+      - ".yamllint.yaml"
+      - ".vscode/**"
       - "linters/**"
       - "Makefile"
       - "README.md"
@@ -14,81 +15,81 @@ on:
       - "config/**"
       - "app/**"
       - "run.py"
-
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-jobs:
-  quality:
-    name: Qualidade - Lint
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+permissions:
+  contents: read
 
+jobs:
+  python:
+    name: CI - Python
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
-      - name: Checkout
+      - name: Obter codigo fonte
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           fetch-tags: true
+      - name: Setup Python
+        uses: ./.github/actions/ci/setup-python
+      - name: Instalar Gitleaks
+        shell: bash
+        run: |
+          GITLEAKS_VERSION="8.24.2"
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o /tmp/gitleaks.tar.gz
+          tar -xzf /tmp/gitleaks.tar.gz -C /tmp
+          sudo mv /tmp/gitleaks /usr/local/bin/gitleaks
+      - name: Python | Lint
+        shell: bash
+        run: python app/scripts/operations/clean_workspace.py --area python --stage lint
+      - name: Python | Seguranca
+        shell: bash
+        run: python app/scripts/operations/clean_workspace.py --area python --stage security
+      - name: Python | Testes
+        shell: bash
+        run: python app/scripts/operations/clean_workspace.py --area python --stage test --coverage-fail-under 100
+      - name: Python | Validate
+        shell: bash
+        run: python app/scripts/operations/clean_workspace.py --area python --stage validate
+      - name: Python | Build
+        shell: bash
+        run: python app/scripts/operations/clean_workspace.py --area python --stage build
 
-      - name: Lint
-        uses: ./.github/actions/lint
-
-  tests:
-    name: Testes - Pytest
+  workflows:
+    name: CI - Workflows
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
-      - name: Checkout
+      - name: Obter codigo fonte
         uses: actions/checkout@v4
-
-      - name: Testes
-        uses: ./.github/actions/test
-
-  security:
-    name: Seguranca - Auditoria
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Seguranca
-        uses: ./.github/actions/security
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Actionlint
+        uses: ./.github/actions/ci/workflows
 
   release:
-    name: Release - Versao
-    needs: [quality, tests, security]
-
+    name: CI - Release
+    needs: [python, workflows]
     if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
-
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     permissions:
       contents: write
       issues: write
-
     steps:
-      - name: Checkout
+      - name: Obter codigo fonte
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           fetch-tags: true
-
       - name: Tags
-        uses: ./.github/actions/sync-tags
+        uses: ./.github/actions/ci/sync-tags
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Release
-        uses: ./.github/actions/release
+        uses: ./.github/actions/ci/release
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
