@@ -15,9 +15,12 @@ CI - Workflows (actionlint)
         |
         v
 CI - Release (sync-tags + semantic-release)
+        |
+        v
+CI - Resumo (GitHub Step Summary)
 ```
 
-Python e Workflows em paralelo. Steps do Python sao sequenciais (crash-first).
+Python e Workflows em paralelo. Steps do Python sao sequenciais (crash-first). Resumo roda com `always()` apos Python, Workflows e Release.
 
 ## Workflows
 
@@ -32,7 +35,8 @@ Python e Workflows em paralelo. Steps do Python sao sequenciais (crash-first).
 ├── setup-python/
 ├── workflows/
 ├── release/
-└── sync-tags/
+├── sync-tags/
+└── pipeline-summary/
 ```
 
 Actionlint analisa apenas [`.github/workflows/ci.yml`](workflows/ci.yml). O arquivo em `workflows/templates/` e markdown de anuncio, nao um workflow.

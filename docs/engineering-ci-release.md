@@ -13,6 +13,7 @@ YAML e JSON nao sao stacks: lint/validate rodam dentro do job **CI - Python**.
 | CI - Python | Lint (Ruff + yamllint + JSON parse), Seguranca (bandit/pip-audit/gitleaks), Testes (pytest 100%), Validate (mypy/camadas/300 + `yaml.safe_load` + JSON estrutural), Build (`compileall`) |
 | CI - Workflows | `./.github/actions/ci/workflows` (actionlint) |
 | CI - Release | `sync-tags` + `./.github/actions/ci/release` apos Python e Workflows |
+| CI - Resumo | `./.github/actions/ci/pipeline-summary` no Step Summary (`always()`) |
 
 Nao ha Docker, Kubernetes, Terraform nem workflow de CD de deploy.
 

@@ -93,3 +93,19 @@ jobs:
         uses: ./.github/actions/ci/release
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  pipeline-summary:
+    name: CI - Resumo
+    needs: [python, workflows, release]
+    if: always() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Obter codigo fonte
+        uses: actions/checkout@v4
+      - name: Resumo do pipeline
+        uses: ./.github/actions/ci/pipeline-summary
+        with:
+          python: ${{ needs.python.result }}
+          workflows: ${{ needs.workflows.result }}
+          release: ${{ needs.release.result }}
