@@ -9,12 +9,12 @@ Orquestrador unico: `app/scripts/operations/clean_workspace.py`.
 | Lint | `make app-lint` | Python lint+validate (YAML/JSON incluidos) |
 | Test | `make app-test` | pytest + coverage branch fail-under 100 |
 | Security | `make app-security` | bandit + pip-audit + Gitleaks (se no PATH) |
-| Setup | `make app-setup` | install + hooks pre-commit/commit-msg |
-| Hooks all | `make app-pre-commit-run` | pre-commit run --all-files |
+| Setup | `make app-setup` | install + hook `commit-msg` |
+| Hooks all | `make app-pre-commit-run` | pre-commit run --all-files no stage `commit-msg` |
 
 Ajuda: `make help`.
 
-Pre-commit (`linters/pre-commit-config.yaml`): commitlint primeiro; Python | Lint, Seguranca, Testes, Validate, Build; YAML/JSON no lint/validate Python.
+Pre-commit (`linters/pre-commit-config.yaml`): stage `commit-msg` com `fail_fast` — commitlint → Python | Lint, Seguranca, Testes, Validate, Build, limpeza; YAML/JSON no lint/validate Python.
 
 ## Invariantes
 

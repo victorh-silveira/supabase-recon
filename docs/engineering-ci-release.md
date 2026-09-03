@@ -22,7 +22,7 @@ Concorrencia: `cancel-in-progress: true` no grupo do workflow/ref.
 
 Release so em `push`/`workflow_dispatch` na `main`.
 
-Pre-commit: commitlint primeiro; depois Python | Lint, Seguranca, Testes, Validate, Build (mesmos nomes do CI).
+Pre-commit: stage `commit-msg` com `fail_fast` — commitlint → Python | Lint, Seguranca, Testes, Validate, Build (mesmos nomes do CI).
 
 ## Semantic-release (AS-IS)
 

@@ -1,4 +1,5 @@
 minimum_pre_commit_version: "3.5.0"
+fail_fast: true
 
 default_language_version:
   python: python3.14
@@ -18,7 +19,7 @@ repos:
         language: system
         pass_filenames: false
         types: [python]
-        stages: [pre-commit]
+        stages: [commit-msg]
 
       - id: python-security
         name: Python | Seguranca
@@ -26,7 +27,7 @@ repos:
         language: system
         pass_filenames: false
         types: [python]
-        stages: [pre-commit]
+        stages: [commit-msg]
 
       - id: python-test
         name: Python | Testes
@@ -34,7 +35,7 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
-        stages: [pre-commit]
+        stages: [commit-msg]
 
       - id: python-validate
         name: Python | Validate
@@ -42,7 +43,7 @@ repos:
         language: system
         pass_filenames: false
         types: [python]
-        stages: [pre-commit]
+        stages: [commit-msg]
 
       - id: python-build
         name: Python | Build
@@ -50,7 +51,7 @@ repos:
         language: system
         pass_filenames: false
         types: [python]
-        stages: [pre-commit]
+        stages: [commit-msg]
 
       - id: cleanup
         name: Limpeza (caches e artefatos locais)
@@ -58,4 +59,4 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
-        stages: [pre-commit]
+        stages: [commit-msg]

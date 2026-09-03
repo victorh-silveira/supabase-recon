@@ -10,14 +10,14 @@ description: >-
 
 # Pre-commit supabase-recon
 
-Ordem igual ao CI: commitlint → Python | Lint → Seguranca → Testes → Validate → Build → limpeza.
+Crash-first no stage `commit-msg` (`fail_fast: true`): commitlint → Python | Lint → Seguranca → Testes → Validate → Build → limpeza.
 
-YAML/JSON entram em Python | Lint e Python | Validate (nao sao stacks).
+YAML/JSON entram em Python | Lint e Python | Validate (nao sao stacks). Mensagem invalida aborta antes dos gates Python.
 
 ## Passos
 
 1. Ler o trecho FAIL do hook
-2. Commitlint: tipo+escopo validos; assunto PT-BR (stage `commit-msg`)
+2. Commitlint: tipo+escopo validos; assunto PT-BR (primeiro do crash-first)
 3. Python | Lint: Ruff, Interrogate, Vulture, yamllint, JSON parse
 4. Python | Seguranca: Bandit, pip-audit, Gitleaks se estiver no PATH
 5. Python | Testes: reproduzir o teste; cobrir misses/branches

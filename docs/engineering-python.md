@@ -12,7 +12,7 @@
 | Security | bandit + pip-audit |
 | Secrets (CI) | gitleaks |
 | Workflows | actionlint |
-| Hooks | pre-commit + commitlint |
+| Hooks | commit-msg crash-first (commitlint + Python) |
 | Release | semantic-release |
 
 ## Makefile
@@ -23,11 +23,11 @@
 | `make app-clean` | caches e artefatos |
 | `make app-install` | Instala requirements |
 | `make app-lint` | Python lint + validate (YAML/JSON no Python) |
-| `make app-pre-commit` | instala hooks |
-| `make app-pre-commit-run` | roda hooks em all-files |
+| `make app-pre-commit` | instala hook `commit-msg` |
+| `make app-pre-commit-run` | roda hooks crash-first no stage `commit-msg` |
 | `make app-run ARGS="--url ..."` | executa o CLI |
 | `make app-security` | bandit + pip-audit + Gitleaks (se no PATH) |
-| `make app-setup` | Install + hooks pre-commit/commit-msg |
+| `make app-setup` | Install + hook `commit-msg` |
 | `make app-test` | pytest + coverage branch 100% |
 
 Orquestrador unico: `app/scripts/operations/clean_workspace.py --area ... --stage ...`.
