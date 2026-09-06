@@ -6,6 +6,7 @@ alwaysApply: true
 # CI / release
 
 - Workflow: `.github/workflows/ci.yml` (Python, Workflows, release, Resumo)
+- Steps unicos `Tecnologia | Stage` (sem `strategy.matrix`)
 - Release: `.github/actions/ci/release` + `linters/releaserc.json`
 - Manter `conventional-changelog-conventionalcommits@9` (evitar writer@8 vs preset@10)
 - Diagnosticar com `gh run list` / `gh run view --log-failed` no repo correto

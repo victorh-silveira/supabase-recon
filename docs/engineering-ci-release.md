@@ -8,12 +8,12 @@ Workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml)
 
 YAML e JSON nao sao stacks: lint/validate rodam dentro do job **CI - Python**.
 
-| Job | Conteudo |
+| Job | Steps unicos |
 |-----|----------|
-| CI - Python | Lint (Ruff + yamllint + JSON parse), Seguranca (bandit/pip-audit/gitleaks), Testes (pytest 100%), Validate (mypy/camadas/300 + `yaml.safe_load` + JSON estrutural), Build (`compileall`) |
-| CI - Workflows | `./.github/actions/ci/workflows` (actionlint) |
-| CI - Release | `sync-tags` + `./.github/actions/ci/release` apos Python e Workflows |
-| CI - Resumo | `./.github/actions/ci/pipeline-summary` no Step Summary (`always()`) |
+| CI - Python | `Python \| Lint`, `Python \| Seguranca`, `Python \| Testes`, `Python \| Validate`, `Python \| Build` |
+| CI - Workflows | `Workflows \| Lint` (actionlint) |
+| CI - Release | `Release \| Tags`, `Release \| Semantic` |
+| CI - Resumo | `Resumo \| Pipeline` |
 
 Nao ha Docker, Kubernetes, Terraform nem workflow de CD de deploy.
 
@@ -23,7 +23,7 @@ Concorrencia: `cancel-in-progress: true` no grupo do workflow/ref.
 
 Release so em `push`/`workflow_dispatch` na `main`.
 
-Pre-commit: stage `commit-msg` com `fail_fast` — commitlint → Python | Lint, Seguranca, Testes, Validate, Build (mesmos nomes do CI).
+Pre-commit: stage `commit-msg` com `fail_fast` — commitlint → Python | Lint, Seguranca, Testes, Validate, Build (mesmos nomes do CI). Sem `strategy.matrix`: cada stage e um step unico (`Tecnologia | Stage`).
 
 ## Semantic-release (AS-IS)
 

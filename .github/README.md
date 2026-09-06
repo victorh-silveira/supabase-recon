@@ -1,23 +1,27 @@
 # GitHub Actions
 
-CI do supabase-recon: job Python (YAML/JSON validados nesse job) + Workflows (actionlint) + release semantico. Sem Docker, Kubernetes, Terraform ou deploy.
+CI do supabase-recon: jobs por tecnologia com steps unicos (`Python | Lint`, `Workflows | Lint`, ...). YAML/JSON no job Python. Sem Docker, Kubernetes, Terraform, deploy ou `strategy.matrix`.
 
 ## Visao (push em `main`)
 
 ```text
 CI - Python
-  Python | Lint       (Ruff + YAML/JSON lint)
+  Python | Lint
   Python | Seguranca
   Python | Testes
-  Python | Validate   (mypy/camadas/300 + YAML/JSON validate)
+  Python | Validate
   Python | Build
-CI - Workflows (actionlint)
+CI - Workflows
+  Workflows | Lint
         |
         v
-CI - Release (sync-tags + semantic-release)
+CI - Release
+  Release | Tags
+  Release | Semantic
         |
         v
-CI - Resumo (GitHub Step Summary)
+CI - Resumo
+  Resumo | Pipeline
 ```
 
 Python e Workflows em paralelo. Steps do Python sao sequenciais (crash-first). Resumo roda com `always()` apos Python, Workflows e Release.
@@ -39,6 +43,6 @@ Python e Workflows em paralelo. Steps do Python sao sequenciais (crash-first). R
 └── pipeline-summary/
 ```
 
-Actionlint analisa apenas [`.github/workflows/ci.yml`](workflows/ci.yml). O arquivo em `workflows/templates/` e markdown de anuncio, nao um workflow.
+O step `Workflows | Lint` (actionlint) analisa apenas [`.github/workflows/ci.yml`](workflows/ci.yml). O arquivo em `workflows/templates/` e markdown de anuncio, nao um workflow.
 
 Documentacao: [docs/engineering-ci-release.md](../docs/engineering-ci-release.md).

@@ -15,7 +15,7 @@ description: >-
 2. `gh run list --limit 10` e `gh run view <id> --log-failed`
 3. Se erro de changelog/writer: confirmar pin `conventional-changelog-conventionalcommits@9` em `.github/actions/ci/release/action.yml`
 4. Validar `linters/releaserc.json` e Conventional Commits dos commits desde a última tag
-5. Corrigir causa; nao afrouxar jobs CI (Python, Workflows, Resumo)
+5. Corrigir causa; nao afrouxar jobs CI (Python, Workflows, Resumo). Steps unicos `Tecnologia | Stage`, sem `strategy.matrix`
 6. Após push, acompanhar `gh run watch` no novo run; conferir Step Summary do job CI - Resumo
 7. Remover run falho só se o usuário pedir (`gh run delete`)
 

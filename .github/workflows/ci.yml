@@ -67,7 +67,7 @@ jobs:
     steps:
       - name: Obter codigo fonte
         uses: actions/checkout@v4
-      - name: Actionlint
+      - name: Workflows | Lint
         uses: ./.github/actions/ci/workflows
 
   release:
@@ -85,11 +85,11 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true
-      - name: Tags
+      - name: Release | Tags
         uses: ./.github/actions/ci/sync-tags
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Release
+      - name: Release | Semantic
         uses: ./.github/actions/ci/release
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -103,7 +103,7 @@ jobs:
     steps:
       - name: Obter codigo fonte
         uses: actions/checkout@v4
-      - name: Resumo do pipeline
+      - name: Resumo | Pipeline
         uses: ./.github/actions/ci/pipeline-summary
         with:
           python: ${{ needs.python.result }}
