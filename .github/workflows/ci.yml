@@ -37,13 +37,36 @@ jobs:
           fetch-tags: true
       - name: Setup Python
         uses: ./.github/actions/ci/setup-python
+      - name: Cache QA
+        uses: actions/cache@v4
+        with:
+          path: |
+            app/.mypy_cache
+            ~/.cache/pip-audit
+          key: qa-${{ runner.os }}-py314-${{ hashFiles('app/requirements.txt', 'app/requirements-dev.txt') }}-${{ github.sha }}
+          restore-keys: |
+            qa-${{ runner.os }}-py314-${{ hashFiles('app/requirements.txt', 'app/requirements-dev.txt') }}-
+            qa-${{ runner.os }}-py314-
+      - name: Preparar PATH local
+        shell: bash
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Cache Gitleaks
+        id: cache-gitleaks
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/bin/gitleaks
+          key: gitleaks-8.24.2-linux-x64
       - name: Instalar Gitleaks
+        if: steps.cache-gitleaks.outputs.cache-hit != 'true'
         shell: bash
         run: |
           GITLEAKS_VERSION="8.24.2"
           curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o /tmp/gitleaks.tar.gz
           tar -xzf /tmp/gitleaks.tar.gz -C /tmp
-          sudo mv /tmp/gitleaks /usr/local/bin/gitleaks
+          mv /tmp/gitleaks "$HOME/.local/bin/gitleaks"
+          chmod +x "$HOME/.local/bin/gitleaks"
       - name: Python | Lint
         shell: bash
         run: python app/scripts/operations/clean_workspace.py --area python --stage lint

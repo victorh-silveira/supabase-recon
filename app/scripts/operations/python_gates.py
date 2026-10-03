@@ -29,7 +29,6 @@ def stage_lint() -> None:
     fix_cmd = [sys.executable, "-m", "ruff", "check", "--fix", "."]
     print(f"Command: {' '.join(fix_cmd)}")
     subprocess.run(fix_cmd, check=True, text=True, cwd=APP_ROOT)
-    run_tool("ruff", ["check", "."], "Ruff Check")
     run_tool("ruff", ["format", "."], "Ruff Format")
     run_tool("interrogate", ["-vv", "src"], "Interrogate Docstrings")
     run_tool("vulture", [], "Vulture Dead Code Detection")
@@ -65,8 +64,9 @@ def stage_layer_dependencies() -> None:
 def stage_structure(max_lines: int = 300) -> None:
     print(f"\n>>> Executando: Verificacao Estrutural (Max {max_lines} linhas)")
     violations: list[str] = []
+    ignored = {".venv", "venv", ".git", ".mypy_cache", ".pytest_cache", ".ruff_cache", "build", "dist"}
     for path in APP_ROOT.rglob("*.py"):
-        if ".venv" in path.parts or "venv" in path.parts or ".git" in path.parts:
+        if any(part in ignored for part in path.parts):
             continue
         count = len(path.read_text(encoding="utf-8").splitlines())
         if count > max_lines:

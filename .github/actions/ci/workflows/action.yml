@@ -4,11 +4,24 @@ description: Actionlint nos workflows GitHub Actions
 runs:
   using: composite
   steps:
+    - name: Preparar PATH local
+      shell: bash
+      run: |
+        mkdir -p "$HOME/.local/bin"
+        echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+    - name: Cache actionlint
+      id: cache-actionlint
+      uses: actions/cache@v4
+      with:
+        path: ~/.local/bin/actionlint
+        key: actionlint-bin-v1
     - name: Instalar actionlint
+      if: steps.cache-actionlint.outputs.cache-hit != 'true'
       shell: bash
       run: |
         curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash | bash
-        sudo mv actionlint /usr/local/bin/actionlint
+        mv actionlint "$HOME/.local/bin/actionlint"
+        chmod +x "$HOME/.local/bin/actionlint"
     - name: Workflows | Lint
       shell: bash
       run: actionlint .github/workflows/ci.yml

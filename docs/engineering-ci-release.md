@@ -41,6 +41,14 @@ gh run list --repo victorh-silveira/supabase-recon --limit 5
 gh run view <id> --repo victorh-silveira/supabase-recon --log-failed
 ```
 
+## Performance e Caching
+
+- Binarios isolados: Gitleaks e actionlint em `$HOME/.local/bin` cacheados com `actions/cache@v4` (evita download e compilacao em todo run).
+- QA incremental: `app/.mypy_cache` e `~/.cache/pip-audit` cacheados no job Python para reduzir tempo de analise estatica e auditoria de vulnerabilidades.
+- Dependencias de release: cache de `~/.npm` com flag `--prefer-offline` no semantic-release para evitar download de arvore completa de pacotes NPM a cada push.
+- Setup Python otimizado: `pip` com `--disable-pip-version-check` e `--no-warn-script-location`.
+- Eliminacao de redundancias: execucao unificada do Ruff (`ruff check --fix .`) sem segunda passada duplicada.
+
 ## NORTE
 
 - Pin de `actions/checkout` (e demais) por SHA completo
