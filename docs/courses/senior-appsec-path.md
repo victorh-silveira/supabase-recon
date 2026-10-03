@@ -33,7 +33,7 @@ Onboarding em módulos. Cada módulo lista doc + rule + skill. Skill condutor: `
 - Docs: [`engineering-standards.md`](../engineering-standards.md), [`engineering-python.md`](../engineering-python.md)
 - Skills: `recon-ops-runbook`, `recon-precommit`
 - Pratica WSL: `make help`, `make app-lint`, `make app-test`, `make app-security`
-- CI: job Python (YAML/JSON no lint/validate) + Workflows + release ([`.github/README.md`](../../.github/README.md))
+- CI: job Python (YAML/JSON no lint/validate) + Workflows + release ([`.github/CI.md`](../../.github/CI.md))
 
 ## Módulo 6 — CI e release
 
