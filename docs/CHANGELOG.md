@@ -1,3 +1,9 @@
+## [1.1.3](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.2...v1.1.3) (2026-10-03)
+
+### Performance
+
+* **repo:** otimizar desempenho e caching da pipeline de ci ([59858ee](https://github.com/victorh-silveira/supabase-recon/commit/59858eed250691551d67f916c01f88b2992ddae1))
+
 ## [1.1.2](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.1...v1.1.2) (2026-09-03)
 
 ### Correções
