@@ -1,3 +1,14 @@
+## [1.1.4](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.3...v1.1.4) (2026-11-08)
+
+### Refatoração
+
+* **repo:** reescrever harness canonico .agents, rules, skills e documentacao ([86c2bb5](https://github.com/victorh-silveira/supabase-recon/commit/86c2bb5e6833cc8b4e6a8028a8f1cb337b88921b))
+
+### Documentação
+
+* **repo:** mover readme do github para CI.md restaurando readme raiz ([e0cd355](https://github.com/victorh-silveira/supabase-recon/commit/e0cd3550979ec76727eea489979a177ea53e912b))
+* **repo:** renomeia documentacao para WORKFLOWS.md ([29c545d](https://github.com/victorh-silveira/supabase-recon/commit/29c545d8e6d082d7d37fcfa8ad72bfd18ee90e8f))
+
 ## [1.1.3](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.2...v1.1.3) (2026-10-03)
 
 ### Performance
