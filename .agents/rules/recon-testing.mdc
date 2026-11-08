@@ -17,4 +17,4 @@ Garantia de confiabilidade com cobertura exaustiva e testes determinísticos.
 - **Ambiente de Execução**: Testes executados exclusivamente no terminal **WSL Linux** via `pytest app/tests`.
 
 ## 3. Matriz de Agentes
-- O teste `app/tests/unit/test_agent_coverage_matrix.py` valida 100% da correspondência entre a documentação da matriz, as regras em `.agents/rules/`, as skills em `.agents/skills/` e a ponte `.cursor/`.
+- O teste `app/tests/unit/test_agent_coverage_matrix.py` valida 100% da correspondência entre a documentação da matriz, as regras em `.agents/rules/` e as skills em `.agents/skills/`.

@@ -31,13 +31,12 @@ Ponto de entrada canônico e Single Source of Truth (SSOT) para agentes de intel
 
 ---
 
-## 4. Harness Canônico e Retrocompatibilidade
+## 4. Harness Canônico Universal
 
-- **Harness Canônico**: Diretório [`.agents/`](.agents/) contendo:
+- **Padrão Genérico**: O diretório canônico [`.agents/`](.agents/) padroniza o harness para qualquer ferramenta ou modelo de IA (Antigravity, Cursor, Claude Code, Copilot, etc.), contendo:
   - Regras universais: [`.agents/rules/`](.agents/rules/)
   - Habilidades especializadas: [`.agents/skills/`](.agents/skills/)
   - Manifesto MCP: [`.agents/mcp.json`](.agents/mcp.json)
-- **Retrocompatibilidade com Cursor IDE**: O diretório [`.cursor/`](.cursor/) mantém symlinks relativos para `.agents/rules` e `.agents/skills`, assegurando total interoperabilidade sem duplicação física de arquivos.
 - **Rastreabilidade e Matriz**: Toda a base possui 100% de cobertura mapeada em [`docs/agent-coverage.md`](docs/agent-coverage.md).
 
 ---

@@ -3,7 +3,7 @@
 Esta matriz estabelece a rastreabilidade bidirecional exaustiva entre todas as superfícies da aplicação, seus documentos de arquitetura, suas regras de governança e suas habilidades operacionais.
 
 O ponto de entrada canônico do repositório é o [`AGENTS.md`](../AGENTS.md).
-O harness canônico reside em [`.agents/`](../.agents/) (com retrocompatibilidade via [`.cursor/`](../.cursor/)) e é **versionado** no git.
+O harness canônico universal reside em [`.agents/`](../.agents/) e é **versionado** no git.
 
 ---
 

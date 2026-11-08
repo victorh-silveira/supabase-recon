@@ -91,9 +91,9 @@ make app-test
 
 ---
 
-## Harness Canônico de Inteligência Artificial
+## Harness Canônico Universal de Inteligência Artificial
 
-O projeto implementa o padrão canônico universal de agentes sob o diretório [`.agents/`](.agents/), acompanhado por ponte de retrocompatibilidade para o Cursor IDE em [`.cursor/`](.cursor/):
+O projeto implementa o padrão canônico universal de agentes sob o diretório [`.agents/`](.agents/), interoperável com qualquer ferramenta ou modelo de IA (Antigravity, Cursor, Claude Code, Copilot, etc.):
 - **Regras Canônicas**: [`.agents/rules/`](.agents/rules/)
 - **Habilidades Especializadas**: [`.agents/skills/`](.agents/skills/)
 - **Configuração MCP**: [`.agents/mcp.json`](.agents/mcp.json)

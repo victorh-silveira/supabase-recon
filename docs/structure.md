@@ -9,8 +9,7 @@ Mapeamento exaustivo da organização de diretórios e arquivos do **Supabase Re
 ```text
 supabase-recon/
 ├── AGENTS.md                  # SSOT e ponto de entrada para agentes e desenvolvedores
-├── .agents/                   # Harness canônico de IA (rules, skills, mcp.json)
-├── .cursor/                   # Ponte de retrocompatibilidade via symlinks para .agents/
+├── .agents/                   # Harness canônico universal de IA (rules, skills, mcp.json)
 ├── app/                       # Código-fonte da aplicação, testes e scripts operacionais
 ├── docs/                      # Documentação de arquitetura, padrões e cursos
 ├── linters/                   # Configuração de linters, git hooks e commitlint

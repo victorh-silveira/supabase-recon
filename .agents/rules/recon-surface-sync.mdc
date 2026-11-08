@@ -14,5 +14,5 @@ Nenhuma mudança de código é considerada finalizada se não sincronizar suas s
 1. **Documentação**: Atualizar guias em `docs/` se houver alteração de arquitetura, settings ou comportamento de portas/use cases.
 2. **Matriz de Cobertura**: Atualizar `docs/agent-coverage.md` caso novas rules, skills ou pastas DDD sejam introduzidas ou modificadas.
 3. **Ponto de Entrada**: Alinhar tabela de leitura em `AGENTS.md`.
-4. **Harness de Agentes**: Manter regras `.agents/rules/*.mdc` e skills `.agents/skills/*/SKILL.md` alinhadas, com retrocompatibilidade verificada em `.cursor/`.
+4. **Harness de Agentes**: Manter regras `.agents/rules/*.mdc` e skills `.agents/skills/*/SKILL.md` alinhadas.
 5. **Testes do Harness**: Validar sucesso em `app/tests/unit/test_agent_coverage_matrix.py`.
