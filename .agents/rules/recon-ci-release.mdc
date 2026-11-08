@@ -1,0 +1,18 @@
+---
+description: CI e Release — esteira automatizada no GitHub Actions, Conventional Commits em PT-BR e semantic-release
+alwaysApply: true
+---
+
+# Diretriz de Integração Contínua e Release
+
+Governança de entrega automatizada e controle de versões.
+
+## 1. Princípios
+- Esteiras de CI declaradas em `.github/workflows/ci.yml`.
+- Controle estrito de mensagens de commit via `linters/commitlint.config.mjs` com tipos canônicos e escopos autorizados.
+- Versões geradas automaticamente via `semantic-release` no GitHub Actions a partir da branch principal.
+
+## 2. Invariantes
+- Mensagens de commit redigidas exclusivamente em **PT-BR**.
+- Escopos autorizados: `all`, `app`, `bundle`, `cli`, `config`, `deps`, `domain`, `infra`, `regex`, `repo`, `swagger`, `test`, `tester`, `linters`.
+- Proibido bypass de validações no hook de pre-commit ou em pipelines de CI.

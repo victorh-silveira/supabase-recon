@@ -1,0 +1,17 @@
+---
+description: Logging Semântico e Mascarado — registro estruturado, sem dump de segredos e isolado da lógica de negócio
+alwaysApply: true
+---
+
+# Diretriz de Logging Estruturado
+
+Diretrizes para auditoria e rastreamento de eventos sem vazamento de dados sensíveis.
+
+## 1. Princípios
+- Formato semântico e estruturado contendo timestamp, nível, contexto e mensagem limpa.
+- O subsistema de logging reside em `app/src/infrastructure/logging/` e `app/src/presentation/logging/`.
+
+## 2. Invariantes
+- **Zero Vazamento de Secrets**: Proibido registrar tokens JWT, anon keys inteiras ou dados sensíveis em logs informativos (`INFO`). Anon keys devem ser mascaradas (ex.: `eyJhb...[TRUNCATED]`).
+- **Sem Logs no Domínio**: Entidades e services puros de domínio não realizam chamadas a loggers; eles comunicam resultados via retornos de método ou exceções de domínio.
+- Proibido dump indiscriminado de corpos de requisição/resposta de grande porte em nível `INFO`.

@@ -87,6 +87,10 @@ Ajuste nomes de entrypoint/build file a linguagem; preserve a intencao das pasta
 ├── linters/
 ├── Makefile
 ├── AGENTS.md
+├── .agents/
+│   ├── rules/
+│   ├── skills/
+│   └── mcp.json
 ├── prompt-model.md
 ├── README.md
 ├── .env.example
@@ -202,6 +206,8 @@ Entregue: estrutura, codigo, testes, Makefile, docs e AGENTS.md coerentes com es
 ## Referencia deste repositorio
 
 - `AGENTS.md`
+- `docs/agent-coverage.md`
+- `.agents/rules/` e `.agents/skills/`
 - `docs/arquitetura.md`
 - `docs/structure.md`
 - `docs/engineering-python.md`

@@ -1,0 +1,20 @@
+---
+description: Padrão de Testes Automatizados — cobertura de 100% de branches, isolamento de I/O e fakes puros
+alwaysApply: true
+---
+
+# Diretriz de Testes Automatizados
+
+Garantia de confiabilidade com cobertura exaustiva e testes determinísticos.
+
+## 1. Cobertura Mandatória
+- Cobertura de branches obrigatória em **100%** para todo o código da aplicação.
+- Falhas na verificação de cobertura (`--cov-fail-under=100`) bloqueiam commits e builds de CI.
+
+## 2. Isolamento e Determinismo
+- **Testes Unitários**: Proibido realizar chamadas de rede reais, criar sockets ou depender de arquivos no filesystem sem fakes em memória.
+- **Uso de Fakes e Fixtures**: Implementar fakes para as portas de aplicação (`MockHttpClient`, `InMemoryFileRepository`, etc.).
+- **Ambiente de Execução**: Testes executados exclusivamente no terminal **WSL Linux** via `pytest app/tests`.
+
+## 3. Matriz de Agentes
+- O teste `app/tests/unit/test_agent_coverage_matrix.py` valida 100% da correspondência entre a documentação da matriz, as regras em `.agents/rules/`, as skills em `.agents/skills/` e a ponte `.cursor/`.

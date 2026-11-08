@@ -1,27 +1,27 @@
-# Dependencias Python
+# Padrões de Dependências Python e Auditoria de Segurança
 
-## Arquivos SSOT
+Políticas de governança, gestão de dependências e prevenção contra pacotes vulneráveis.
 
-| Arquivo | Papel |
-|---------|-------|
-| `app/requirements.txt` | Runtime |
-| `app/requirements-dev.txt` | Lint, tipos, testes, seguranca, yamllint |
-| `app/pyproject.toml` | Ruff, mypy, coverage, pytest, bandit, vulture |
+---
 
-Nao duplicar a mesma lib em runtime e dev sem necessidade. Preferir ranges minimos coerentes com o restante do repo.
+## 1. Organização dos Manifestos
 
-## Fluxo de mudanca
+- `app/requirements.txt`: Dependências estritamente necessárias para a execução do analisador em produção (runtime).
+- `app/requirements-dev.txt`: Ferramentas utilizadas exclusivamente durante o ciclo de desenvolvimento, linting, testes e auditoria.
 
-1. Justificar a dependencia (problema concreto).
-2. Atualizar o requirements correto.
-3. Instalar no venv WSL: `make app-install`.
-4. Rodar `make app-lint` e `make app-test`.
-5. Se houver CVE: `make app-security` (pip-audit); so ignore com justificativa e lista no orquestrador.
+---
 
-## Anti-padroes
+## 2. Pinagem e Compatibilidade
 
-- Adicionar framework web/DB sem port/adapter.
-- Pins soltos que quebram mypy/ruff sem atualizar configs.
-- Dependencia so para um script one-off (preferir stdlib ou script fora do runtime).
+- Suporte primário e canônico para **Python 3.14+**.
+- Todos os pacotes declarados nos manifestos devem conter pinagem estrita de versão (ex.: `requests==2.32.3`).
 
-Rule: `recon-python-deps`. Skill: `recon-python-deps`.
+---
+
+## 3. Auditoria com `pip-audit`
+
+- As dependências são auditadas continuamente contra bancos de dados de vulnerabilidades conhecidas (CVE/GHSA):
+  ```bash
+  pip-audit -r app/requirements.txt -r app/requirements-dev.txt
+  ```
+- Nenhuma dependência com vulnerabilidade de severidade alta ou crítica é tolerada no repositório.

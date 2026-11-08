@@ -1,0 +1,18 @@
+---
+description: Governança de Dependências Python — pinagem estrita, compatibilidade Python 3.14+ e auditoria com pip-audit
+alwaysApply: true
+---
+
+# Diretriz de Dependências Python
+
+Governança do ecossistema de bibliotecas e ferramentas da aplicação.
+
+## 1. Princípios
+- Suporte canônico garantido para **Python 3.14+**.
+- Divisão explícita entre pacotes de produção (`app/requirements.txt`) e ferramentas de desenvolvimento/qualidade (`app/requirements-dev.txt`).
+- Pinagem estrita de versões para reprodutibilidade determinística.
+
+## 2. Invariantes de Segurança
+- Verificação obrigatória contra vulnerabilidades conhecidas via `pip-audit`.
+- Adição de novos pacotes deve ser precedida de análise de superfície de ataque e justificativa de arquitetura.
+- Proibido manter pacotes órfãos ou não utilizados nos manifests de requisitos.

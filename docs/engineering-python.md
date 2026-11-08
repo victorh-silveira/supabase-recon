@@ -1,60 +1,34 @@
-# Engenharia Python
+# Guia de Desenvolvimento Python e Operações
 
-## Stack de qualidade
+Diretrizes práticas para desenvolvimento, execução e manutenção do código em Python 3.14+.
 
-| Gate | Ferramenta |
-|------|------------|
-| Lint / format | Ruff + yamllint |
-| Types | mypy --strict |
-| Dead code | vulture |
-| Docstrings | interrogate (fail-under 100) |
-| Test + coverage | pytest + coverage.py (branch, fail-under 100) |
-| Security | bandit + pip-audit |
-| Secrets (CI) | gitleaks |
-| Workflows | actionlint |
-| Hooks | commit-msg crash-first (commitlint + Python) |
-| Release | semantic-release |
+---
 
-## Makefile
+## 1. Ambiente e Runtime
 
-| Target | Acao |
-|--------|------|
-| `make help` | Menu de ajuda (default) |
-| `make app-clean` | caches e artefatos |
-| `make app-install` | Instala requirements |
-| `make app-lint` | Python lint + validate (YAML/JSON no Python) |
-| `make app-pre-commit` | instala hook `commit-msg` |
-| `make app-pre-commit-run` | roda hooks crash-first no stage `commit-msg` |
-| `make app-run ARGS="--url ..."` | executa o CLI |
-| `make app-security` | bandit + pip-audit + Gitleaks (se no PATH) |
-| `make app-setup` | Install + hook `commit-msg` |
-| `make app-test` | pytest + coverage branch 100% |
+- **Ambiente de Desenvolvimento**: Terminal e scripts executados obrigatoriamente sob **WSL Linux**.
+- **Versão do Python**: Python 3.14+.
+- **Virtualenv**: Ambiente virtual recomendado em `.venv` isolado na raiz do repositório.
 
-Orquestrador unico: `app/scripts/operations/clean_workspace.py --area ... --stage ...`.
-Python: `.venv/bin/python` se existir; senao `python3`/`python`.
-Hooks pre-commit usam `linters/git-hooks/bin/python` (resolve o `.venv`) para nao cair no Python do sistema.
+---
 
-## Entrypoints
+## 2. Padrões de Implementação
 
-- Raiz: `python run.py --url https://...`
-- App: `python app/run.py` (composition root em `presentation/cli/bootstrap.py`)
+1. **Imports Canônicos e Futuros**:
+   - Todo arquivo Python deve iniciar com:
+   ```python
+   from __future__ import annotations
+   ```
+2. **Uso de Tipagem Moderna**:
+   - Utilizar sintaxe nativa de tipagem: `list[str]`, `dict[str, Any]`, `X | None` em vez de `typing.List`, `typing.Optional`.
+3. **Contratos e Protocolos**:
+   - Usar `typing.Protocol` para desacoplar as portas da aplicação em `app/src/application/ports/`.
 
-## Configuracao
+---
 
-Variaveis em `.env` (ver `.env.example`):
+## 3. Comandos de Desenvolvimento
 
-- `RECON_HTTP_TIMEOUT_SECONDS`
-- `RECON_OUTPUT_BASE_PATH`
-- `RECON_LOG_LEVEL`
-- `RECON_DISABLE_DOTENV` (use `1` nos testes)
-
-## Testes
-
-- Unitarios por camada em `app/tests/unit/{domain,application,infrastructure,presentation}`
-- Integracao de adapters em `app/tests/integration/infrastructure`
-- Application usa fakes dos ports
-- `conftest.py` define `RECON_DISABLE_DOTENV=1`
-
-## Type checking
-
-`mypy --strict` sobre pacotes `domain`, `application`, `infrastructure`, `presentation`.
+- Instalar dependências: `make app-install`
+- Executar testes com cobertura: `make app-test`
+- Executar análise estática e validações: `make app-lint`
+- Executar auditoria de segurança: `make app-security`

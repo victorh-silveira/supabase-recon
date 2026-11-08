@@ -1,0 +1,17 @@
+---
+description: Camada de Apresentação Rich — isolamento visual, tabelas formatadas e fallback limpo sem poluir use cases
+alwaysApply: true
+---
+
+# Diretriz de Apresentação e Rich
+
+Diretrizes para renderização visual e saída no terminal.
+
+## 1. Isolamento Visual
+- Todos os imports e objetos da biblioteca `rich` (`Console`, `Table`, `Panel`, `Progress`) devem residir estritamente em `app/src/presentation/`.
+- Proibido qualquer import de `rich` dentro de `domain` ou `application`.
+
+## 2. Padrões de Renderização
+- Tabelas informativas para exibição de endpoints descobertos (método, path, tipo de serviço e status da anon key).
+- Cores semânticas consistentes: verde para sucesso/autorizado, amarelo para atenção/redirects, vermelho para falhas/erros, azul/ciano para metadados informativos.
+- Suporte a modo headless / não interativo caso a saída seja redirecionada para pipe ou arquivo de log.

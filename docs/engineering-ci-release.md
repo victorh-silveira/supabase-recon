@@ -1,56 +1,32 @@
-# CI/CD e semantic-release
+# Padrões de Integração Contínua (CI) e Automação de Releases
 
-Rule: `recon-ci-release`. Skill: `recon-ci-release`.
+Diretrizes para esteiras do GitHub Actions, convenção de commits e versionamento semântico automatizado.
 
-## Pipeline (AS-IS)
+---
 
-Workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml)
+## 1. Fluxo de Integração Contínua (`.github/workflows/ci.yml`)
 
-YAML e JSON nao sao stacks: lint/validate rodam dentro do job **CI - Python**.
+A esteira do GitHub Actions dispara em pull requests e pushes na branch `main`:
+1. **Ambiente**: Execução em container Ubuntu com Python 3.14.
+2. **Quality Gates**:
+   - `lint`: Verificação com `ruff`, `flake8` e `black`.
+   - `validate`: Validação estrutural de arquivos YAML e JSON.
+   - `security`: Análise de vulnerabilidades com `bandit` e `pip-audit`.
+   - `test`: Execução completa com `pytest` e validação de 100% de cobertura branch.
 
-| Job | Steps unicos |
-|-----|----------|
-| CI - Python | `Python \| Lint`, `Python \| Seguranca`, `Python \| Testes`, `Python \| Validate`, `Python \| Build` |
-| CI - Workflows | `Workflows \| Lint` (actionlint) |
-| CI - Release | `Release \| Tags`, `Release \| Semantic` |
-| CI - Resumo | `Resumo \| Pipeline` |
+---
 
-Nao ha Docker, Kubernetes, Terraform nem workflow de CD de deploy.
+## 2. Automação de Releases com `semantic-release`
 
-`permissions: contents: read` no workflow; `contents: write` so no job de release.
+- Releases e tags de versão (`vX.Y.Z`) são geradas de forma 100% automatizada a partir do histórico de commits da branch `main`.
+- A geração analisa os tipos do Conventional Commits:
+  - `fix`: Dispara release de patch (`v1.0.1`).
+  - `feat`: Dispara release minor (`v1.1.0`).
+  - `feat!:` / `fix!:` (ou rodapé `BREAKING CHANGE`): Dispara release major (`v2.0.0`).
 
-Concorrencia: `cancel-in-progress: true` no grupo do workflow/ref.
+---
 
-Release so em `push`/`workflow_dispatch` na `main`.
+## 3. Conventional Commits em PT-BR
 
-Pre-commit: stage `commit-msg` com `fail_fast` — commitlint → Python | Lint, Seguranca, Testes, Validate, Build (mesmos nomes do CI). Sem `strategy.matrix`: cada stage e um step unico (`Tecnologia | Stage`).
-
-## Semantic-release (AS-IS)
-
-- Config: `linters/releaserc.json`
-- CHANGELOG: `docs/CHANGELOG.md`
-- Commit de release: `chore(release): ${version} [skip ci]`
-- Install na action: pin **`conventional-changelog-conventionalcommits@9`** em `.github/actions/ci/release/action.yml`
-
-Motivo do pin: preset `@10` exige `conventional-changelog-writer@9`; `semantic-release@25` ainda resolve writer `@8` → falha em `generateNotes`.
-
-## Diagnostico rapido
-
-```bash
-gh run list --repo victorh-silveira/supabase-recon --limit 5
-gh run view <id> --repo victorh-silveira/supabase-recon --log-failed
-```
-
-## Performance e Caching
-
-- Binarios isolados: Gitleaks e actionlint em `$HOME/.local/bin` cacheados com `actions/cache@v4` (evita download e compilacao em todo run).
-- QA incremental: `app/.mypy_cache` e `~/.cache/pip-audit` cacheados no job Python para reduzir tempo de analise estatica e auditoria de vulnerabilidades.
-- Dependencias de release: cache de `~/.npm` com flag `--prefer-offline` no semantic-release para evitar download de arvore completa de pacotes NPM a cada push.
-- Setup Python otimizado: `pip` com `--disable-pip-version-check` e `--no-warn-script-location`.
-- Eliminacao de redundancias: execucao unificada do Ruff (`ruff check --fix .`) sem segunda passada duplicada.
-
-## NORTE
-
-- Pin de `actions/checkout` (e demais) por SHA completo
-- Trusted Publishing OIDC para PyPI
-- Artefatos de distribuicao (wheel/binary) no GitHub Release
+- Mensagens de commit fora do padrão rejeitam a esteira de CI e o hook local de pre-commit.
+- Formato: `tipo(escopo): assunto conciso em PT-BR`.

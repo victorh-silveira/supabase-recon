@@ -1,24 +1,26 @@
-# Higienizacao do repositorio
+# Padrões de Higiene e Limpeza do Repositório
 
-Remover codigo ou arquivos mortos **somente com evidencia**.
+Diretrizes para prevenção de débitos técnicos, código morto e poluição da árvore git.
 
-## Evidencia aceita
+---
 
-- Vulture / ruff F401 apontando simbolo nao usado
-- Grep sem referencias (imports, docs, matriz, Makefile)
-- Teste/documentacao obsoleta apos migracao (ex.: path `models/` apos `entities/`)
+## 1. Princípios de Higiene
 
-## Procedimento
+- Zero tolerância para arquivos temporários abandonados na raiz ou pastas da aplicação.
+- Resultados de análises locais gerados em `output/` são estritamente proibidos de serem comitados.
 
-1. Listar candidatos e prova (comando + resultado).
-2. Remover o menor conjunto seguro.
-3. Atualizar docs/rules/skills/matriz se a superficie sumiu.
-4. `make app-lint` + `make app-test`.
+---
 
-## Nao fazer
+## 2. Auditoria de Código Morto
 
-- Apagar “por limpeza” sem grep
-- Remover skill/rule indexada em `docs/agent-coverage.md` sem atualizar a matriz e `AGENTS.md`
-- Deixar `_tmp*`, `COMMIT_MSG.txt`, probes ou `.env` no tree
+- O repositório utiliza a ferramenta `vulture` para identificar símbolos, métodos, funções e classes que não são referenciados no projeto:
+  ```bash
+  vulture app/src/ --min-confidence 80
+  ```
+- Símbolos obsoletos devem ser removidos e a matriz de cobertura atualizada.
 
-Rule: `recon-repo-hygiene`. Skill: `recon-repo-hygiene`.
+---
+
+## 3. Limpeza Automatizada
+
+- O comando `make app-clean` remove deterministricamente diretórios de cache (`.pytest_cache`, `__pycache__`, `.ruff_cache`) e relatórios de cobertura locais.

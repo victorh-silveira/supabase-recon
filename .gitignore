@@ -46,4 +46,4 @@ desktop.ini
 .gemini/
 .antigravity/
 .agent/
-.agents/
+!.agents/

@@ -1,34 +1,35 @@
-# Surface sync (fechamento de mudanca)
+# Protocolo de Sincronização de Superfícies (Surface Sync)
 
-Toda atualizacao material deve fechar com superficie de agentes coerente, gates verdes e working tree limpo.
+Diretrizes e checklist para garantir que toda alteração de código seja acompanhada pela atualização de suas superfícies documentais e de teste.
 
-Rule: `recon-surface-sync`. Skill: `recon-surface-sync`.
+---
 
-## O que sincronizar
+## 1. Conceito de Superfície
 
-| Mudanca | Superficie tipica |
-|---------|-------------------|
-| Camadas / ports | `arquitetura.md`, `structure.md`, rules hexagonal/domain |
-| Logging | `engineering-logging.md`, rule `recon-logging` |
-| HTTP / YAML / Rich | `engineering-http-yaml-security.md`, rules http-yaml + presentation-rich |
-| CI / release | `engineering-ci-release.md`, skill `recon-ci-release` |
-| Perfil / personas / curso | `engineering-senior-profile.md`, `docs/agents/`, `docs/courses/` |
-| Settings / `.env` | `engineering-settings-ssot.md`, skill `recon-settings-change` |
-| Gates / QA | `engineering-standards.md`, skill `recon-precommit` |
-| Deps pip | `engineering-python-deps.md`, skill `recon-python-deps` |
-| Nova skill/rule | `agent-coverage.md` + tabela em `AGENTS.md` |
-| Contrato cross-repo | `prompt-model.md` |
+Uma superfície é o conjunto coeso formado por:
+1. **Código-Fonte**: Arquivos de implementação (`app/src/`).
+2. **Documentação de Arquitetura**: Manuais conceituais e estruturais (`docs/`).
+3. **Regra Canônica de IA**: Diretriz normativa (`.agents/rules/*.mdc`).
+4. **Habilidade Operacional de IA**: Procedimento acionável (`.agents/skills/*/SKILL.md`).
+5. **Teste de Harness**: Validação automatizada em `app/tests/unit/test_agent_coverage_matrix.py`.
 
-## Ordem de fechamento
+---
 
-1. Codigo + testes
-2. Docs / rules / skills / `AGENTS.md` / `agent-coverage.md`
-3. Remover sujeira local
-4. Gates WSL: `make app-lint`, `make app-test`, `make app-security` (ou `make app-pre-commit-run`)
-5. Commit Conventional Commits PT-BR
+## 2. Checklist Obrigatório de Fechamento de Mudança
 
-## Criterio de pronto
-
-- Matriz aponta para arquivos existentes
-- Rules com `alwaysApply: true`
-- Cobertura 100% branch; sem artefatos temporarios no diff
+Toda alteração material deve cumprir o checklist antes do commit:
+- [ ] 1. Identificar arquivos alterados e mapear suas superfícies em [`docs/agent-coverage.md`](agent-coverage.md).
+- [ ] 2. Atualizar a documentação técnica relevante caso o comportamento ou contratos tenham mudado.
+- [ ] 3. Alinhar as regras e skills no harness `.agents/`.
+- [ ] 4. Atualizar a tabela de leitura rápida em [`AGENTS.md`](../AGENTS.md).
+- [ ] 5. Executar os quality gates completos via WSL:
+  ```bash
+  make app-lint
+  make app-security
+  make app-test
+  ```
+- [ ] 6. Confirmar aprovação dos testes do harness:
+  ```bash
+  pytest app/tests/unit/test_agent_coverage_matrix.py
+  ```
+- [ ] 7. Gerar mensagem de commit conforme o padrão Conventional Commits em PT-BR.

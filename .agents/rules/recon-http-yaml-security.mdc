@@ -1,0 +1,22 @@
+---
+description: Segurança em Transporte HTTP e Parsing YAML — prevenção contra SSRF, ReDoS e desserialização insegura
+alwaysApply: true
+---
+
+# Diretriz de Segurança em HTTP e YAML
+
+Salvaguardas mandatórias para adaptadores de transporte de rede e processamento de formatos estruturados.
+
+## 1. Segurança em Transporte HTTP (`HTTPClient`)
+- **Prevenção contra SSRF**: Validação estrita de esquemas permitidos (`http`, `https`) e rejeição de requisições direcionadas para endereços de loopback, links locais ou faixas privadas não autorizadas.
+- **Resiliência e Proteção de Recursos**:
+  - Timeouts explícitos em todas as requisições (nunca deixar chamadas bloqueadas indefinidamente).
+  - Estratégia de retries exponenciais com backoff e limite de tentativas para mitigar sobrecarga em alvos.
+  - Mitigação de loops de redirecionamento limitando contagem de redirects.
+
+## 2. Parsing Seguro de YAML
+- Uso exclusivo de `yaml.safe_load(content)` em qualquer processamento de documentos YAML.
+- Proibido terminantemente o uso de `yaml.load` sem loader seguro, prevenindo execução arbitrária de código.
+
+## 3. Prevenção de ReDoS
+- Expressões regulares de extração de bundles compilados devem ser testadas contra backtracking catastrófico e encapsuladas com timeouts lógicos na orquestração.

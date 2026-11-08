@@ -1,0 +1,18 @@
+---
+description: Pureza do Domínio — entidades e serviços de domínio sem efeitos colaterais de infraestrutura ou I/O
+alwaysApply: true
+---
+
+# Diretriz de Domínio Puro
+
+O núcleo do analisador (`app/src/domain/`) encapsula toda a inteligência de negócios de reconhecimento Supabase/Lovable de forma pura.
+
+## 1. Princípios
+- **Determinismo**: Serviços de parsing (`BundleParserService`), validação (`ConfigValidator`) e geração (`SwaggerBuilderService`) devem operar sobre dados em memória (strings, bytes, objetos de domínio).
+- **Sem I/O**: Proibido realizar chamadas de rede, leitura/escrita direta em disco ou acesso a variáveis de ambiente dentro do domínio.
+- **Tipagem Forte**: Uso intensivo de `dataclass` imutáveis ou modelos com validação estrita em `entities/`.
+
+## 2. Invariantes
+- Proibido importar `os`, `sys`, `pathlib`, `requests`, `logging` ou `rich` em `domain`.
+- Exceções de domínio herdam da raiz canônica em `domain/exceptions.py`.
+- Regras de risco de autorização pertencem ao domínio ou aos use cases, nunca aos adaptadores.

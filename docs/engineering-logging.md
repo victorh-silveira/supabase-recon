@@ -1,36 +1,23 @@
-# Logging semantico
+# Padrões de Observabilidade e Logging Semântico
 
-## API
+Diretrizes para auditoria, rastreamento de eventos e mitigação de vazamento de credenciais na aplicação.
 
-```python
-from infrastructure.logging.events import log_event
+---
 
-log_event(logger, logging.INFO, "recon.run.started", url=args.url)
-```
+## 1. Princípios de Logging Estruturado
 
-## Eventos estaveis
+- Todos os logs emitidos pela aplicação utilizam formato semântico e estruturado.
+- O subsistema é composto pela infraestrutura de logging (`app/src/infrastructure/logging/`) e adaptadores de exibição em console (`app/src/presentation/logging/`).
 
-| Evento | Quando |
-|--------|--------|
-| `recon.run.started` | Inicio do pipeline CLI |
-| `recon.run.finished` | Sucesso |
-| `recon.run.failed` | Falha de dominio ou inesperada |
-| `recon.analyze.skipped_download` | Flag `--skip-download` |
-| `recon.asset.download.started` | Inicio do download de assets |
-| `recon.asset.download.failed` | Falha/skip de um asset |
-| `recon.asset.download.finished` | Fim do download (DEBUG) |
-| `recon.http.get_text.failed` | GET texto falhou |
-| `recon.http.get_bytes.skipped` | GET bytes falhou |
-| `recon.http.request.failed` | request generico falhou |
-| `recon.file.write_text.ok` / `.failed` | Persistencia texto |
-| `recon.file.write_bytes.ok` / `.failed` | Persistencia binaria |
+---
 
-## Regras
+## 2. Invariantes de Segurança
 
-- Domain e use cases **nao** emitem logs.
-- Caminho feliz: cerca de 3 linhas INFO (`started`, opcional `skipped_download`, `finished`).
-- Sem dump de payload JSON nem body HTTP em INFO.
-- URLs com query: `?***` via `redact_url`.
-- Campos `anon_key` / `token` / `secret` / `password` / `authorization` viram `***`.
-- `exc_info` apenas quando o logger estiver em DEBUG.
-- Loggers `urllib3` e `requests` em WARNING+.
+1. **Mascaramento Obrigatório de Credenciais**:
+   - Anon keys públicas e tokens JWT nunca devem ser impressos na íntegra em logs informativos (`INFO`).
+   - O logging intercepta valores sensíveis e os mascara deterministricamente (ex.: `eyJhbGciOi...[MASCARADO]`).
+2. **Proibição de Logging no Domínio**:
+   - Classes e funções em `app/src/domain/` não importam nem invocam loggers.
+   - O domínio retorna estados ou lança exceções especializadas; a orquestração de log ocorre nos use cases ou presentation.
+3. **Controle de Volume**:
+   - Proibido dump de corpos de arquivos JavaScript compilados inteiros em logs de nível padrão.

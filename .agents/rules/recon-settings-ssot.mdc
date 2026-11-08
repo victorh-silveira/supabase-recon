@@ -1,0 +1,19 @@
+---
+description: Configuração SSOT — Single Source of Truth via variáveis de ambiente RECON_* e sincronização com .env.example
+alwaysApply: true
+---
+
+# Diretriz de Configuração e SSOT
+
+Gerenciamento seguro e centralizado de parâmetros de execução.
+
+## 1. Princípios de Configuração
+- Todas as variáveis de configuração devem adotar obrigatoriamente o prefixo `RECON_`.
+- O arquivo `.env.example` é o espelho exato e canônico de todas as configurações suportadas, contendo documentação e valores de exemplo seguros.
+- O carregamento das configurações é centralizado na classe `Settings` em `app/src/infrastructure/config/settings.py`.
+
+## 2. Invariantes
+- Proibido commitar `.env` contendo tokens reais ou credenciais de produção.
+- Todas as propriedades devem possuir tipagem estrita (ex.: `int`, `str`, `Path`, `bool`).
+- Flag `RECON_DISABLE_DOTENV`: Permite que testes ou ambientes de CI ignorem arquivos `.env` locais para garantir determinismo.
+- Proibido uso direto de `os.environ.get` fora da infraestrutura de configuração.

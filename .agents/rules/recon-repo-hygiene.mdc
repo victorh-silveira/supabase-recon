@@ -1,0 +1,18 @@
+---
+description: Higiene de Repositório — tolerância zero a código morto, resíduos de cache e arquivos temporários órfãos
+alwaysApply: true
+---
+
+# Diretriz de Higiene do Repositório
+
+Manutenção de uma base de código limpa, auditável e sem resíduos.
+
+## 1. Princípios
+- Remoção ativa de código não referenciado (auditoria periódica com `vulture`).
+- Ausência total de arquivos de rascunho (`_tmp*`, arquivos soltos `.log`, `.orig`, `.bak`).
+- Diretório de saída `output/` ignorado no versionamento via `.gitignore`.
+
+## 2. Invariantes
+- Proibido versionar caches de IDEs (`.vscode` exceto `settings.json`, `.idea`, `.pytest_cache`, `__pycache__`).
+- Proibido comitar branches locais contendo arquivos temporários de investigação.
+- Execução regular do alvo de limpeza `make app-clean` antes de fechar PRs ou entregas.

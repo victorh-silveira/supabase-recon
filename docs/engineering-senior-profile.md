@@ -1,70 +1,24 @@
-# Perfil sênior — supabase-recon
+# Perfil Sênior de Engenharia e Postura Técnica
 
-Ferramenta CLI de recon/auditoria autorizada para apps **Lovable/Supabase**.
-O LLM opera como engenheiro AppSec + DevOps sênior sob [`llm-doctrine.md`](llm-doctrine.md).
+Diretrizes de maturidade técnica, rigor metodológico e postura profissional esperada no desenvolvimento do **Supabase Recon**.
 
-Este doc separa **AS-IS** (código atual) de **NORTE** (roadmap). Não inventar AS-IS.
+---
 
-## Runtime e composition root (AS-IS)
+## 1. Princípios de Atuação
 
-- Python 3.14+, deps: `requests`, `python-dotenv`, `PyYAML`, `Rich`
-- Entrypoint: `run.py` → `presentation/cli/bootstrap.py` (composition root manual)
-- Bootstrap instancia adapters (`HTTPClient`, `FileRepository`, `AssetDownloader`) e injeta nos use cases
-- Sem DI “mágica”; grafo sob demanda via flags CLI (`--url`, `--skip-download`, `--no-test`, `--methods`)
+1. **Autonomia com Governança**:
+   - Diagnosticar causas raízes antes de propor alterações.
+   - Compreender os impactos em cascata na arquitetura antes de introduzir novas dependências ou abstrações.
+2. **Defesa em Profundidade**:
+   - Considerar todo input externo (URLs, bundles JS compilados, respostas de rede) como potencialmente malicioso ou inconsistente.
+   - Tratar falhas de forma resiliente, assegurando códigos de retorno semânticos e mensagens claras.
+3. **Simplicidade Radical**:
+   - Evitar sobre-engenharia. A melhor solução é a mais simples, fortemente tipada, estritamente testada e contida em menos de 300 linhas por arquivo.
 
-```text
-[ CLI / bootstrap.py ]
-        |
-        +-- Adapters (HTTPClient, FileRepository, AssetDownloader)
-        +-- Use cases (AnalyzeApplication, ApiReliabilityTester)
-        +-- Presentation Rich (terminal_ui)
-```
+---
 
-## Domínio e camadas (AS-IS)
+## 2. Invariantes de Entrega
 
-| Conceito | Implementação atual |
-|----------|---------------------|
-| Bundle parse | `domain/services/bundle_parser.py` |
-| OpenAPI | `domain/services/swagger_builder.py` |
-| Entidades | `Asset`, `Endpoint`, `SupabaseConfig` |
-| Analyze | `application/use_cases/analyze_application.py` |
-| Reliability | `application/use_cases/test_api_reliability.py` |
-| Ports | `HttpClientPort`, `FileRepositoryPort`, `AssetDownloaderPort` |
-| UI | `presentation/cli/terminal_ui.py` + DTO `AnalysisReport` |
-
-Domain puro: sem HTTP, filesystem, dotenv ou logging.
-
-## HTTP / YAML / Rich (AS-IS)
-
-- `HTTPClient`: `Session`, `HTTPAdapter` + `Retry`, timeout explícito
-- YAML: `yaml.safe_load` no bootstrap; proibido `yaml.load` inseguro
-- Rich só em presentation; use cases devolvem DTOs
-
-Detalhe: [`engineering-http-yaml-security.md`](engineering-http-yaml-security.md)
-
-## Qualidade (AS-IS)
-
-Ruff, mypy `--strict`, vulture, interrogate 100%, pytest branch 100%, bandit, pip-audit, gitleaks (CI), pre-commit + commitlint, Make `app-*` + `clean_workspace.py`.
-
-## CI / release (AS-IS)
-
-Jobs paralelos quality / tests / security; release com semantic-release; preset `conventional-changelog-conventionalcommits@9`.
-
-Detalhe: [`engineering-ci-release.md`](engineering-ci-release.md)
-
-## NORTE (não implementar como se já existisse)
-
-- Export SARIF/JSON estruturado além do Rich
-- Packaging (pex / shiv / PyInstaller)
-- Extrator AST de JS (hoje: regex no `BundleParserService`)
-- Value objects `AnonKey` / `CriticalRisk` / `SecurityPosture`
-- Throttling/WAF delay configurável
-- pytest-xdist
-- Pin de Actions por SHA completo; Trusted Publishing OIDC/PyPI
-- Proxies/certs corporativos documentados além do que `requests` já herda do ambiente
-
-## Personas e trilha
-
-- Agentes: [`docs/agents/`](agents/)
-- Curso: [`docs/courses/senior-appsec-path.md`](courses/senior-appsec-path.md)
-- Skills: `recon-senior-appsec`, `recon-ci-release`, `recon-course-senior`
+- Nunca marcar uma tarefa como concluída sem execução e evidência objetiva de aprovação em testes.
+- Manter a cobertura de branches em **100%** de forma contínua.
+- Respeitar a divisão e pureza das camadas do DDD Hexagonal.

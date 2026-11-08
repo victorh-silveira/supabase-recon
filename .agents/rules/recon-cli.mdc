@@ -1,0 +1,23 @@
+---
+description: Interface de Linha de Comando — CLI Rich, tratamento robusto de parâmetros e composition root único
+alwaysApply: true
+---
+
+# Diretriz de CLI e Bootstrap
+
+Diretrizes para o ponto de entrada da aplicação e interação com o usuário via terminal.
+
+## 1. Composition Root Exclusivo
+- O único local autorizado para instanciar adaptadores concretos e injetá-los nos use cases é `app/src/presentation/cli/bootstrap.py`.
+- `run.py` na raiz e `app/run.py` são apenas dispatchers delegando para o bootstrap.
+
+## 2. Argumentos e Parâmetros Canônicos
+- Parâmetro obrigatório: `--url <URL_DO_APP_LOVABLE>`.
+- Flags opcionais:
+  - `--skip-download`: Ignora re-download de bundles já presentes em disco.
+  - `--methods <GET,POST,...>`: Filtro de verbos HTTP para execução do teste de confiabilidade.
+  - `--output-dir <DIR>`: Diretório customizado para os artefatos de saída (OpenAPI spec e logs).
+
+## 3. Tratamento de Erros
+- Códigos de saída semânticos (0 para sucesso, 1 para erros operacionais, 2 para argumentos inválidos).
+- Mensagens de erro amigáveis no terminal com mascaramento prévio de dados sensíveis.

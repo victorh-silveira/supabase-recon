@@ -11,109 +11,90 @@
 [![Commits](https://img.shields.io/badge/commits-Conventional%20Commits-FE5196?logo=conventionalcommits&logoColor=white)](linters/commitlint.config.mjs)
 [![CI](https://github.com/victorh-silveira/supabase-recon/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/victorh-silveira/supabase-recon/actions/workflows/ci.yml)
 
-Ferramenta profissional de reconhecimento e mapeamento automatizado de segurança para aplicações modernas construídas com **Lovable** e **Supabase**. O analisador realiza engenharia reversa em bundles JavaScript para descobrir infraestruturas de backend, endpoints de autenticação e tabelas expostas.
+Ferramenta profissional de reconhecimento e mapeamento automatizado de segurança para aplicações modernas construídas com **Lovable** e **Supabase**. O analisador realiza engenharia reversa defensiva em bundles JavaScript compilados para descobrir infraestruturas de backend, endpoints de autenticação, tabelas expostas e configurações de API.
 
 ---
 
 ## Funcionalidades
 
-- **Descoberta Automática**: Identifica assets e o bundle principal via `sw.js` ou fallback no `index.html`.
-- **Extração de Assets**: Download e organização local de todos os recursos da aplicação.
-- **Mapeamento de API**:
-    - **Auth**: Identificação de fluxos de login, registro e recuperação.
-    - **REST**: Descoberta de tabelas e esquemas de dados expostos pelo PostgREST.
-    - **RPC**: Mapeamento de funções de banco de dados e procedures.
-    - **Edge Functions**: Identificação de lógica serverless em execução.
-- **Swagger Generator**: Geração automática de especificação OpenAPI 3.0 completa para importação em ferramentas como Postman ou Insomnia.
-- **Relatório de Confiabilidade**: Testes automatizados de acessibilidade de endpoints utilizando a `anonKey` extraída.
+- **Descoberta Automática de Assets**: Identificação de service workers (`sw.js`) com fallback determinístico para `index.html`.
+- **Extração e Download Seguro de Bundles**: Download e isolamento local dos recursos compilados da aplicação.
+- **Mapeamento Exaustivo de Superfície**:
+  - **Auth (`/auth/v1/`)**: Fluxos de autenticação, registro e gestão de sessões.
+  - **REST (`/rest/v1/`)**: Tabelas, views e operações expostas pelo PostgREST.
+  - **RPC (`/rest/v1/rpc/`)**: Procedures e funções de banco de dados executáveis remotamente.
+  - **Edge Functions (`/functions/v1/`)**: Funções serverless Deno/TypeScript ativas.
+- **Gerador OpenAPI / Swagger**: Geração automática de especificações completas em formato OpenAPI 3.0 (YAML/JSON).
+- **Auditoria de Confiabilidade (Reliability Tester)**: Testes automatizados de autorização e disponibilidade utilizando exclusivamente a chave pública `anonKey`.
 
 ---
 
-## Arquitetura
+## Arquitetura DDD Hexagonal
 
-O projeto segue **Clean Architecture / Hexagonal** e **DDD**:
+O projeto adota rigorosamente os padrões de **Clean Architecture** e **Domain-Driven Design (DDD)**:
 
-- **Domain**: Entidades, services de parsing/swagger e validacao.
-- **Application**: Use cases + ports (contratos).
-- **Infrastructure**: Adapters HTTP/disco/download, Settings e logging semantico.
-- **Presentation**: CLI Rich + composition root.
+- **Domain**: Entidades imutáveis, serviços puros de parsing e geração de Swagger, sem efeitos colaterais de I/O.
+- **Application**: Casos de uso orquestradores e portas abstratas baseadas em `typing.Protocol`.
+- **Infrastructure**: Adaptadores HTTP com mitigação contra SSRF e timeouts, persistência e logging estruturado.
+- **Presentation**: Interface CLI baseada em Rich e composition root exclusivo em `presentation/cli/bootstrap.py`.
 
-Detalhes: [docs/arquitetura.md](docs/arquitetura.md), [docs/structure.md](docs/structure.md), [AGENTS.md](AGENTS.md), [prompt-model.md](prompt-model.md).
-
-Agentes Cursor: [AGENTS.md](AGENTS.md), [docs/agent-coverage.md](docs/agent-coverage.md), [`.cursor/rules`](.cursor/rules/), [`.cursor/skills`](.cursor/skills/).
+Consulte os guias detalhados:
+- [Arquitetura Técnica](docs/arquitetura.md)
+- [Inventário Estrutural](docs/structure.md)
+- [Padrões de Engenharia](docs/engineering-standards.md)
+- [Harness de Agentes de IA](AGENTS.md)
+- [Matriz de Cobertura 100%](docs/agent-coverage.md)
 
 ---
 
-## Configuracao e Uso
+## Instalação e Operação via WSL Linux
 
-### Requisitos
+### Pré-requisitos
 - Python 3.14+
-- Dependencias em `app/requirements.txt`
+- Ambiente de execução sob **WSL Linux**
 
-### Instalacao
+### Configuração Inicial
 ```bash
+# Menu de ajuda interativo
 make help
+
+# Configuração de ambiente e instalação de hooks
 make app-setup
 ```
 
-### Operacao
+### Comandos de Execução
 ```bash
-make app-run ARGS="--url https://exemplo-lovable.app.co"
+# Executar análise padrão completa
+make app-run ARGS="--url https://exemplo.lovable.app"
+
+# Pular download caso os bundles já existam em disco
+python3 run.py --url https://exemplo.lovable.app --skip-download
+
+# Filtrar verbos específicos para o teste de confiabilidade
+python3 run.py --url https://exemplo.lovable.app --methods GET,POST
 ```
-
-Ou:
-```bash
-python run.py --url https://exemplo-lovable.app.co
-```
-
-Opcoes: `--skip-download`, `--no-test`, `--methods GET,POST`.
-
-Configuracao via `.env` (ver `.env.example`): timeout HTTP, diretorio de saida, nivel de log.
 
 ---
 
-## Qualidade e Conformidade
-
-| Ferramenta | Objetivo | Metrica |
-| :--- | :--- | :--- |
-| Ruff | Lint e formatacao | Zero erros |
-| mypy | Tipos estritos | --strict |
-| Interrogate | Docstrings | 100% |
-| Pytest + coverage | Testes (branch) | 100% |
-| Bandit / pip-audit | Seguranca | Zero vulns |
+## Qualidade e Governança
 
 ```bash
+# Validações estáticas de código e configuração (YAML/JSON)
 make app-lint
-make app-test
+
+# Auditoria de segurança (Bandit, pip-audit e gitleaks)
 make app-security
-make app-pre-commit-run
-```
 
-Guias: [docs/engineering-python.md](docs/engineering-python.md), [docs/engineering-logging.md](docs/engineering-logging.md).
-
----
-
-## Estrutura do Projeto
-
-```text
-app/
-├── src/
-│   ├── domain/            # entities, services, validation
-│   ├── application/       # ports, use_cases, dto
-│   ├── infrastructure/    # adapters, config, logging
-│   └── presentation/      # cli (composition root), logging
-├── scripts/operations/    # clean_workspace (gates)
-├── tests/{unit,integration}
-├── pyproject.toml
-└── run.py
-linters/
-docs/
-.env.example
-run.py
+# Suíte de testes com checagem obrigatória de 100% de cobertura branch
+make app-test
 ```
 
 ---
 
-## Isenção de Responsabilidade
+## Harness Canônico de Inteligência Artificial
 
-Esta ferramenta deve ser utilizada exclusivamente para fins educacionais, de pesquisa ou em auditorias de segurança autorizadas. O uso indevido contra infraestruturas sem permissão explícita é ilegal e antiético. Os desenvolvedores não se responsabilizam por danos resultantes do uso desta ferramenta.
+O projeto implementa o padrão canônico universal de agentes sob o diretório [`.agents/`](.agents/), acompanhado por ponte de retrocompatibilidade para o Cursor IDE em [`.cursor/`](.cursor/):
+- **Regras Canônicas**: [`.agents/rules/`](.agents/rules/)
+- **Habilidades Especializadas**: [`.agents/skills/`](.agents/skills/)
+- **Configuração MCP**: [`.agents/mcp.json`](.agents/mcp.json)
+- **Matriz de Rastreabilidade**: [`docs/agent-coverage.md`](docs/agent-coverage.md)

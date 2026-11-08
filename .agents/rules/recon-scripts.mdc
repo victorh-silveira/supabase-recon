@@ -1,0 +1,17 @@
+---
+description: Scripts Operacionais e Makefile — padronização de gates em clean_workspace.py e comandos canônicos no Makefile
+alwaysApply: true
+---
+
+# Diretriz de Scripts e Operações
+
+Padrões para automação local e scripts auxiliares.
+
+## 1. Princípios
+- Toda lógica complexa de automação reside em scripts Python estruturados em `app/scripts/operations/` (`clean_workspace.py`, `python_gates.py`, `config_gates.py`).
+- O `Makefile` na raiz é o ponto focal de interação humana e de CI, contendo alvos mnemônicos (`app-install`, `app-lint`, `app-test`, `app-security`, `app-run`).
+- Execução mandatória sob ambiente **WSL Linux**.
+
+## 2. Invariantes
+- Scripts devem tratar códigos de saída (exit codes) rigorosamente (0 para sucesso, diferente de zero para falhas bloqueantes).
+- Parâmetro `--coverage-fail-under` fixado em 100 por padrão nas chamadas de teste.

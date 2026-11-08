@@ -1,0 +1,20 @@
+---
+description: Arquitetura DDD Hexagonal — isolamento absoluto entre Domain, Application, Infrastructure e Presentation
+alwaysApply: true
+---
+
+# Diretriz de Arquitetura Hexagonal
+
+O projeto adota Domain-Driven Design (DDD) com Arquitetura Hexagonal (Ports & Adapters).
+
+## 1. Regras de Isolamento de Camadas
+- `app/src/domain/`: Regras de negócio puras, entidades e services de domínio. Proibido importar `application`, `infrastructure`, `presentation`, `requests` ou frameworks de terceiros.
+- `app/src/application/ports/`: Contratos de interfaces utilizando `typing.Protocol`.
+- `app/src/application/use_cases/`: Orquestração de negócio. Dependem exclusivamente de entidades do domínio e de portas (`ports`).
+- `app/src/infrastructure/adapters/`: Implementações concretas das portas (HTTP client, repositórios de arquivo, downloaders).
+- `app/src/presentation/cli/`: Interface de linha de comando (Rich CLI). O único ponto de amarração (composition root) é `presentation/cli/bootstrap.py`.
+
+## 2. Invariantes
+- Inversão de dependência estrita: camadas externas dependem das internas; nunca o contrário.
+- Imports limpos e explícitos: `from domain.entities...`, `from application.ports...`.
+- Ausência total de lógica de apresentação ou renderização Rich em use cases ou domínio.

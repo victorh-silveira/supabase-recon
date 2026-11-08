@@ -1,0 +1,19 @@
+---
+description: Padrões de Engenharia — limite de 300 linhas, proibição de comentários inline, tipagem e pre-commit crash-first
+alwaysApply: true
+---
+
+# Diretriz de Padrões de Engenharia
+
+Padrões de qualidade de código e conformidade aplicáveis a todo o repositório.
+
+## 1. Regras Estruturais de Código
+- **Teto de Linhas**: Nenhum arquivo em `app/src/**/*.py` pode ultrapassar **300 linhas** de código.
+- **Ausência de Comentários**: Proibidos comentários inline (`# comentário`). Toda intenção técnica deve ser documentada exclusivamente através de nomes expressivos e docstrings formais nos módulos, classes e funções.
+- **Tipagem Estrita**: Type annotations completas em todos os parâmetros e retornos; validação rigorosa com `mypy --strict`.
+- **Estilo Canônico**: Código formatado e validado com `ruff`, `flake8` e `black`.
+
+## 2. Fluxo Crash-First de Pre-Commit
+- O pre-commit opera com `fail_fast: true` no estágio `commit-msg`.
+- Ordem de execução: Commitlint em PT-BR → Linters Python → Validação de Configs (YAML/JSON) → Auditoria de Segurança (Bandit, pip-audit) → Testes unitários com cobertura 100%.
+- Proibido afrouxar verificações ou flags (`--no-verify`) para contornar falhas.

@@ -1,38 +1,34 @@
-# Padroes de engenharia e QA
+# Padrões de Engenharia de Software
 
-## Gates obrigatorios
+Diretrizes mandatórias de estilo, formatação, qualidade estática e práticas de código no **Supabase Recon**.
 
-Orquestrador unico: `app/scripts/operations/clean_workspace.py`.
+---
 
-| Gate | Comando | Intencao |
-|------|---------|----------|
-| Lint | `make app-lint` | Python lint+validate (YAML/JSON incluidos) |
-| Test | `make app-test` | pytest + coverage branch fail-under 100 |
-| Security | `make app-security` | bandit + pip-audit + Gitleaks (se no PATH) |
-| Setup | `make app-setup` | install + hook `commit-msg` |
-| Hooks all | `make app-pre-commit-run` | pre-commit run --all-files no stage `commit-msg` |
+## 1. Regras Inegociáveis de Código
 
-Ajuda: `make help`.
+1. **Limite Estrito de 300 Linhas**:
+   - Nenhum arquivo em `app/src/**/*.py` pode ultrapassar **300 linhas** de código.
+   - Violações são bloqueadas pelo hook de pre-commit e pelas esteiras de CI.
+   - Refatore arquivos grandes extraindo responsabilidades e criando serviços especializados.
+2. **Ausência Total de Comentários Inline**:
+   - É terminantemente proibido o uso de comentários inline (`# comentário`) no código-fonte Python.
+   - Toda clareza técnica deve emergir de nomes semânticos para funções/variáveis e de **docstrings completas** em módulos, classes e métodos.
+3. **Tipagem Estrita**:
+   - Uso obrigatório de type hints em todas as assinaturas de funções, métodos e atributos de classes.
+   - Validação estrita via `mypy --strict`.
 
-Pre-commit (`linters/pre-commit-config.yaml`): stage `commit-msg` com `fail_fast` — commitlint → Python | Lint, Seguranca, Testes, Validate, Build, limpeza; YAML/JSON no lint/validate Python.
+---
 
-## Invariantes
+## 2. Linters e Formatadores
 
-- `app/src/**/*.py` <= 300 linhas
-- Cobertura 100% com branch coverage nas camadas de app
-- Sem comentarios no codigo (docstrings OK)
-- Docs PT-BR; sem emojis
-- Conventional Commits: `tipo(escopo): assunto PT-BR` (escopos em `linters/commitlint.config.mjs`)
-- Terminal/scripts: WSL Linux
+- **Formatador Oficial**: `black` com line length padrão de 88 caracteres.
+- **Linter e Import Sorter**: `ruff` e `flake8` configurados em `app/pyproject.toml`.
+- **Formatação de YAML e JSON**: Validados no estágio `validate` dos quality gates.
 
-## Camadas
+---
 
-Ver [`structure.md`](structure.md) e [`arquitetura.md`](arquitetura.md). Gate de imports impede `domain`/`application` de importar `infrastructure`/`presentation`.
+## 3. Pre-Commit Crash-First
 
-## Skills
-
-- Falha de hook: skill `recon-precommit`
-- Fechamento de mudanca: skill `recon-surface-sync`
-- Perfil sênior / AppSec: skill `recon-senior-appsec` + [`engineering-senior-profile.md`](engineering-senior-profile.md)
-- CI / release: skill `recon-ci-release` + [`engineering-ci-release.md`](engineering-ci-release.md)
-- Onboarding: skill `recon-course-senior` + [`courses/senior-appsec-path.md`](courses/senior-appsec-path.md)
+O arquivo de configuração do pre-commit opera com a filosofia **crash-first**:
+- Interrompe a execução imediatamente na primeira falha detectada (`fail_fast: true`).
+- O estágio principal é `commit-msg`, disparando verificações essenciais antes de autorizar o commit.

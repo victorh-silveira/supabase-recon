@@ -1,9 +1,9 @@
-# Cursos
+# Trilha de Capacitação e Cursos Sênior
 
-Trilhas de onboarding sênior para o repositório.
+Este diretório reúne materiais estruturados para onboarding técnico, capacitação em segurança de aplicações (AppSec) e domínio arquitetural do **Supabase Recon**.
 
-| Curso | Arquivo |
-|-------|---------|
-| AppSec / engenharia sênior | [`senior-appsec-path.md`](senior-appsec-path.md) |
+---
 
-Skill de condução: `recon-course-senior`.
+## Conteúdo Disponível
+
+- [`senior-appsec-path.md`](senior-appsec-path.md): Trilha prática de formação para engenheiros e agentes de IA, cobrindo desde a engenharia reversa de bundles compilados até as salvaguardas hexagonais de qualidade.
