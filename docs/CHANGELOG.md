@@ -1,3 +1,9 @@
+## [1.1.5](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.4...v1.1.5) (2026-11-08)
+
+### Refatoração
+
+* **repo:** eliminar pasta cursor e padronizar harness exclusivamente em .agents ([4e7ca04](https://github.com/victorh-silveira/supabase-recon/commit/4e7ca0492d245b4b9d4267affd03e07646a02c1c))
+
 ## [1.1.4](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.3...v1.1.4) (2026-11-08)
 
 ### Refatoração
