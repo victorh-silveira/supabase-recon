@@ -1,4 +1,4 @@
-"""Unit tests for TerminalUI."""
+"""Testes unitarios para TerminalUI."""
 
 import pytest
 
@@ -9,14 +9,14 @@ from presentation.cli.terminal_ui import TerminalUI
 
 @pytest.fixture
 def terminal_ui_instance():
-    """Return an instance of TerminalUI."""
+    """Retorna uma instancia de TerminalUI."""
     return TerminalUI()
 
 
 @pytest.mark.unit
 @pytest.mark.interface
 def test_print_info(terminal_ui_instance, monkeypatch):
-    """Test print_info method."""
+    """Testa o metodo print_info."""
     printed_messages = []
 
     def mock_print(*args, **kwargs):
@@ -31,7 +31,7 @@ def test_print_info(terminal_ui_instance, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.interface
 def test_print_error(terminal_ui_instance, monkeypatch):
-    """Test print_error method."""
+    """Testa o metodo print_error."""
     printed_messages = []
 
     def mock_print(*args, **kwargs):
@@ -46,7 +46,7 @@ def test_print_error(terminal_ui_instance, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.interface
 def test_display_report(terminal_ui_instance, monkeypatch):
-    """Test display_report method."""
+    """Testa o metodo display_report."""
     printed_messages = []
 
     def mock_print(*args, **kwargs):
@@ -75,7 +75,7 @@ def test_display_report(terminal_ui_instance, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.interface
 def test_display_test_results(terminal_ui_instance, monkeypatch):
-    """Test display_test_results method."""
+    """Testa o metodo display_test_results."""
     printed_messages = []
 
     def mock_print(*args, **kwargs):

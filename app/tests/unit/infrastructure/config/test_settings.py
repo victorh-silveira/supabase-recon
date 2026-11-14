@@ -1,4 +1,4 @@
-"""Unit tests for Settings."""
+"""Testes unitarios para Settings."""
 
 from pathlib import Path
 
@@ -10,7 +10,7 @@ from infrastructure.config.settings import Settings
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_settings_from_env_defaults(monkeypatch, tmp_path):
-    """Defaults apply when env vars are absent."""
+    """Valores padrao sao aplicados quando variaveis de ambiente estao ausentes."""
     monkeypatch.setenv("RECON_DISABLE_DOTENV", "1")
     monkeypatch.delenv("RECON_HTTP_TIMEOUT_SECONDS", raising=False)
     monkeypatch.delenv("RECON_OUTPUT_BASE_PATH", raising=False)
@@ -25,7 +25,7 @@ def test_settings_from_env_defaults(monkeypatch, tmp_path):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_settings_from_env_custom(monkeypatch, tmp_path):
-    """Custom env values are loaded."""
+    """Valores customizados de ambiente sao carregados."""
     monkeypatch.setenv("RECON_DISABLE_DOTENV", "1")
     monkeypatch.setenv("RECON_HTTP_TIMEOUT_SECONDS", "15")
     monkeypatch.setenv("RECON_OUTPUT_BASE_PATH", "out-custom")
@@ -40,7 +40,7 @@ def test_settings_from_env_custom(monkeypatch, tmp_path):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_settings_invalid_timeout(monkeypatch, tmp_path):
-    """Invalid timeout falls back to 30."""
+    """Timeout invalido retorna ao valor padrao 30."""
     monkeypatch.setenv("RECON_DISABLE_DOTENV", "1")
     monkeypatch.setenv("RECON_HTTP_TIMEOUT_SECONDS", "abc")
 
@@ -51,7 +51,7 @@ def test_settings_invalid_timeout(monkeypatch, tmp_path):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_settings_loads_dotenv_file(monkeypatch, tmp_path: Path):
-    """Dotenv file is loaded when not disabled."""
+    """Arquivo .env e carregado quando nao esta desabilitado."""
     monkeypatch.delenv("RECON_DISABLE_DOTENV", raising=False)
     monkeypatch.delenv("RECON_HTTP_TIMEOUT_SECONDS", raising=False)
     env_file = tmp_path / ".env"
@@ -64,7 +64,7 @@ def test_settings_loads_dotenv_file(monkeypatch, tmp_path: Path):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_settings_missing_dotenv_file(monkeypatch, tmp_path: Path):
-    """Missing .env is ignored when dotenv loading is enabled."""
+    """Ausencia de .env e ignorada quando o carregamento de dotenv esta habilitado."""
     monkeypatch.delenv("RECON_DISABLE_DOTENV", raising=False)
     monkeypatch.setenv("RECON_HTTP_TIMEOUT_SECONDS", "11")
 

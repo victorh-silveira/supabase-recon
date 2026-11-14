@@ -1,4 +1,4 @@
-"""Unit tests for CLI composition root."""
+"""Testes unitarios para o composition root da CLI."""
 
 import pytest
 
@@ -10,7 +10,7 @@ from presentation.cli import bootstrap
 @pytest.mark.unit
 @pytest.mark.presentation
 def test_bootstrap_success(monkeypatch, tmp_path):
-    """Happy path wires dependencies and finishes."""
+    """Caminho feliz conecta dependencias e finaliza."""
     monkeypatch.setenv("RECON_DISABLE_DOTENV", "1")
     monkeypatch.setattr(
         "sys.argv",
@@ -64,7 +64,7 @@ def test_bootstrap_success(monkeypatch, tmp_path):
 @pytest.mark.unit
 @pytest.mark.presentation
 def test_bootstrap_domain_error(monkeypatch, tmp_path):
-    """DomainError exits with code 1."""
+    """DomainError encerra com codigo 1."""
     monkeypatch.setenv("RECON_DISABLE_DOTENV", "1")
     monkeypatch.setattr("sys.argv", ["bootstrap", "--url", "https://example.com", "--no-test"])
 
@@ -103,7 +103,7 @@ def test_bootstrap_domain_error(monkeypatch, tmp_path):
 @pytest.mark.unit
 @pytest.mark.presentation
 def test_bootstrap_unexpected_error(monkeypatch, tmp_path):
-    """Unexpected errors exit with code 1."""
+    """Erros inesperados encerram com codigo 1."""
     monkeypatch.setenv("RECON_DISABLE_DOTENV", "1")
     monkeypatch.setattr("sys.argv", ["bootstrap", "--url", "https://example.com", "--no-test"])
 
@@ -142,7 +142,7 @@ def test_bootstrap_unexpected_error(monkeypatch, tmp_path):
 @pytest.mark.unit
 @pytest.mark.presentation
 def test_bootstrap_with_tests(monkeypatch, tmp_path):
-    """Reliability testing branch is exercised."""
+    """Ramo de testes de confiabilidade e exercitado."""
     monkeypatch.setenv("RECON_DISABLE_DOTENV", "1")
     monkeypatch.setattr("sys.argv", ["bootstrap", "--url", "https://example.com", "--skip-download"])
 
@@ -201,7 +201,7 @@ def test_bootstrap_with_tests(monkeypatch, tmp_path):
 @pytest.mark.unit
 @pytest.mark.presentation
 def test_main_calls_bootstrap(monkeypatch, tmp_path):
-    """Main delegates to bootstrap."""
+    """Main delega para bootstrap."""
     called = {}
 
     def fake_bootstrap(root):

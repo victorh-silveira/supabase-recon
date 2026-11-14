@@ -1,4 +1,4 @@
-"""Unit tests for SwaggerBuilderService."""
+"""Testes unitarios para SwaggerBuilderService."""
 
 import pytest
 
@@ -9,14 +9,14 @@ from domain.services.swagger_builder import SwaggerBuilderService
 
 @pytest.fixture
 def builder():
-    """Return a SwaggerBuilderService instance."""
+    """Retorna uma instancia de SwaggerBuilderService."""
     return SwaggerBuilderService()
 
 
 @pytest.mark.unit
 @pytest.mark.domain
 def test_build_specification(builder):
-    """Test full Swagger specification generation."""
+    """Testa a geracao completa da especificacao Swagger."""
     config = SupabaseConfig(url="https://xyz.supabase.co", anon_key="eyJ...")
     endpoints = [
         Endpoint(method="GET", path="signup", type=EndpointType.AUTH, tag="auth"),

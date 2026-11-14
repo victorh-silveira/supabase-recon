@@ -1,4 +1,4 @@
-"""Unit tests for Asset entity."""
+"""Testes unitarios para a entidade Asset."""
 
 import pytest
 
@@ -8,7 +8,7 @@ from domain.entities.asset import Asset
 @pytest.mark.unit
 @pytest.mark.domain
 def test_asset_properties():
-    """Test Asset helper properties."""
+    """Testa propriedades auxiliares de Asset."""
     asset = Asset(url_path="assets/index-ABC.js")
     assert asset.is_js is True
     assert asset.filename == "index-ABC.js"

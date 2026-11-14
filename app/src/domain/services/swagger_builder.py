@@ -1,4 +1,4 @@
-"""Service for building OpenAPI/Swagger documentation from domain models."""
+"""Servico para construir documentacao OpenAPI/Swagger a partir dos modelos de dominio."""
 
 from typing import Any
 
@@ -7,7 +7,7 @@ from domain.entities.supabase_config import SupabaseConfig
 
 
 class SwaggerBuilderService:
-    """Service to transform discovered Supabase endpoints into OpenAPI 3.0 specification."""
+    """Servico para transformar endpoints Supabase descobertos em especificacao OpenAPI 3.0."""
 
     def build_specification(
         self,
@@ -15,7 +15,7 @@ class SwaggerBuilderService:
         endpoints: list[Endpoint],
         app_url: str,
     ) -> dict[str, Any]:
-        """Generate a complete OpenAPI dictionary based on the provided endpoints and config."""
+        """Gera um dicionario OpenAPI completo com base nos endpoints e configuracao fornecidos."""
         paths: dict[str, Any] = {}
 
         standard_rest_params = [
@@ -71,7 +71,7 @@ class SwaggerBuilderService:
         }
 
     def _build_operation(self, endpoint: Endpoint, anon_key: str) -> dict[str, Any]:
-        """Build an OpenAPI operation object for a single endpoint."""
+        """Constroi um objeto de operacao OpenAPI para um unico endpoint."""
         parameters = [
             {
                 "name": "apikey",

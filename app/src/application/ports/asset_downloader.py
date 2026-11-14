@@ -7,8 +7,8 @@ from domain.entities.asset import Asset
 
 
 class AssetDownloaderPort(Protocol):
-    """Port for downloading application assets."""
+    """Porta para download de assets da aplicacao."""
 
     def download_all(self, base_url: str, assets: list[Asset], project_dir: Path) -> list[Path]:
-        """Download assets from a base URL into a project directory."""
+        """Baixa os assets a partir de uma URL base para o diretorio do projeto."""
         ...

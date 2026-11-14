@@ -1,10 +1,10 @@
-"""CLI argument parsing for Supabase Recon Analyzer."""
+"""Analise de argumentos de linha de comando para o Supabase Recon Analyzer."""
 
 import argparse
 
 
 def parse_args() -> argparse.Namespace:
-    """Parse and return command-line arguments."""
+    """Analisa e retorna os argumentos de linha de comando."""
     parser = argparse.ArgumentParser(
         description="Analyzes Lovable/Supabase app, generates swagger.yaml and tests endpoints",
         formatter_class=argparse.RawDescriptionHelpFormatter,

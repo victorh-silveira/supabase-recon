@@ -6,10 +6,10 @@ Ponto de entrada canônico e Single Source of Truth (SSOT) para agentes de intel
 
 ## 1. Idioma e Ambiente Operacional
 
-- **Idioma Obrigatório**: Respostas, documentações técnicas e mensagens de commit redigidas exclusivamente em **PT-BR**.
+- **Idioma Obrigatório**: Respostas, documentações técnicas, docstrings em Python e mensagens de commit redigidas exclusivamente em **PT-BR**.
 - **Ambiente de Execução**: Terminal e scripts executados obrigatoriamente sob **WSL Linux** (nunca CMD ou PowerShell nativo).
 - **Sobriedade**: Proibido o uso de emojis em código-fonte, logs ou documentação técnica.
-- **Autoexplicabilidade**: Proibido comentários inline no código-fonte Python (docstrings em módulos, classes e métodos são permitidas e recomendadas).
+- **Autoexplicabilidade**: Proibido comentários inline no código-fonte Python (docstrings em módulos, classes, métodos e funções são permitidas, recomendadas e devem ser redigidas exclusivamente em **PT-BR**).
 
 ---
 
@@ -49,6 +49,7 @@ Ponto de entrada canônico e Single Source of Truth (SSOT) para agentes de intel
 - Proibido commits ou builds com cobertura de testes abaixo de **100% de branches**.
 - Proibido versionar arquivos `.env`, tokens JWT, anon keys reais ou resultados em `output/`.
 - Proibido mensagens de commit com título em outro idioma ou escopos fora da especificação do commitlint.
+- Proibido escrever docstrings em outro idioma que não seja **PT-BR** em módulos, classes, funções, métodos ou testes.
 - Proibido afrouxar linters, suprimir checagens de segurança ou utilizar `--no-verify` para forçar commits.
 
 ---

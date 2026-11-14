@@ -10,9 +10,9 @@ Diretrizes mandatórias de estilo, formatação, qualidade estática e práticas
    - Nenhum arquivo em `app/src/**/*.py` pode ultrapassar **300 linhas** de código.
    - Violações são bloqueadas pelo hook de pre-commit e pelas esteiras de CI.
    - Refatore arquivos grandes extraindo responsabilidades e criando serviços especializados.
-2. **Ausência Total de Comentários Inline**:
+2. **Ausência Total de Comentários Inline e Docstrings em PT-BR**:
    - É terminantemente proibido o uso de comentários inline (`# comentário`) no código-fonte Python.
-   - Toda clareza técnica deve emergir de nomes semânticos para funções/variáveis e de **docstrings completas** em módulos, classes e métodos.
+   - Toda clareza técnica deve emergir de nomes semânticos para funções/variáveis e de **docstrings completas em PT-BR** em módulos, classes, funções e métodos (incluindo testes).
 3. **Tipagem Estrita**:
    - Uso obrigatório de type hints em todas as assinaturas de funções, métodos e atributos de classes.
    - Validação estrita via `mypy --strict`.

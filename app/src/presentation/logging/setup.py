@@ -8,7 +8,7 @@ from rich.logging import RichHandler
 
 
 def configure_logging(level: str = "INFO") -> None:
-    """Configure application logging with Rich and quiet HTTP client loggers."""
+    """Configura o logging da aplicacao com Rich e silencia loggers HTTP verbosos."""
     root = logging.getLogger()
     root.handlers.clear()
     root.setLevel(getattr(logging, level.upper(), logging.INFO))

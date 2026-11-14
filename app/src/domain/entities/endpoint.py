@@ -1,11 +1,11 @@
-"""Endpoint models for different Supabase services."""
+"""Modelos de endpoint para diferentes servicos do Supabase."""
 
 from dataclasses import dataclass, field
 from enum import Enum, auto
 
 
 class EndpointType(Enum):
-    """Types of Supabase endpoints."""
+    """Tipos de endpoints do Supabase."""
 
     AUTH = auto()
     REST = auto()
@@ -15,7 +15,7 @@ class EndpointType(Enum):
 
 @dataclass(frozen=True)
 class QueryParam:
-    """Represents a static query parameter extracted from the JS bundle."""
+    """Representa um parametro de consulta estatico extraido do bundle JS."""
 
     key: str
     value: str
@@ -23,7 +23,7 @@ class QueryParam:
 
 @dataclass(frozen=True)
 class Endpoint:
-    """Base model for all discovered endpoints."""
+    """Modelo base para todos os endpoints descobertos."""
 
     method: str
     path: str
@@ -35,7 +35,7 @@ class Endpoint:
 
     @property
     def full_path(self) -> str:
-        """Return the path with a leading slash."""
+        """Retorna o caminho com barra inicial."""
         return self.path if self.path.startswith("/") else f"/{self.path}"
 
 

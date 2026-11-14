@@ -1,4 +1,4 @@
-"""Use case for analyzing a Lovable/Supabase application."""
+"""Caso de uso para analisar uma aplicacao Lovable/Supabase."""
 
 import json
 import re
@@ -16,7 +16,7 @@ from domain.validation.config_validator import ConfigValidator
 
 
 class AnalyzeApplication:
-    """Orchestrates the process of downloading and analyzing a Supabase application."""
+    """Orquestra o processo de download e analise de uma aplicacao Supabase."""
 
     def __init__(
         self,
@@ -27,7 +27,7 @@ class AnalyzeApplication:
         swagger_builder: SwaggerBuilderService,
         config_validator: ConfigValidator,
     ) -> None:
-        """Initialize with required services."""
+        """Inicializa o caso de uso com os servicos necessarios."""
         self.http_client = http_client
         self.file_repository = file_repository
         self.asset_downloader = asset_downloader
@@ -36,7 +36,7 @@ class AnalyzeApplication:
         self.config_validator = config_validator
 
     def execute(self, app_url: str, *, skip_download: bool = False) -> AnalysisReport:
-        """Run the full analysis pipeline."""
+        """Executa o pipeline completo de analise."""
         base_url = app_url.rstrip("/")
         domain = re.sub(r"http[s]?://", "", base_url).split("/")[0]
         project_dir = self.file_repository.get_project_dir(domain)
@@ -82,14 +82,14 @@ class AnalyzeApplication:
         )
 
     def _discover_assets(self, base_url: str) -> list[Asset]:
-        """Discovery logic: try sw.js, then fallback to index.html."""
+        """Logica de descoberta: tenta sw.js e faz fallback para index.html."""
         assets = self._fetch_from_sw(base_url)
         if not assets:
             assets = self._fetch_from_index(base_url)
         return assets
 
     def _fetch_from_sw(self, base_url: str) -> list[Asset]:
-        """Extract assets from precacheAndRoute in sw.js."""
+        """Extrai assets de precacheAndRoute no sw.js."""
         sw_url = f"{base_url}/sw.js"
         content = self.http_client.get_text(sw_url)
         if not content:
@@ -118,7 +118,7 @@ class AnalyzeApplication:
         return assets
 
     def _fetch_from_index(self, base_url: str) -> list[Asset]:
-        """Extract assets from index.html using regex."""
+        """Extrai assets de index.html usando regex."""
         content = self.http_client.get_text(f"{base_url}/")
         if not content:
             return []

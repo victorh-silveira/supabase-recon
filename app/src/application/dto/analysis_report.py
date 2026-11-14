@@ -1,11 +1,11 @@
-"""Data Transfer Objects for analysis reporting."""
+"""Objetos de transferencia de dados (DTOs) para relatorios de analise."""
 
 from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
 class AnalysisReport:
-    """Summary of the analysis result for an application."""
+    """Resumo do resultado da analise de uma aplicacao."""
 
     app_url: str
     supabase_url: str
@@ -20,7 +20,7 @@ class AnalysisReport:
     detected_assets_count: int
 
     def to_dict(self) -> dict[str, object]:
-        """Convert the report to a dictionary."""
+        """Converte o relatorio em um dicionario."""
         return {
             "app_url": self.app_url,
             "supabase_url": self.supabase_url,

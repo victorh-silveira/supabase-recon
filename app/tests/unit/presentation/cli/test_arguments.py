@@ -1,4 +1,4 @@
-"""Unit tests for CLI argument parsing."""
+"""Testes unitarios para analise de argumentos da CLI."""
 
 import sys
 
@@ -10,7 +10,7 @@ from presentation.cli.arguments import parse_args
 @pytest.mark.unit
 @pytest.mark.interface
 def test_parse_args_required(monkeypatch):
-    """Test parse_args with required arguments."""
+    """Testa parse_args com argumentos obrigatorios."""
     monkeypatch.setattr(sys, "argv", ["main.py", "--url", "https://example.com"])
     args = parse_args()
     assert args.url == "https://example.com"
@@ -22,7 +22,7 @@ def test_parse_args_required(monkeypatch):
 @pytest.mark.unit
 @pytest.mark.interface
 def test_parse_args_all(monkeypatch):
-    """Test parse_args with all arguments specified."""
+    """Testa parse_args com todos os argumentos especificados."""
     monkeypatch.setattr(
         sys,
         "argv",
@@ -38,7 +38,7 @@ def test_parse_args_all(monkeypatch):
 @pytest.mark.unit
 @pytest.mark.interface
 def test_parse_args_missing_url(monkeypatch):
-    """Test parse_args when required --url is missing."""
+    """Testa parse_args quando --url obrigatorio esta ausente."""
     monkeypatch.setattr(sys, "argv", ["main.py"])
     with pytest.raises(SystemExit):
         parse_args()

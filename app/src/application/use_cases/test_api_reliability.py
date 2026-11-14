@@ -1,4 +1,4 @@
-"""Use case for testing API reliability and permissions."""
+"""Caso de uso para testar disponibilidade e permissoes da API."""
 
 import re
 from typing import Any
@@ -8,12 +8,12 @@ from domain.entities.endpoint import PATH_PARAM_PLACEHOLDERS
 
 
 class ApiReliabilityTester:
-    """Tests discovered endpoints to identify accessibility and permissions."""
+    """Testa endpoints descobertos para identificar acessibilidade e permissoes."""
 
     ACCESSIBLE_STATUS_CODES = {200, 201, 204, 400, 405, 422}
 
     def __init__(self, http_client: HttpClientPort) -> None:
-        """Initialize with HTTP client port."""
+        """Inicializa com a porta de cliente HTTP."""
         self.http_client = http_client
 
     def execute(
@@ -22,7 +22,7 @@ class ApiReliabilityTester:
         anon_key: str,
         methods_to_test: set[str],
     ) -> list[dict[str, Any]]:
-        """Run tests on all paths defined in the swagger spec."""
+        """Executa testes em todos os caminhos definidos na especificacao Swagger."""
         base_url = swagger_spec.get("servers", [{}])[0].get("url", "").rstrip("/")
         paths = swagger_spec.get("paths", {})
 
@@ -54,7 +54,7 @@ class ApiReliabilityTester:
         return results
 
     def _fill_path_params(self, path: str) -> str:
-        """Replace {param} placeholders with test values."""
+        """Substitui placeholders {param} por valores de teste."""
         return re.sub(
             r"\{(\w+)\}",
             lambda m: PATH_PARAM_PLACEHOLDERS.get(m.group(1), f"test-{m.group(1)}"),
@@ -62,7 +62,7 @@ class ApiReliabilityTester:
         )
 
     def _do_test_request(self, method: str, url: str, anon_key: str) -> tuple[int, str, str]:
-        """Perform a single test request with Supabase headers."""
+        """Executa uma requisicao de teste unica com cabecalhos do Supabase."""
         headers = {
             "apikey": anon_key,
             "Authorization": f"Bearer {anon_key}",

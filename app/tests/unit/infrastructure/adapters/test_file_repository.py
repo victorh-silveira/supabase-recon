@@ -1,4 +1,4 @@
-"""Unit tests for FileRepository adapter."""
+"""Testes unitarios para o adaptador FileRepository."""
 
 from pathlib import Path
 
@@ -9,14 +9,14 @@ from infrastructure.adapters.file_repository import FileRepository
 
 @pytest.fixture
 def repo(tmp_path):
-    """Return a FileRepository instance pointed at a temporary directory."""
+    """Retorna uma instancia de FileRepository apontada para um diretorio temporario."""
     return FileRepository(base_output_path=str(tmp_path))
 
 
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_get_project_dir(repo, tmp_path):
-    """Test project directory creation and naming."""
+    """Testa criacao e nomenclatura do diretorio do projeto."""
     project_dir = repo.get_project_dir("myapp.com")
     assert project_dir == tmp_path / "myapp.com"
     assert project_dir.exists()
@@ -25,7 +25,7 @@ def test_get_project_dir(repo, tmp_path):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_write_text(repo, tmp_path):
-    """Test writing text to a file."""
+    """Testa gravacao de texto em arquivo."""
     file_path = tmp_path / "test.txt"
     repo.write_text(file_path, "content")
     assert file_path.read_text() == "content"
@@ -34,7 +34,7 @@ def test_write_text(repo, tmp_path):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_find_largest_js(repo, tmp_path):
-    """Test finding the largest JS file."""
+    """Testa busca pelo maior arquivo JS."""
     f1 = tmp_path / "small.js"
     f1.write_text("a")
     f2 = tmp_path / "large.js"
@@ -47,14 +47,14 @@ def test_find_largest_js(repo, tmp_path):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_find_largest_js_none(repo, tmp_path):
-    """Test finding JS when none exist."""
+    """Testa busca por JS quando nao ha nenhum arquivo."""
     assert repo.find_largest_js(tmp_path) is None
 
 
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_write_bytes(repo, tmp_path):
-    """Test writing bytes to a file."""
+    """Testa gravacao de bytes em arquivo."""
     file_path = tmp_path / "test.bin"
     repo.write_bytes(file_path, b"content")
     assert file_path.read_bytes() == b"content"
@@ -63,7 +63,7 @@ def test_write_bytes(repo, tmp_path):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_write_text_error_patch(repo, monkeypatch):
-    """Test OSError handling in write_text using monkeypatch."""
+    """Testa tratamento de OSError em write_text usando monkeypatch."""
 
     def mock_write(*args, **kwargs):
         raise OSError("Disk full")
@@ -75,7 +75,7 @@ def test_write_text_error_patch(repo, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_write_bytes_error_patch(repo, monkeypatch):
-    """Test OSError handling in write_bytes using monkeypatch."""
+    """Testa tratamento de OSError em write_bytes usando monkeypatch."""
 
     def mock_write(*args, **kwargs):
         raise OSError("Disk full")

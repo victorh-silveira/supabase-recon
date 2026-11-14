@@ -1,4 +1,4 @@
-"""HTTP client adapter using requests."""
+"""Adaptador de cliente HTTP utilizando requests."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 class HTTPClient:
-    """Robust HTTP client for downloading assets and testing endpoints."""
+    """Cliente HTTP robusto para download de assets e teste de endpoints."""
 
     DEFAULT_HEADERS = {
         "User-Agent": (
@@ -28,7 +28,7 @@ class HTTPClient:
     }
 
     def __init__(self, timeout: int = 10, retries: int = 3) -> None:
-        """Initialize the client with timeout and retry policy."""
+        """Inicializa o cliente com timeout e politica de retentativas."""
         self.timeout = timeout
         self.session = requests.Session()
         self.session.headers.update(self.DEFAULT_HEADERS)
@@ -43,7 +43,7 @@ class HTTPClient:
         self.session.mount("https://", adapter)
 
     def get_text(self, url: str) -> str | None:
-        """Fetch text content from a URL."""
+        """Obtem conteudo textual de uma URL."""
         try:
             response = self.session.get(url, timeout=self.timeout)
             response.raise_for_status()
@@ -53,7 +53,7 @@ class HTTPClient:
             return None
 
     def get_bytes(self, url: str) -> bytes | None:
-        """Fetch binary content from a URL."""
+        """Obtem conteudo binario de uma URL."""
         try:
             response = self.session.get(url, timeout=self.timeout)
             response.raise_for_status()
@@ -69,7 +69,7 @@ class HTTPClient:
         headers: dict[str, str] | None = None,
         json_data: dict[str, Any] | None = None,
     ) -> tuple[int, str, str]:
-        """Execute a generic HTTP request and return (status, reason, response_text)."""
+        """Executa uma requisicao HTTP generica e retorna (status, motivo, corpo_texto)."""
         try:
             response = self.session.request(
                 method=method.upper(),

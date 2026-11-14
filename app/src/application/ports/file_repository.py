@@ -5,20 +5,20 @@ from typing import Protocol
 
 
 class FileRepositoryPort(Protocol):
-    """Port for local file and directory operations."""
+    """Porta para operacoes locais de arquivos e diretorios."""
 
     def get_project_dir(self, domain: str) -> Path:
-        """Return the project directory for a domain, creating it if needed."""
+        """Retorna o diretorio do projeto para um dominio, criando-o se necessario."""
         ...
 
     def write_text(self, file_path: Path, content: str) -> None:
-        """Write text content to a file."""
+        """Grava conteudo textual em um arquivo."""
         ...
 
     def write_bytes(self, file_path: Path, content: bytes) -> None:
-        """Write binary content to a file."""
+        """Grava conteudo binario em um arquivo."""
         ...
 
     def find_largest_js(self, directory: Path) -> Path | None:
-        """Find the largest JavaScript file under a directory."""
+        """Localiza o maior arquivo JavaScript dentro de um diretorio."""
         ...

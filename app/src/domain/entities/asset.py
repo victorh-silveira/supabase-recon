@@ -1,4 +1,4 @@
-"""Asset models for discovered application files."""
+"""Modelos de asset para arquivos descobertos da aplicacao."""
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -6,7 +6,7 @@ from pathlib import Path
 
 @dataclass(frozen=True)
 class Asset:
-    """Represents a static asset (JS, CSS, etc.) to be downloaded or analyzed."""
+    """Representa um asset estatico (JS, CSS, etc.) a ser baixado ou analisado."""
 
     url_path: str
     local_path: Path | None = None
@@ -14,10 +14,10 @@ class Asset:
 
     @property
     def is_js(self) -> bool:
-        """Check if the asset is a JavaScript file."""
+        """Verifica se o asset e um arquivo JavaScript."""
         return self.url_path.endswith(".js")
 
     @property
     def filename(self) -> str:
-        """Return the filename from the url path."""
+        """Retorna o nome do arquivo a partir do caminho da URL."""
         return Path(self.url_path).name

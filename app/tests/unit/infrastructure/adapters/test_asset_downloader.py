@@ -1,4 +1,4 @@
-"""Unit tests for AssetDownloader adapter."""
+"""Testes unitarios para o adaptador AssetDownloader."""
 
 from pathlib import Path
 
@@ -10,7 +10,7 @@ from infrastructure.adapters.asset_downloader import AssetDownloader
 
 @pytest.fixture
 def downloader():
-    """Return an AssetDownloader with fake dependencies."""
+    """Retorna um AssetDownloader com dependencias falsas."""
 
     class FakeClient:
         def get_bytes(self, url):
@@ -41,7 +41,7 @@ def downloader():
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_download_asset_error(downloader, monkeypatch):
-    """Test handling of download errors."""
+    """Testa tratamento de erros no download."""
 
     def mock_get(*args, **kwargs):
         raise Exception("Fatal error")
@@ -55,7 +55,7 @@ def test_download_asset_error(downloader, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_download_all(downloader):
-    """Test downloading multiple assets."""
+    """Testa download de multiplos assets."""
     assets = [Asset(url_path="a.js"), Asset(url_path="b.css")]
     downloader.download_all("https://example.com", assets, Path("output"))
 
@@ -63,7 +63,7 @@ def test_download_all(downloader):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_download_all_failure_branch(downloader, monkeypatch):
-    """Test the branch where data is None."""
+    """Testa o ramo em que os dados retornados sao None."""
     monkeypatch.setattr(downloader.http_client, "get_bytes", lambda u: None)
     assets = [Asset(url_path="fail.js")]
     paths = downloader.download_all("https://e.com", assets, Path("o"))

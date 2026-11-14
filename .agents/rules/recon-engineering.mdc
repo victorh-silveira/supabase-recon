@@ -9,7 +9,8 @@ Padrões de qualidade de código e conformidade aplicáveis a todo o repositóri
 
 ## 1. Regras Estruturais de Código
 - **Teto de Linhas**: Nenhum arquivo em `app/src/**/*.py` pode ultrapassar **300 linhas** de código.
-- **Ausência de Comentários**: Proibidos comentários inline (`# comentário`). Toda intenção técnica deve ser documentada exclusivamente através de nomes expressivos e docstrings formais nos módulos, classes e funções.
+- **Ausência de Comentários**: Proibidos comentários inline (`# comentário`). Toda intenção técnica deve ser documentada exclusivamente através de nomes expressivos e docstrings formais em **PT-BR** nos módulos, classes, métodos e funções (incluindo testes).
+- **Idioma de Docstrings**: Todas as docstrings em `app/` devem ser redigidas exclusivamente em **PT-BR**.
 - **Tipagem Estrita**: Type annotations completas em todos os parâmetros e retornos; validação rigorosa com `mypy --strict`.
 - **Estilo Canônico**: Código formatado e validado com `ruff`, `flake8` e `black`.
 

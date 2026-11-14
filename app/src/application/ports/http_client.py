@@ -4,14 +4,14 @@ from typing import Any, Protocol
 
 
 class HttpClientPort(Protocol):
-    """Port for outbound HTTP operations."""
+    """Porta para operacoes HTTP de saida."""
 
     def get_text(self, url: str) -> str | None:
-        """Fetch text content from a URL."""
+        """Obtem conteudo textual de uma URL."""
         ...
 
     def get_bytes(self, url: str) -> bytes | None:
-        """Fetch binary content from a URL."""
+        """Obtem conteudo binario de uma URL."""
         ...
 
     def request(
@@ -21,5 +21,5 @@ class HttpClientPort(Protocol):
         headers: dict[str, str] | None = None,
         json_data: dict[str, Any] | None = None,
     ) -> tuple[int, str, str]:
-        """Execute a generic HTTP request and return status, reason and body text."""
+        """Executa uma requisicao HTTP generica e retorna status, motivo e corpo."""
         ...

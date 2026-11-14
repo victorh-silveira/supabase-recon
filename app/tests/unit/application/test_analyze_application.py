@@ -1,4 +1,4 @@
-"""Unit tests for AnalyzeApplication use case."""
+"""Testes unitarios para o caso de uso AnalyzeApplication."""
 
 from pathlib import Path
 
@@ -11,7 +11,7 @@ from domain.entities.supabase_config import SupabaseConfig
 
 @pytest.fixture
 def use_case():
-    """Return AnalyzeApplication with fake port implementations."""
+    """Retorna AnalyzeApplication com implementacoes falsas das portas."""
 
     class FakeClient:
         def get_text(self, url):
@@ -77,7 +77,7 @@ def use_case():
 @pytest.mark.unit
 @pytest.mark.application
 def test_analyze_execute(use_case, monkeypatch):
-    """Test full execution of AnalyzeApplication."""
+    """Testa execucao completa de AnalyzeApplication."""
 
     class MockStat:
         st_size = 1024
@@ -97,7 +97,7 @@ def test_analyze_execute(use_case, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.application
 def test_analysis_report_to_dict():
-    """Test the to_dict method of AnalysisReport."""
+    """Testa o metodo to_dict de AnalysisReport."""
     report = AnalysisReport(
         app_url="https://a.com",
         supabase_url="https://s.co",
@@ -120,7 +120,7 @@ def test_analysis_report_to_dict():
 @pytest.mark.unit
 @pytest.mark.application
 def test_analyze_no_bundle_error(use_case, monkeypatch):
-    """Test FileNotFoundError when no JS bundle is found."""
+    """Testa FileNotFoundError quando nenhum bundle JS e encontrado."""
     monkeypatch.setattr(use_case.file_repository, "find_largest_js", lambda p: None)
     with pytest.raises(FileNotFoundError, match="No JS bundle found"):
         use_case.execute("https://example.com")
@@ -129,7 +129,7 @@ def test_analyze_no_bundle_error(use_case, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.application
 def test_fetch_from_index_empty(use_case, monkeypatch):
-    """Test asset discovery from index.html when empty."""
+    """Testa descoberta de assets em index.html quando vazio."""
     monkeypatch.setattr(use_case.http_client, "get_text", lambda u: None)
     assets = use_case._fetch_from_index("https://example.com")
     assert len(assets) == 0
@@ -138,7 +138,7 @@ def test_fetch_from_index_empty(use_case, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.application
 def test_fetch_from_index_matching(use_case, monkeypatch):
-    """Test asset discovery from index.html with regex matches."""
+    """Testa descoberta de assets em index.html com correspondencias regex."""
     html = '<script src="/assets/m.js"></script><link href="/assets/s.css">'
     monkeypatch.setattr(use_case.http_client, "get_text", lambda u: html)
     assets = use_case._fetch_from_index("https://example.com")
@@ -150,7 +150,7 @@ def test_fetch_from_index_matching(use_case, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.application
 def test_fetch_from_sw(use_case, monkeypatch):
-    """Test asset discovery from sw.js."""
+    """Testa descoberta de assets a partir de sw.js."""
     assets = use_case._fetch_from_sw("https://example.com")
     assert len(assets) == 0
 
@@ -165,7 +165,7 @@ def test_fetch_from_sw(use_case, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.application
 def test_analyze_skip_download(use_case, monkeypatch):
-    """Test skip_download branch."""
+    """Testa o ramo skip_download."""
     monkeypatch.setattr("pathlib.Path.exists", lambda self: True)
     monkeypatch.setattr("pathlib.Path.read_text", lambda *args, **kwargs: "js content")
     monkeypatch.setattr("pathlib.Path.stat", lambda self: type("S", (), {"st_size": 10})())
@@ -179,7 +179,7 @@ def test_analyze_skip_download(use_case, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.application
 def test_fetch_from_sw_json_error(use_case, monkeypatch):
-    """Test JSON error handling in sw.js parsing."""
+    """Testa tratamento de erro JSON ao interpretar sw.js."""
     monkeypatch.setattr(use_case.http_client, "get_text", lambda u: "precacheAndRoute([{invalid-json}])")
     assets = use_case._fetch_from_sw("https://example.com")
     assert len(assets) == 0
@@ -188,7 +188,7 @@ def test_fetch_from_sw_json_error(use_case, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.application
 def test_discover_assets_fallback(use_case, monkeypatch):
-    """Test fallback logic when sw.js fails."""
+    """Testa logica de fallback quando sw.js falha."""
     monkeypatch.setattr(use_case.http_client, "get_text", lambda u: "" if "sw.js" in u else "index content")
     assets = use_case._discover_assets("https://example.com")
     assert len(assets) == 0
@@ -197,7 +197,7 @@ def test_discover_assets_fallback(use_case, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.application
 def test_discover_assets_from_sw(use_case, monkeypatch):
-    """Non-empty sw.js discovery skips index fallback."""
+    """Descoberta nao vazia em sw.js ignora o fallback de index.html."""
     monkeypatch.setattr(
         use_case.http_client,
         "get_text",
@@ -211,7 +211,7 @@ def test_discover_assets_from_sw(use_case, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.application
 def test_fetch_from_index_deduplicates(use_case, monkeypatch):
-    """Duplicate asset URLs in index.html are ignored."""
+    """URLs de assets duplicadas em index.html sao ignoradas."""
     html = '<script src="/assets/m.js"></script><script src="/assets/m.js"></script>'
     monkeypatch.setattr(use_case.http_client, "get_text", lambda u: html)
     assets = use_case._fetch_from_index("https://example.com")
@@ -221,7 +221,7 @@ def test_fetch_from_index_deduplicates(use_case, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.application
 def test_fetch_from_sw_type_error(use_case, monkeypatch):
-    """Non-dict precache entries are skipped."""
+    """Entradas de precache que nao sao dicionarios sao ignoradas."""
     monkeypatch.setattr(
         use_case.http_client,
         "get_text",
@@ -234,7 +234,7 @@ def test_fetch_from_sw_type_error(use_case, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.application
 def test_fetch_from_sw_non_list_json(use_case, monkeypatch):
-    """Non-list JSON payload returns no assets."""
+    """Payload JSON que nao e lista nao retorna assets."""
     monkeypatch.setattr(
         use_case.http_client,
         "get_text",

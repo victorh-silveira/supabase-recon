@@ -1,4 +1,4 @@
-"""Adapter for orchestrating asset downloads."""
+"""Adaptador para orquestrar downloads de assets."""
 
 from __future__ import annotations
 
@@ -15,15 +15,15 @@ logger = logging.getLogger(__name__)
 
 
 class AssetDownloader:
-    """Orchestrates downloading a list of assets to the local repository."""
+    """Orquestra o download de uma lista de assets para o repositorio local."""
 
     def __init__(self, http_client: HttpClientPort, file_repository: FileRepositoryPort) -> None:
-        """Initialize with network and persistence dependencies."""
+        """Inicializa com as dependencias de rede e persistencia."""
         self.http_client = http_client
         self.file_repository = file_repository
 
     def download_all(self, base_url: str, assets: list[Asset], project_dir: Path) -> list[Path]:
-        """Download a list of assets from a base URL to a project directory."""
+        """Baixa uma lista de assets a partir de uma URL base para o diretorio do projeto."""
         downloaded_paths: list[Path] = []
 
         log_event(

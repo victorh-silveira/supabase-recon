@@ -1,4 +1,4 @@
-"""Composition root: Settings, adapters, use cases and CLI execution."""
+"""Composition root: Settings, adaptadores, casos de uso e execucao da CLI."""
 
 from __future__ import annotations
 
@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 def bootstrap(repo_root: Path) -> None:
-    """Wire dependencies and run the analysis pipeline."""
+    """Conecta dependencias e executa o pipeline de analise."""
     settings = Settings.from_env(repo_root)
     configure_logging(settings.log_level)
 
@@ -94,5 +94,5 @@ def bootstrap(repo_root: Path) -> None:
 
 
 def main(repo_root: Path) -> None:
-    """Entrypoint used by app/run.py."""
+    """Ponto de entrada utilizado por app/run.py."""
     bootstrap(repo_root)

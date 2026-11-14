@@ -1,4 +1,4 @@
-"""Unit tests for HTTPClient adapter."""
+"""Testes unitarios para o adaptador HTTPClient."""
 
 import pytest
 import requests
@@ -8,14 +8,14 @@ from infrastructure.adapters.http_client import HTTPClient
 
 @pytest.fixture
 def client():
-    """Return an HTTPClient instance."""
+    """Retorna uma instancia de HTTPClient."""
     return HTTPClient()
 
 
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_get_text_success(client, monkeypatch):
-    """Test successful GET text request."""
+    """Testa requisicao GET de texto bem-sucedida."""
 
     class MockResponse:
         text = "hello world"
@@ -33,7 +33,7 @@ def test_get_text_success(client, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_get_bytes_success(client, monkeypatch):
-    """Test successful GET bytes request."""
+    """Testa requisicao GET de bytes bem-sucedida."""
 
     class MockResponse:
         content = b"\x00\x01"
@@ -51,7 +51,7 @@ def test_get_bytes_success(client, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_request_exception(client, monkeypatch):
-    """Test request handling during an exception."""
+    """Testa tratamento de requisicao durante uma excecao."""
 
     def mock_request(*args, **kwargs):
         raise requests.RequestException("Boom")
@@ -67,7 +67,7 @@ def test_request_exception(client, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_request_success(client, monkeypatch):
-    """Test successful generic request."""
+    """Testa requisicao generica bem-sucedida."""
 
     class MockResponse:
         status_code = 201
@@ -85,7 +85,7 @@ def test_request_success(client, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_get_text_error(client, monkeypatch):
-    """Test GET text failing."""
+    """Testa falha em GET de texto."""
 
     def mock_get(*args, **kwargs):
         raise requests.RequestException("Error")
@@ -97,7 +97,7 @@ def test_get_text_error(client, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_get_bytes_error(client, monkeypatch):
-    """Test GET bytes failing."""
+    """Testa falha em GET de bytes."""
 
     def mock_get(*args, **kwargs):
         raise requests.RequestException("Error")
@@ -109,7 +109,7 @@ def test_get_bytes_error(client, monkeypatch):
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_request_generic_exception(client, monkeypatch):
-    """Test request handling during a generic exception."""
+    """Testa tratamento de requisicao durante uma excecao generica."""
 
     def mock_request(*args, **kwargs):
         raise RuntimeError("Bad")

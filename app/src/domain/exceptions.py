@@ -1,17 +1,17 @@
-"""Domain exceptions for Supabase Recon Analyzer."""
+"""Excecoes de dominio para o Supabase Recon Analyzer."""
 
 
 class DomainError(Exception):
-    """Base exception for domain layer."""
+    """Excecao base da camada de dominio."""
 
 
 class SupabaseConfigNotFoundError(DomainError):
-    """Raised when Supabase URL or anonKey cannot be found in the JS bundle."""
+    """Lancada quando a URL ou anonKey do Supabase nao e encontrada no bundle JS."""
 
 
 class ParsingError(DomainError):
-    """Raised when there is an error parsing bundle content."""
+    """Lancada quando ocorre um erro ao interpretar o conteudo do bundle."""
 
 
 class ValidationError(DomainError):
-    """Raised when domain data validation fails."""
+    """Lancada quando a validacao de dados do dominio falha."""

@@ -14,6 +14,7 @@ Garantia de confiabilidade com cobertura exaustiva e testes determinísticos.
 ## 2. Isolamento e Determinismo
 - **Testes Unitários**: Proibido realizar chamadas de rede reais, criar sockets ou depender de arquivos no filesystem sem fakes em memória.
 - **Uso de Fakes e Fixtures**: Implementar fakes para as portas de aplicação (`MockHttpClient`, `InMemoryFileRepository`, etc.).
+- **Docstrings em PT-BR**: Todas as docstrings de módulos, classes, fixtures e funções de teste devem ser redigidas exclusivamente em **PT-BR**.
 - **Ambiente de Execução**: Testes executados exclusivamente no terminal **WSL Linux** via `pytest app/tests`.
 
 ## 3. Matriz de Agentes

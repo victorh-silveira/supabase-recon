@@ -1,4 +1,4 @@
-"""Unit tests for semantic logging helpers."""
+"""Testes unitarios para helpers de logging semantico."""
 
 import logging
 
@@ -10,21 +10,21 @@ from infrastructure.logging.events import log_event, redact_url
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_redact_url_with_query():
-    """Query string must be redacted."""
+    """Query string deve ser redigida."""
     assert redact_url("https://h.example/path?token=secret") == "https://h.example/path?***"
 
 
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_redact_url_without_query():
-    """URL without query stays unchanged."""
+    """URL sem query string permanece inalterada."""
     assert redact_url("https://h.example/path") == "https://h.example/path"
 
 
 @pytest.mark.unit
 @pytest.mark.infrastructure
 def test_log_event_redacts_secrets(caplog):
-    """Sensitive fields are masked in the log message."""
+    """Campos sensiveis sao mascarados na mensagem de log."""
     logger = logging.getLogger("test.events")
     with caplog.at_level(logging.INFO, logger="test.events"):
         log_event(

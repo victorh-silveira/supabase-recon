@@ -1,4 +1,4 @@
-"""Unit tests for ConfigValidator."""
+"""Testes unitarios para ConfigValidator."""
 
 import pytest
 
@@ -10,15 +10,15 @@ from domain.validation.config_validator import ConfigValidator
 @pytest.mark.unit
 @pytest.mark.domain
 def test_validation_success():
-    """Test successful validation."""
+    """Testa validacao bem-sucedida."""
     config = SupabaseConfig(url="https://xyz.supabase.co", anon_key="eyJ...")
-    ConfigValidator.validate_supabase_config(config)  # Should not raise
+    ConfigValidator.validate_supabase_config(config)
 
 
 @pytest.mark.unit
 @pytest.mark.domain
 def test_validation_failure_url():
-    """Test validation failure for placeholder URL."""
+    """Testa falha de validacao para URL placeholder."""
     config = SupabaseConfig(url="{SUPABASE_URL}", anon_key="eyJ...")
     with pytest.raises(ValidationError, match="Supabase URL was not discovered"):
         ConfigValidator.validate_supabase_config(config)
@@ -27,7 +27,7 @@ def test_validation_failure_url():
 @pytest.mark.unit
 @pytest.mark.domain
 def test_validation_failure_key():
-    """Test validation failure for placeholder key."""
+    """Testa falha de validacao para chave placeholder."""
     config = SupabaseConfig(url="https://xyz.supabase.co", anon_key="{ANON_KEY}")
     with pytest.raises(ValidationError, match="Supabase anonKey was not discovered"):
         ConfigValidator.validate_supabase_config(config)
@@ -36,7 +36,7 @@ def test_validation_failure_key():
 @pytest.mark.unit
 @pytest.mark.domain
 def test_validation_failure_format():
-    """Test validation failure for invalid URL format."""
+    """Testa falha de validacao para formato de URL invalido."""
     config = SupabaseConfig(url="invalid-url", anon_key="eyJ...")
     with pytest.raises(ValidationError, match="Invalid Supabase URL format"):
         ConfigValidator.validate_supabase_config(config)

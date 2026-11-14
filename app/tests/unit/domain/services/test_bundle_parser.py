@@ -1,4 +1,4 @@
-"""Unit tests for BundleParserService."""
+"""Testes unitarios para BundleParserService."""
 
 import pytest
 
@@ -8,14 +8,14 @@ from domain.services.bundle_parser import BundleParserService
 
 @pytest.fixture
 def parser():
-    """Return a BundleParserService instance."""
+    """Retorna uma instancia de BundleParserService."""
     return BundleParserService()
 
 
 @pytest.mark.unit
 @pytest.mark.domain
 def test_discover_config_success(parser):
-    """Test successful discovery of Supabase config."""
+    """Testa descoberta bem-sucedida da configuracao do Supabase."""
     content = 'url: "https://project.supabase.co", key: "eyJabc.123.xyz"'
     config = parser.discover_config(content)
     assert config.url == "https://project.supabase.co"
@@ -25,7 +25,7 @@ def test_discover_config_success(parser):
 @pytest.mark.unit
 @pytest.mark.domain
 def test_discover_config_adjacent_url_and_key(parser):
-    """First JWT regex matches when URL and key are adjacent literals."""
+    """Primeiro regex de JWT corresponde quando URL e chave sao literais adjacentes."""
     content = '"https://project.supabase.co","eyJabc.123.xyz"'
     config = parser.discover_config(content)
     assert config.url == "https://project.supabase.co"
@@ -35,7 +35,7 @@ def test_discover_config_adjacent_url_and_key(parser):
 @pytest.mark.unit
 @pytest.mark.domain
 def test_discover_config_not_found(parser):
-    """Test failure when anonKey is missing."""
+    """Testa falha quando a anonKey esta ausente."""
     content = "nothing here"
     with pytest.raises(SupabaseConfigNotFoundError):
         parser.discover_config(content)
@@ -44,17 +44,16 @@ def test_discover_config_not_found(parser):
 @pytest.mark.unit
 @pytest.mark.domain
 def test_extract_rest_tables(parser):
-    """Test extraction of REST tables."""
+    """Testa extracao de tabelas REST."""
     content = '.from("profiles").from("posts")'
     endpoints = parser.extract_rest_tables(content)
-    # 2 tables * 4 methods each = 8 endpoints
     assert len(endpoints) == 8
 
 
 @pytest.mark.unit
 @pytest.mark.domain
 def test_extract_auth_endpoints(parser):
-    """Test extraction of Auth endpoints from Mr calls."""
+    """Testa extracao de endpoints de Auth a partir de chamadas Mr."""
     content = """
     Mr(this.fetch, "POST", `${this.url}/auth/v1/signup`, {body: {email: e, password: p}});
     """
@@ -70,7 +69,7 @@ def test_extract_auth_endpoints(parser):
 @pytest.mark.unit
 @pytest.mark.domain
 def test_extract_auth_endpoints_without_body(parser):
-    """Auth endpoints without body object still parse."""
+    """Endpoints de Auth sem objeto body ainda sao interpretados."""
     content = """
     Mr(this.fetch, "GET", `${this.url}/auth/v1/user`, {headers: {}});
     """
@@ -82,7 +81,7 @@ def test_extract_auth_endpoints_without_body(parser):
 @pytest.mark.unit
 @pytest.mark.domain
 def test_extract_auth_admin_tag(parser):
-    """Admin auth paths receive auth-admin tag."""
+    """Caminhos de auth admin recebem a tag auth-admin."""
     content = """
     Mr(this.fetch, "GET", `${this.url}/admin/users`, {headers: {}});
     """
@@ -94,7 +93,7 @@ def test_extract_auth_admin_tag(parser):
 @pytest.mark.unit
 @pytest.mark.domain
 def test_extract_auth_endpoints_duplicate(parser):
-    """Test deduplication of Auth endpoints."""
+    """Testa deduplicacao de endpoints de Auth."""
     content = """
     Mr(this.fetch, "POST", `${this.url}/auth/v1/signup`, {body: {email: e}});
     Mr(this.fetch, "POST", `${this.url}/auth/v1/signup`, {body: {email: e}});
@@ -106,7 +105,7 @@ def test_extract_auth_endpoints_duplicate(parser):
 @pytest.mark.unit
 @pytest.mark.domain
 def test_extract_rpc_calls(parser):
-    """Test extraction of RPC calls."""
+    """Testa extracao de chamadas RPC."""
     content = '.rpc("get_user_profile")'
     endpoints = parser.extract_rpc_calls(content)
     assert len(endpoints) == 1
@@ -117,7 +116,7 @@ def test_extract_rpc_calls(parser):
 @pytest.mark.unit
 @pytest.mark.domain
 def test_extract_edge_functions(parser):
-    """Test extraction of Edge Functions."""
+    """Testa extracao de Edge Functions."""
     content = "https://abc.supabase.co/functions/v1/heavy-task"
     endpoints = parser.extract_edge_functions(content)
     assert len(endpoints) == 1
@@ -127,7 +126,7 @@ def test_extract_edge_functions(parser):
 @pytest.mark.unit
 @pytest.mark.domain
 def test_path_helpers(parser):
-    """Test private path parsing helpers."""
+    """Testa helpers privados de interpretacao de caminhos."""
     assert parser._js_path_to_openapi("${this.id}") == "{id}"
     assert parser._extract_path_params("/{id}/info/{name}") == ["id", "name"]
 

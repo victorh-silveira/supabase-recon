@@ -1,4 +1,4 @@
-"""Premium Terminal UI using Rich."""
+"""Interface de terminal com Rich."""
 
 from typing import Any
 
@@ -12,10 +12,10 @@ console = Console()
 
 
 class TerminalUI:
-    """Handles all visual output to the terminal."""
+    """Gerencia toda a saida visual no terminal."""
 
     def display_report(self, report: AnalysisReport) -> None:
-        """Render the analysis summary report."""
+        """Exibe o relatorio resumido da analise."""
         table = Table(title="Analysis Summary", show_header=True, header_style="bold magenta")
         table.add_column("Component", style="dim")
         table.add_column("Details")
@@ -34,7 +34,7 @@ class TerminalUI:
         console.print(f"\n[bold green]Swagger saved to:[/bold green] {report.swagger_path}")
 
     def display_test_results(self, results: list[dict[str, Any]]) -> None:
-        """Render a table with endpoint test results."""
+        """Exibe uma tabela com os resultados dos testes de endpoints."""
         if not results:
             return
 
@@ -59,9 +59,9 @@ class TerminalUI:
         console.print(table)
 
     def print_error(self, message: str) -> None:
-        """Render an error message."""
+        """Exibe uma mensagem de erro."""
         console.print(f"[bold red]ERROR:[/bold red] {message}")
 
     def print_info(self, message: str) -> None:
-        """Render an info message."""
+        """Exibe uma mensagem informativa."""
         console.print(f"[bold blue]INFO:[/bold blue] {message}")

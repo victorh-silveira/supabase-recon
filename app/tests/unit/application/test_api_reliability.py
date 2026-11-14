@@ -1,4 +1,4 @@
-"""Unit tests for ApiReliabilityTester use case."""
+"""Testes unitarios para o caso de uso ApiReliabilityTester."""
 
 import pytest
 
@@ -7,7 +7,7 @@ from application.use_cases.test_api_reliability import ApiReliabilityTester
 
 @pytest.fixture
 def tester():
-    """Return ApiReliabilityTester with fake HTTP client."""
+    """Retorna ApiReliabilityTester com cliente HTTP falso."""
 
     class FakeClient:
         def request(self, method, url, headers=None, json_data=None):
@@ -25,7 +25,7 @@ def tester():
 @pytest.mark.unit
 @pytest.mark.application
 def test_tester_execute(tester):
-    """Test full execution of API testing."""
+    """Testa execucao completa dos testes de API."""
     swagger_spec = {"paths": {"/rest/v1/users": {"get": {"tags": ["rest"], "summary": "test"}}}}
 
     results = tester.execute(swagger_spec=swagger_spec, anon_key="abc", methods_to_test={"GET"})
@@ -38,7 +38,7 @@ def test_tester_execute(tester):
 @pytest.mark.unit
 @pytest.mark.application
 def test_tester_execute_non_dict_ops(tester):
-    """Test path with non-dictionary operations (should be skipped)."""
+    """Testa caminho com operacoes que nao sao dicionario (deve ser ignorado)."""
     swagger_spec = {"paths": {"/invalid": "not-a-dict"}}
     results = tester.execute(swagger_spec, "abc", {"GET"})
     assert len(results) == 0
@@ -47,7 +47,7 @@ def test_tester_execute_non_dict_ops(tester):
 @pytest.mark.unit
 @pytest.mark.application
 def test_tester_execute_filter_methods(tester):
-    """Test filtering by HTTP methods."""
+    """Testa filtragem por metodos HTTP."""
     swagger_spec = {"paths": {"/test": {"get": {}, "post": {}}}}
     results = tester.execute(swagger_spec, "abc", {"POST"})
     assert len(results) == 1
@@ -57,7 +57,7 @@ def test_tester_execute_filter_methods(tester):
 @pytest.mark.unit
 @pytest.mark.application
 def test_tester_execute_with_filters(tester):
-    """Test filtering and non-dict ops."""
+    """Testa filtragem e operacoes nao dicionario."""
     spec = {"paths": {"/p1": {"get": {}, "post": {}}, "/p2": "not-a-dict"}}
     results = tester.execute(spec, "k", methods_to_test={"GET"})
     assert len(results) == 1
@@ -67,7 +67,7 @@ def test_tester_execute_with_filters(tester):
 @pytest.mark.unit
 @pytest.mark.application
 def test_tester_fill_path_params(tester):
-    """Test path parameter replacement."""
+    """Testa substituicao de parametros de caminho."""
     path = "/users/{id}/profile/{name}"
     filled = tester._fill_path_params(path)
     assert "{id}" not in filled

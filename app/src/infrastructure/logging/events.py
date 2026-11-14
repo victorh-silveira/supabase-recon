@@ -8,7 +8,7 @@ from urllib.parse import urlsplit, urlunsplit
 
 
 def redact_url(url: str) -> str:
-    """Redact query strings from URLs for safe logging."""
+    """Redige query strings de URLs para registro seguro em logs."""
     parts = urlsplit(url)
     if not parts.query:
         return url
@@ -23,7 +23,7 @@ def log_event(
     exc_info: bool = False,
     **fields: Any,
 ) -> None:
-    """Emit a named semantic log event with structured fields."""
+    """Emite um evento de log semantico nomeado com campos estruturados."""
     safe_fields: dict[str, Any] = {}
     for key, value in fields.items():
         if key in {"url", "request_url", "target_url"} and isinstance(value, str):

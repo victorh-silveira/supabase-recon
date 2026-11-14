@@ -1,4 +1,4 @@
-"""Integration tests for HTTPClient with mock transport."""
+"""Testes de integracao para HTTPClient com transporte simulado."""
 
 from __future__ import annotations
 
@@ -12,17 +12,17 @@ from infrastructure.adapters.http_client import HTTPClient
 
 
 class MockTransport(BaseAdapter):
-    """In-memory transport that returns canned HTTP responses."""
+    """Transporte em memoria que retorna respostas HTTP predefinidas."""
 
     def __init__(self, status: int = 200, body: str = "ok") -> None:
-        """Store canned response attributes."""
+        """Armazena os atributos da resposta simulada."""
         super().__init__()
         self.status = status
         self.body = body
         self.calls: list[str] = []
 
     def send(self, request: Any, **kwargs: Any) -> Response:
-        """Return a synthetic Response."""
+        """Retorna uma Response sintetica."""
         self.calls.append(request.url)
         response = Response()
         response.status_code = self.status
@@ -33,14 +33,14 @@ class MockTransport(BaseAdapter):
         return response
 
     def close(self) -> None:
-        """No-op close for adapter protocol."""
+        """Encerramento sem operacao para o protocolo do adaptador."""
         return
 
 
 @pytest.mark.integration
 @pytest.mark.infrastructure
 def test_http_client_get_text_via_mock_transport():
-    """HTTPClient get_text works against a mounted mock transport."""
+    """HTTPClient get_text funciona contra um transporte simulado montado."""
     client = HTTPClient(timeout=5, retries=0)
     transport = MockTransport(status=200, body="hello-integration")
     client.session.mount("https://", transport)
@@ -53,7 +53,7 @@ def test_http_client_get_text_via_mock_transport():
 @pytest.mark.integration
 @pytest.mark.infrastructure
 def test_http_client_request_via_mock_transport():
-    """HTTPClient request returns status and body from mock transport."""
+    """HTTPClient request retorna status e corpo do transporte simulado."""
     client = HTTPClient(timeout=5, retries=0)
     transport = MockTransport(status=201, body='{"id":1}')
     client.session.mount("https://", transport)

@@ -1,4 +1,4 @@
-"""Service for parsing JS bundles and extracting Supabase metadata."""
+"""Servico para interpretar bundles JS e extrair metadados do Supabase."""
 
 import re
 
@@ -8,10 +8,10 @@ from domain.exceptions import SupabaseConfigNotFoundError
 
 
 class BundleParserService:
-    """Service to extract domain data from JavaScript bundles using Regex."""
+    """Servico para extrair dados de dominio de bundles JavaScript usando regex."""
 
     def discover_config(self, content: str) -> SupabaseConfig:
-        """Find Supabase URL and anonKey in the bundle content."""
+        """Localiza a URL do Supabase e a anonKey no conteudo do bundle."""
         url_match = re.search(
             r'["\'\`](http[s]?://(?:'
             r"[a-z0-9\-]+\.supabase\.co"
@@ -39,7 +39,7 @@ class BundleParserService:
         return config
 
     def extract_auth_endpoints(self, content: str) -> list[Endpoint]:
-        """Extract Auth endpoints from Lovable's internal 'Mr' function calls."""
+        """Extrai endpoints de Auth a partir de chamadas internas 'Mr' da Lovable."""
         pattern = re.compile(
             r'Mr\s*\(\s*this\.fetch\s*,\s*"(GET|POST|PUT|PATCH|DELETE)"\s*,\s*`\$\{this\.url\}([^`]*)`\s*,'
             r"\s*(\{(?:[^{}]|\{[^{}]*\})*?\})",
@@ -84,7 +84,7 @@ class BundleParserService:
         return endpoints
 
     def extract_rest_tables(self, content: str) -> list[Endpoint]:
-        """Extract table names from .from('table_name') calls."""
+        """Extrai nomes de tabelas a partir de chamadas .from('nome_tabela')."""
         table_names = sorted(set(re.findall(r'\.from\(["`\']([ a-zA-Z_][a-zA-Z0-9_]*)["`\']\)', content)))
         endpoints = []
         for table in table_names:
@@ -102,7 +102,7 @@ class BundleParserService:
         return endpoints
 
     def extract_rpc_calls(self, content: str) -> list[Endpoint]:
-        """Extract RPC function names from .rpc('function_name') calls."""
+        """Extrai nomes de funcoes RPC a partir de chamadas .rpc('nome_funcao')."""
         rpc_names = sorted(set(re.findall(r'\.rpc\(["`\']([ a-zA-Z_][a-zA-Z0-9_]*)["`\']\)', content)))
         return [
             Endpoint(
@@ -116,7 +116,7 @@ class BundleParserService:
         ]
 
     def extract_edge_functions(self, content: str) -> list[Endpoint]:
-        """Extract Edge Function names from Supabase URL pattern."""
+        """Extrai nomes de Edge Functions a partir do padrao de URL do Supabase."""
         fn_names = sorted(set(re.findall(r"supabase\.co/functions/v1/([^\"\'`\s/]+)", content)))
         return [
             Endpoint(
@@ -130,15 +130,15 @@ class BundleParserService:
         ]
 
     def _js_path_to_openapi(self, path: str) -> str:
-        """Convert JS template literal path params ${x.y} to OpenAPI {y}."""
+        """Converte parametros de template literal JS ${x.y} para OpenAPI {y}."""
         return re.sub(r"\$\{([^}]+)\}", lambda m: "{" + m.group(1).split(".")[-1] + "}", path)
 
     def _extract_path_params(self, path: str) -> list[str]:
-        """Extract parameter names from an OpenAPI path string."""
+        """Extrai nomes de parametros de uma string de caminho OpenAPI."""
         return re.findall(r"\{(\w+)\}", path)
 
     def _extract_static_query(self, raw_path: str) -> list[QueryParam]:
-        """Extract static query parameters from a path string with ?key=value."""
+        """Extrai parametros de consulta estaticos de um caminho com ?chave=valor."""
         if "?" not in raw_path:
             return []
         qs = raw_path.split("?", 1)[1]

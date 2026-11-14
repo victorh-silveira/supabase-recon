@@ -1,4 +1,4 @@
-"""Unit tests for SupabaseConfig entity."""
+"""Testes unitarios para a entidade SupabaseConfig."""
 
 import pytest
 
@@ -8,7 +8,7 @@ from domain.entities.supabase_config import SupabaseConfig
 @pytest.mark.unit
 @pytest.mark.domain
 def test_supabase_config_valid():
-    """Test that a complete config is valid."""
+    """Testa que uma configuracao completa e valida."""
     config = SupabaseConfig(url="https://xyz.supabase.co", anon_key="eyJ...")
     assert config.is_valid is True
 
@@ -16,7 +16,7 @@ def test_supabase_config_valid():
 @pytest.mark.unit
 @pytest.mark.domain
 def test_supabase_config_invalid_placeholder():
-    """Test that placeholders make the config invalid."""
+    """Testa que placeholders tornam a configuracao invalida."""
     config = SupabaseConfig(url="{SUPABASE_URL}", anon_key="{ANON_KEY}")
     assert config.is_valid is False
 
@@ -24,6 +24,6 @@ def test_supabase_config_invalid_placeholder():
 @pytest.mark.unit
 @pytest.mark.domain
 def test_supabase_config_empty():
-    """Test that empty strings make the config invalid."""
+    """Testa que strings vazias tornam a configuracao invalida."""
     config = SupabaseConfig(url="", anon_key="")
     assert config.is_valid is False

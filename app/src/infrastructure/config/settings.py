@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 @dataclass(frozen=True)
 class Settings:
-    """Runtime settings loaded from environment variables."""
+    """Configuracoes de execucao carregadas de variaveis de ambiente."""
 
     http_timeout_seconds: int
     output_base_path: str
@@ -19,7 +19,7 @@ class Settings:
 
     @classmethod
     def from_env(cls, repo_root: Path) -> Settings:
-        """Load settings from .env (unless disabled) and process environment."""
+        """Carrega configuracoes do arquivo .env (salvo se desabilitado) e do ambiente."""
         if os.environ.get("RECON_DISABLE_DOTENV", "").lower() not in {"1", "true", "yes"}:
             env_path = repo_root / ".env"
             if env_path.exists():
