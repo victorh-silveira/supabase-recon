@@ -1,3 +1,9 @@
+## [1.1.6](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.5...v1.1.6) (2026-11-14)
+
+### Refatoração
+
+* **all:** padronizar docstrings em pt-br e atualizar harness de agentes ([0a74f41](https://github.com/victorh-silveira/supabase-recon/commit/0a74f41bf1e6a0a6148f6781a936d0a86d663a2c))
+
 ## [1.1.5](https://github.com/victorh-silveira/supabase-recon/compare/v1.1.4...v1.1.5) (2026-11-08)
 
 ### Refatoração
